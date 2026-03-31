@@ -1,0 +1,35 @@
+# Dependencies
+node_modules/
+
+# Build outputs
+.next/
+dist/
+.turbo/
+
+# Environment
+.env
+.env.local
+.env.production
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Docker volumes
+pgdata/
+redisdata/
+miniodata/
+
+# Temp files
+/tmp/
+*.tmp
+
+# Coverage
+coverage/
+
+# Drizzle
+packages/db/drizzle/meta/

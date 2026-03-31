@@ -1,0 +1,222 @@
+[
+  {
+    "id": "T01",
+    "category": "Malware",
+    "name_de": "Ransomware-Angriff",
+    "name_en": "Ransomware attack",
+    "description_de": "Verschlüsselung von Daten und Systemen durch Schadsoftware mit Lösegeldforderung.",
+    "applicable_asset_types": ["server", "endpoint", "cloud", "application"],
+    "default_likelihood": 4,
+    "default_impact": 5,
+    "bsi_reference": "APP.1.1, SYS.1.1"
+  },
+  {
+    "id": "T02",
+    "category": "Malware",
+    "name_de": "Trojaner / Spyware",
+    "name_en": "Trojan / Spyware",
+    "description_de": "Einschleusung von Schadsoftware zum Ausspähen oder Fernsteuern von Systemen.",
+    "applicable_asset_types": ["server", "endpoint", "application"],
+    "default_likelihood": 3,
+    "default_impact": 4,
+    "bsi_reference": "OPS.1.1.4"
+  },
+  {
+    "id": "T03",
+    "category": "Netzwerk",
+    "name_de": "DDoS-Angriff",
+    "name_en": "DDoS attack",
+    "description_de": "Überlastung von Netzwerk- oder Serverdiensten durch massenhaft Anfragen.",
+    "applicable_asset_types": ["server", "network", "cloud", "application"],
+    "default_likelihood": 3,
+    "default_impact": 3,
+    "bsi_reference": "NET.1.1"
+  },
+  {
+    "id": "T04",
+    "category": "Netzwerk",
+    "name_de": "Man-in-the-Middle-Angriff",
+    "name_en": "Man-in-the-Middle attack",
+    "description_de": "Abhören oder Manipulieren der Kommunikation zwischen zwei Parteien.",
+    "applicable_asset_types": ["network", "cloud", "application"],
+    "default_likelihood": 2,
+    "default_impact": 4,
+    "bsi_reference": "NET.1.1, NET.3.1"
+  },
+  {
+    "id": "T05",
+    "category": "Zugriff",
+    "name_de": "Brute-Force / Credential Stuffing",
+    "name_en": "Brute-force / Credential stuffing",
+    "description_de": "Systematisches Ausprobieren von Anmeldedaten oder bekannten Passwort-Datenbanken.",
+    "applicable_asset_types": ["server", "cloud", "application"],
+    "default_likelihood": 4,
+    "default_impact": 4,
+    "bsi_reference": "ORP.4, APP.1.1"
+  },
+  {
+    "id": "T06",
+    "category": "Zugriff",
+    "name_de": "Unberechtigter Zugriff (Insider)",
+    "name_en": "Unauthorized access (Insider)",
+    "description_de": "Missbrauch von internen Zugriffsrechten durch Mitarbeiter oder Auftragnehmer.",
+    "applicable_asset_types": ["server", "endpoint", "cloud", "application", "ot_device"],
+    "default_likelihood": 3,
+    "default_impact": 4,
+    "bsi_reference": "ORP.4, ORP.1"
+  },
+  {
+    "id": "T07",
+    "category": "Zugriff",
+    "name_de": "Phishing / Social Engineering",
+    "name_en": "Phishing / Social engineering",
+    "description_de": "Täuschung von Mitarbeitern zur Preisgabe von Anmeldedaten oder Installation von Schadsoftware.",
+    "applicable_asset_types": ["endpoint", "application"],
+    "default_likelihood": 4,
+    "default_impact": 3,
+    "bsi_reference": "ORP.1, OPS.1.1.4"
+  },
+  {
+    "id": "T08",
+    "category": "Software",
+    "name_de": "Ausnutzung bekannter Schwachstellen (CVE)",
+    "name_en": "Exploitation of known vulnerabilities (CVE)",
+    "description_de": "Ausnutzung bekannter, aber nicht gepatchter Sicherheitslücken in Software.",
+    "applicable_asset_types": ["server", "endpoint", "network", "cloud", "application", "ot_device"],
+    "default_likelihood": 4,
+    "default_impact": 4,
+    "bsi_reference": "OPS.1.1.3"
+  },
+  {
+    "id": "T09",
+    "category": "Software",
+    "name_de": "Supply-Chain-Angriff",
+    "name_en": "Supply chain attack",
+    "description_de": "Kompromittierung über Abhängigkeiten in der Lieferkette (z.B. kompromittierte Bibliotheken).",
+    "applicable_asset_types": ["server", "application", "cloud"],
+    "default_likelihood": 2,
+    "default_impact": 5,
+    "bsi_reference": "APP.1.1, OPS.2.1"
+  },
+  {
+    "id": "T10",
+    "category": "Software",
+    "name_de": "SQL Injection / Code Injection",
+    "name_en": "SQL Injection / Code injection",
+    "description_de": "Einschleusung bösartiger Befehle durch mangelnde Eingabevalidierung.",
+    "applicable_asset_types": ["application", "server"],
+    "default_likelihood": 3,
+    "default_impact": 4,
+    "bsi_reference": "APP.1.1"
+  },
+  {
+    "id": "T11",
+    "category": "Physisch",
+    "name_de": "Physischer Zugang zum Rechenzentrum",
+    "name_en": "Physical access to data center",
+    "description_de": "Unberechtigter physischer Zugang zu Servern, Netzwerkgeräten oder Speichermedien.",
+    "applicable_asset_types": ["server", "network", "ot_device"],
+    "default_likelihood": 2,
+    "default_impact": 5,
+    "bsi_reference": "INF.2"
+  },
+  {
+    "id": "T12",
+    "category": "Physisch",
+    "name_de": "Naturkatastrophe / Umweltereignis",
+    "name_en": "Natural disaster / Environmental event",
+    "description_de": "Schäden durch Feuer, Wasser, Sturm, Erdbeben oder extreme Temperaturen.",
+    "applicable_asset_types": ["server", "network", "ot_device", "endpoint"],
+    "default_likelihood": 1,
+    "default_impact": 5,
+    "bsi_reference": "INF.1, INF.2"
+  },
+  {
+    "id": "T13",
+    "category": "Physisch",
+    "name_de": "Stromausfall",
+    "name_en": "Power outage",
+    "description_de": "Ausfall der Stromversorgung mit Auswirkungen auf IT-Systeme.",
+    "applicable_asset_types": ["server", "network", "ot_device"],
+    "default_likelihood": 2,
+    "default_impact": 3,
+    "bsi_reference": "INF.2"
+  },
+  {
+    "id": "T14",
+    "category": "Konfiguration",
+    "name_de": "Fehlkonfiguration",
+    "name_en": "Misconfiguration",
+    "description_de": "Unsichere Standardkonfigurationen oder fehlerhafte Einstellungen in Systemen.",
+    "applicable_asset_types": ["server", "network", "cloud", "application", "ot_device"],
+    "default_likelihood": 4,
+    "default_impact": 3,
+    "bsi_reference": "OPS.1.1.3, SYS.1.1"
+  },
+  {
+    "id": "T15",
+    "category": "Konfiguration",
+    "name_de": "Ungesicherte Cloud-Ressourcen",
+    "name_en": "Unsecured cloud resources",
+    "description_de": "Öffentlich zugängliche Cloud-Speicher, offene APIs oder fehlende Verschlüsselung.",
+    "applicable_asset_types": ["cloud"],
+    "default_likelihood": 3,
+    "default_impact": 4,
+    "bsi_reference": "OPS.2.2"
+  },
+  {
+    "id": "T16",
+    "category": "Daten",
+    "name_de": "Datenverlust / -korruption",
+    "name_en": "Data loss / corruption",
+    "description_de": "Verlust oder Beschädigung von Daten durch Hardware-Fehler, Software-Bugs oder menschliches Versagen.",
+    "applicable_asset_types": ["server", "endpoint", "cloud", "application"],
+    "default_likelihood": 3,
+    "default_impact": 4,
+    "bsi_reference": "CON.3"
+  },
+  {
+    "id": "T17",
+    "category": "Daten",
+    "name_de": "Datenleck / unbeabsichtigte Offenlegung",
+    "name_en": "Data breach / unintentional disclosure",
+    "description_de": "Versehentliche Veröffentlichung sensibler Daten durch Mitarbeiter oder Systemfehler.",
+    "applicable_asset_types": ["server", "endpoint", "cloud", "application"],
+    "default_likelihood": 3,
+    "default_impact": 4,
+    "bsi_reference": "CON.1, ORP.4"
+  },
+  {
+    "id": "T18",
+    "category": "OT-spezifisch",
+    "name_de": "Angriff auf industrielle Steuerungen",
+    "name_en": "Attack on industrial control systems",
+    "description_de": "Gezielte Angriffe auf SCADA/ICS-Systeme in Produktionsumgebungen.",
+    "applicable_asset_types": ["ot_device"],
+    "default_likelihood": 2,
+    "default_impact": 5,
+    "bsi_reference": "IND.1, IND.2.1"
+  },
+  {
+    "id": "T19",
+    "category": "OT-spezifisch",
+    "name_de": "Veraltete / nicht patchbare OT-Systeme",
+    "name_en": "Legacy / unpatchable OT systems",
+    "description_de": "Nutzung von Betriebssystemen oder Firmware ohne aktuelle Sicherheitsupdates.",
+    "applicable_asset_types": ["ot_device"],
+    "default_likelihood": 4,
+    "default_impact": 4,
+    "bsi_reference": "IND.2.1"
+  },
+  {
+    "id": "T20",
+    "category": "Compliance",
+    "name_de": "Fehlende Backup-Strategie",
+    "name_en": "Missing backup strategy",
+    "description_de": "Unzureichende oder nicht getestete Datensicherungen.",
+    "applicable_asset_types": ["server", "endpoint", "cloud", "application"],
+    "default_likelihood": 3,
+    "default_impact": 5,
+    "bsi_reference": "CON.3"
+  }
+]

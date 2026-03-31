@@ -1,0 +1,23 @@
+FROM node:20-slim
+
+# Install Docker CLI for running SBOM tool containers
+RUN apt-get update && \
+    apt-get install -y --no-install-recommends docker.io ca-certificates && \
+    rm -rf /var/lib/apt/lists/*
+
+WORKDIR /app
+
+COPY package.json pnpm-workspace.yaml pnpm-lock.yaml* ./
+COPY apps/worker/package.json ./apps/worker/
+COPY packages/db/package.json ./packages/db/
+COPY packages/shared/package.json ./packages/shared/
+
+RUN corepack enable pnpm && pnpm install --frozen-lockfile
+
+COPY . .
+
+RUN corepack enable pnpm && pnpm run build --filter=@schutzkompass/worker
+
+USER node
+
+CMD ["node", "apps/worker/dist/index.js"]

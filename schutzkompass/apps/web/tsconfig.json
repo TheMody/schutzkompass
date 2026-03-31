@@ -1,0 +1,43 @@
+{
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "plugins": [
+      {
+        "name": "next"
+      }
+    ],
+    "paths": {
+      "@/*": [
+        "./*"
+      ],
+      "@schutzkompass/ui": [
+        "../../packages/ui/src"
+      ],
+      "@schutzkompass/db": [
+        "../../packages/db/src"
+      ],
+      "@schutzkompass/db/*": [
+        "../../packages/db/src/*"
+      ],
+      "@schutzkompass/shared": [
+        "../../packages/shared/src"
+      ],
+      "@schutzkompass/compliance-content": [
+        "../../packages/compliance-content/src"
+      ]
+    },
+    "outDir": "./dist",
+    "noEmit": true,
+    "allowJs": true,
+    "jsx": "preserve"
+  },
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    ".next/types/**/*.ts"
+  ],
+  "exclude": [
+    "node_modules"
+  ]
+}

@@ -1,0 +1,586 @@
+{
+  "policies": [
+    {
+      "id": "nis2-isms-policy",
+      "title": "ISMS-Leitlinie (Informationssicherheit)",
+      "titleEn": "ISMS Policy (Information Security)",
+      "description": "Übergeordnete Leitlinie für das Informationssicherheits-Managementsystem nach NIS2 Art. 21.",
+      "nis2Article": "Art. 21 Abs. 1",
+      "bsiReference": "ISMS.1",
+      "category": "governance",
+      "tags": ["ISMS", "Governance", "NIS2"],
+      "version": "1.0",
+      "lastUpdated": "2025-01-15",
+      "pages": 12,
+      "language": "de",
+      "sections": [
+        {
+          "heading": "1. Zweck und Zielsetzung",
+          "body": "Diese Leitlinie definiert den Rahmen für das Informationssicherheits-Managementsystem (ISMS) der Organisation gemäß NIS2 Art. 21 Abs. 1. Ziel ist es, die Vertraulichkeit, Integrität und Verfügbarkeit aller Informationen und informationsverarbeitenden Systeme systematisch zu schützen.\n\nDie Leitlinie dient als übergeordnetes Dokument, aus dem sich alle weiteren Sicherheitsrichtlinien und Arbeitsanweisungen ableiten. Sie stellt sicher, dass ein angemessenes Sicherheitsniveau in Bezug auf die Risikolage aufrechterhalten wird."
+        },
+        {
+          "heading": "2. Geltungsbereich",
+          "body": "Diese Leitlinie gilt für:\n• Alle Mitarbeiterinnen und Mitarbeiter der Organisation, einschließlich Geschäftsführung, Festangestellte, Teilzeitkräfte und Praktikanten\n• Alle externen Dienstleister, Auftragnehmer und Partner mit Zugang zu Informationssystemen der Organisation\n• Alle IT-Systeme, Netzwerke, Anwendungen und Daten im Besitz oder unter Verwaltung der Organisation\n• Alle Standorte, an denen Informationen der Organisation verarbeitet, gespeichert oder übertragen werden\n• Cloud-basierte Dienste und Plattformen, die im Auftrag der Organisation betrieben werden"
+        },
+        {
+          "heading": "3. Normative Grundlagen",
+          "body": "Diese Leitlinie orientiert sich an folgenden Standards und gesetzlichen Anforderungen:\n• EU-Richtlinie 2022/2555 (NIS2), insbesondere Art. 21 — Risikomanagementmaßnahmen im Bereich der Cybersicherheit\n• ISO/IEC 27001:2022 — Informationssicherheits-Managementsysteme\n• ISO/IEC 27002:2022 — Leitfaden für Informationssicherheitsmaßnahmen\n• BSI IT-Grundschutz-Kompendium, Baustein ISMS.1\n• DSGVO (EU 2016/679) — in Bezug auf den Schutz personenbezogener Daten\n• Branchenspezifische Sicherheitsstandards (B3S), sofern zutreffend"
+        },
+        {
+          "heading": "4. Informationssicherheitspolitik",
+          "body": "Die Geschäftsführung verpflichtet sich zu folgenden Grundsätzen:\n\n4.1 Bekenntnis zur Informationssicherheit\nDie Geschäftsführung erkennt die Bedeutung der Informationssicherheit für den Geschäftsbetrieb an und stellt die erforderlichen Ressourcen (personell, finanziell, technisch) zur Verfügung.\n\n4.2 Risikoorientierter Ansatz\nAlle Sicherheitsmaßnahmen werden auf Basis einer systematischen Risikobewertung nach dem Grundsatz der Verhältnismäßigkeit ausgewählt und implementiert.\n\n4.3 Kontinuierliche Verbesserung\nDas ISMS unterliegt einem kontinuierlichen Verbesserungsprozess (PDCA-Zyklus: Plan – Do – Check – Act), der durch regelmäßige Audits, Reviews und Anpassungen sichergestellt wird.\n\n4.4 Einhaltung gesetzlicher Vorgaben\nDie Organisation verpflichtet sich, alle anwendbaren gesetzlichen, regulatorischen und vertraglichen Anforderungen im Bereich Informationssicherheit einzuhalten."
+        },
+        {
+          "heading": "5. Organisation der Informationssicherheit",
+          "body": "5.1 Rollen und Verantwortlichkeiten\n\n• Geschäftsführung: Trägt die Gesamtverantwortung für die Informationssicherheit. Genehmigt die ISMS-Leitlinie, stellt Ressourcen bereit und überprüft die Wirksamkeit des ISMS mindestens jährlich.\n• Informationssicherheitsbeauftragter (ISB): Koordiniert das ISMS, berät die Geschäftsführung, überwacht die Umsetzung von Sicherheitsmaßnahmen und berichtet regelmäßig über den Sicherheitsstatus.\n• IT-Leitung: Verantwortlich für die technische Umsetzung der Sicherheitsmaßnahmen und den sicheren Betrieb der IT-Infrastruktur.\n• Fachabteilungen: Benennen Informationseigentümer für ihre Geschäftsprozesse und wirken bei der Risikobewertung mit.\n• Alle Mitarbeitenden: Sind verpflichtet, die Informationssicherheitsrichtlinien einzuhalten und Sicherheitsvorfälle unverzüglich zu melden.\n\n5.2 Informationssicherheitsausschuss\nDer Informationssicherheitsausschuss tagt mindestens vierteljährlich und setzt sich aus Vertretern der Geschäftsführung, ISB, IT-Leitung und relevanter Fachabteilungen zusammen. Er koordiniert die strategische Ausrichtung des ISMS."
+        },
+        {
+          "heading": "6. Risikomanagement",
+          "body": "6.1 Risikobewertungsmethodik\nDie Organisation führt mindestens jährlich eine systematische Risikobewertung durch. Dabei werden:\n• Alle Informationswerte (Assets) identifiziert und klassifiziert\n• Bedrohungen und Schwachstellen analysiert\n• Risiken nach Eintrittswahrscheinlichkeit und Schadensausmaß bewertet (5×5-Matrix)\n• Risikobehandlungsoptionen (Vermeidung, Verminderung, Transfer, Akzeptanz) bestimmt\n\n6.2 Risikobehandlungsplan\nFür jedes identifizierte Risiko oberhalb der Akzeptanzschwelle wird ein Risikobehandlungsplan erstellt, der Maßnahmen, Verantwortliche, Umsetzungsfristen und erwartete Restrisiken definiert.\n\n6.3 Risikokommunikation\nWesentliche Risiken werden der Geschäftsführung im Rahmen des Management-Reviews vorgestellt. Kritische Risiken werden unverzüglich eskaliert."
+        },
+        {
+          "heading": "7. Dokumentenlenkung",
+          "body": "7.1 Dokumentenhierarchie\nDie ISMS-Dokumentation folgt einer dreistufigen Hierarchie:\n• Ebene 1: Leitlinien (dieses Dokument) — strategische Vorgaben der Geschäftsführung\n• Ebene 2: Richtlinien — themenspezifische Regelungen (z. B. Zugriffskontrolle, Kryptographie)\n• Ebene 3: Arbeitsanweisungen, Verfahrensdokumentation und Nachweise\n\n7.2 Versionierung und Freigabe\nAlle ISMS-Dokumente unterliegen einer formalen Versionierung. Änderungen werden nachvollziehbar dokumentiert. Die Freigabe erfolgt durch den ISB, bei Leitlinien durch die Geschäftsführung.\n\n7.3 Aufbewahrung\nISMS-Dokumente und Nachweise werden mindestens 3 Jahre aufbewahrt. Audit-Berichte und Risikobewertungen werden 5 Jahre archiviert."
+        },
+        {
+          "heading": "8. Schulung und Sensibilisierung",
+          "body": "8.1 Pflichtschulungen\nAlle Mitarbeitenden nehmen bei Eintritt und danach jährlich an einer Informationssicherheitsschulung teil. Die Schulung umfasst:\n• Grundlagen der Informationssicherheit\n• Aktuelle Bedrohungslage und Phishing-Erkennung\n• Richtlinien und Meldepflichten der Organisation\n• Datenschutzrelevante Aspekte\n\n8.2 Zielgruppenspezifische Schulungen\nFür Administratoren, Entwickler und Führungskräfte werden ergänzende, rollenspezifische Schulungsmaßnahmen durchgeführt.\n\n8.3 Awareness-Programm\nErgänzend zu den Pflichtschulungen wird ein kontinuierliches Awareness-Programm durchgeführt (z. B. simulierte Phishing-Kampagnen, Security-Newsletter, Intranet-Beiträge)."
+        },
+        {
+          "heading": "9. Überwachung und Überprüfung",
+          "body": "9.1 Interne Audits\nEs werden mindestens jährlich interne ISMS-Audits durchgeführt, um die Konformität mit dieser Leitlinie und den zugehörigen Richtlinien zu überprüfen.\n\n9.2 Management-Review\nDie Geschäftsführung führt mindestens einmal jährlich ein Management-Review des ISMS durch. Dabei werden folgende Aspekte bewertet:\n• Ergebnisse der internen und externen Audits\n• Status der Risikobehandlungspläne\n• Sicherheitsvorfälle und deren Auswirkungen\n• Änderungen der Bedrohungslage und regulatorischen Anforderungen\n• Verbesserungspotenziale\n\n9.3 Kennzahlen\nFolgende Kennzahlen werden regelmäßig erhoben und berichtet:\n• Anzahl und Schwere der Sicherheitsvorfälle\n• Schulungsquote der Mitarbeitenden\n• Umsetzungsgrad der geplanten Maßnahmen\n• Ergebnisse der Schwachstellenscans und Penetrationstests"
+        },
+        {
+          "heading": "10. Verstöße und Sanktionen",
+          "body": "Verstöße gegen diese Leitlinie oder daraus abgeleitete Richtlinien können arbeitsrechtliche Konsequenzen nach sich ziehen, einschließlich:\n• Ermahnung und Nachschulung\n• Abmahnung\n• Fristlose Kündigung bei vorsätzlichem oder grob fahrlässigem Fehlverhalten\n\nBei Verdacht auf strafbare Handlungen werden die zuständigen Strafverfolgungsbehörden eingeschaltet. Alle Vorfälle werden im Rahmen des Vorfallmanagements dokumentiert und ausgewertet."
+        },
+        {
+          "heading": "11. Inkrafttreten und Revision",
+          "body": "Diese Leitlinie tritt mit Unterzeichnung durch die Geschäftsführung in Kraft. Sie wird mindestens einmal jährlich oder bei wesentlichen Änderungen (Organisationsstruktur, Bedrohungslage, regulatorische Anforderungen) überprüft und bei Bedarf aktualisiert.\n\nNächste planmäßige Revision: [DATUM + 12 Monate]\n\n_________________________________\nOrt, Datum\n\n_________________________________\nGeschäftsführung"
+        }
+      ]
+    },
+    {
+      "id": "nis2-risk-management-policy",
+      "title": "Risikomanagement-Richtlinie",
+      "titleEn": "Risk Management Policy",
+      "description": "Richtlinie für die systematische Identifikation, Bewertung und Behandlung von Cybersicherheitsrisiken.",
+      "nis2Article": "Art. 21 Abs. 2 lit. a",
+      "bsiReference": "ORP.1",
+      "category": "risk",
+      "tags": ["Risikomanagement", "ISO 27005", "NIS2"],
+      "version": "1.0",
+      "lastUpdated": "2025-01-15",
+      "pages": 8,
+      "language": "de",
+      "sections": [
+        {
+          "heading": "1. Zweck",
+          "body": "Diese Richtlinie legt den Rahmen für das Cybersicherheits-Risikomanagement der Organisation fest. Sie beschreibt die Methodik zur systematischen Identifikation, Bewertung, Behandlung und Überwachung von Informationssicherheitsrisiken gemäß NIS2 Art. 21 Abs. 2 lit. a und ISO 27005."
+        },
+        {
+          "heading": "2. Geltungsbereich",
+          "body": "Diese Richtlinie gilt für alle Geschäftsprozesse, IT-Systeme, Netzwerke und Daten der Organisation. Sie umfasst sowohl interne Risiken als auch Risiken, die aus der Zusammenarbeit mit Drittparteien (Lieferanten, Cloud-Dienste, Partner) entstehen."
+        },
+        {
+          "heading": "3. Risikomanagement-Prozess",
+          "body": "3.1 Kontextbestimmung\nVor jeder Risikobewertung wird der Kontext festgelegt:\n• Geschäftsziele und kritische Geschäftsprozesse\n• Regulatorische und vertragliche Anforderungen\n• Risikoappetit und Akzeptanzschwellen der Organisation\n• Externe Bedrohungslandschaft\n\n3.2 Risiko-Identifikation\nRisiken werden systematisch identifiziert durch:\n• Inventarisierung aller Informationswerte (Assets) und deren Schutzbedarf\n• Analyse relevanter Bedrohungsszenarien aus dem BSI-Grundschutz und branchenspezifischen Quellen\n• Identifikation von Schwachstellen durch technische Scans, Penetrationstests und organisatorische Bewertungen\n• Auswertung von Sicherheitsvorfällen und Beinahe-Vorfällen\n• Berücksichtigung geopolitischer und branchenspezifischer Risikofaktoren\n\n3.3 Risikobewertung\nJedes identifizierte Risiko wird anhand einer 5×5-Bewertungsmatrix eingestuft:\n\nEintrittswahrscheinlichkeit:\n1 = Sehr gering (< 1x in 10 Jahren)\n2 = Gering (1x in 5-10 Jahren)\n3 = Mittel (1x in 1-5 Jahren)\n4 = Hoch (1x pro Jahr)\n5 = Sehr hoch (mehrfach pro Jahr)\n\nSchadensausmaß:\n1 = Unerheblich (< 10.000 €, keine Betriebsunterbrechung)\n2 = Gering (10.000–50.000 €, kurzzeitige Störung)\n3 = Mittel (50.000–250.000 €, Betriebseinschränkung bis 24h)\n4 = Hoch (250.000–1.000.000 €, Betriebsausfall bis 72h)\n5 = Kritisch (> 1.000.000 €, Betriebsausfall > 72h, Reputationsschaden)\n\nRisikokategorien:\n• Kritisch (Risikoscore 20–25): Sofortige Behandlung erforderlich\n• Hoch (Risikoscore 12–19): Behandlung innerhalb von 30 Tagen\n• Mittel (Risikoscore 6–11): Behandlung innerhalb von 90 Tagen\n• Niedrig (Risikoscore 1–5): Akzeptanz oder planmäßige Behandlung"
+        },
+        {
+          "heading": "4. Risikobehandlung",
+          "body": "Für jedes Risiko oberhalb der Akzeptanzschwelle wird eine der folgenden Behandlungsstrategien gewählt:\n\n• Risikovermeidung: Eliminierung der risikobehafteten Aktivität oder des Systems\n• Risikominderung: Implementierung technischer oder organisatorischer Maßnahmen zur Reduzierung der Eintrittswahrscheinlichkeit oder des Schadensausmaßes\n• Risikotransfer: Übertragung des Risikos auf Dritte (z. B. Cyberversicherung, Outsourcing mit SLA)\n• Risikoakzeptanz: Bewusste Akzeptanz des Restrisikos durch die Geschäftsführung mit dokumentierter Begründung\n\nFür jede Maßnahme wird ein Verantwortlicher benannt, ein Umsetzungszeitraum festgelegt und das erwartete Restrisiko bewertet."
+        },
+        {
+          "heading": "5. Risikoregister",
+          "body": "Alle identifizierten Risiken werden in einem zentralen Risikoregister dokumentiert. Das Register enthält für jedes Risiko:\n• Eindeutige Risiko-ID und Beschreibung\n• Betroffene Assets und Geschäftsprozesse\n• Bewertung (Eintrittswahrscheinlichkeit × Schadensausmaß)\n• Gewählte Behandlungsstrategie und geplante Maßnahmen\n• Verantwortlicher Risikoeigentümer\n• Status der Umsetzung\n• Restrisiko nach Maßnahmenumsetzung\n• Datum der letzten Überprüfung"
+        },
+        {
+          "heading": "6. Überwachung und Berichterstattung",
+          "body": "6.1 Regelmäßige Überprüfung\n• Das Risikoregister wird mindestens vierteljährlich vom ISB überprüft und aktualisiert\n• Eine vollständige Neubewertung aller Risiken erfolgt jährlich\n• Anlassbezogene Neubewertungen erfolgen bei wesentlichen Änderungen (neue Systeme, Vorfälle, Bedrohungen)\n\n6.2 Berichterstattung\n• Der ISB berichtet quartalsweise an die Geschäftsführung über den Risikostatus\n• Kritische Risiken werden unverzüglich an die Geschäftsführung eskaliert\n• Die Risikolage ist Bestandteil des jährlichen Management-Reviews"
+        },
+        {
+          "heading": "7. Verantwortlichkeiten",
+          "body": "• Geschäftsführung: Genehmigt den Risikoappetit und die Akzeptanzschwellen, entscheidet über Risikoakzeptanz bei kritischen Risiken\n• ISB: Koordiniert den Risikomanagement-Prozess, pflegt das Risikoregister, berichtet an die Geschäftsführung\n• Risikoeigentümer (Asset Owner): Verantwortlich für die Umsetzung der Risikobehandlungsmaßnahmen in ihrem Bereich\n• IT-Abteilung: Liefert technische Inputs für Risikoanalysen, setzt technische Maßnahmen um\n• Alle Mitarbeitenden: Melden erkannte Risiken und Schwachstellen an den ISB"
+        }
+      ]
+    },
+    {
+      "id": "nis2-incident-response-policy",
+      "title": "Vorfallbehandlungs-Richtlinie",
+      "titleEn": "Incident Response Policy",
+      "description": "Verfahren zur Erkennung, Meldung und Behandlung von Sicherheitsvorfällen gemäß NIS2 Art. 23.",
+      "nis2Article": "Art. 21 Abs. 2 lit. b / Art. 23",
+      "bsiReference": "DER.2.1",
+      "category": "incident",
+      "tags": ["Vorfallmanagement", "Meldepflicht", "BSI"],
+      "version": "1.0",
+      "lastUpdated": "2025-01-15",
+      "pages": 10,
+      "language": "de",
+      "sections": [
+        {
+          "heading": "1. Zweck",
+          "body": "Diese Richtlinie definiert die Verfahren zur Erkennung, Klassifizierung, Meldung und Behandlung von Sicherheitsvorfällen. Sie stellt die Einhaltung der Meldepflichten gemäß NIS2 Art. 23 sicher und orientiert sich am BSI IT-Grundschutz Baustein DER.2.1."
+        },
+        {
+          "heading": "2. Definitionen",
+          "body": "• Sicherheitsereignis (Event): Jedes beobachtbare Vorkommnis in einem Informationssystem, das auf eine potenzielle Sicherheitsrelevanz hinweist.\n• Sicherheitsvorfall (Incident): Ein Sicherheitsereignis, das die Vertraulichkeit, Integrität oder Verfügbarkeit von Informationen oder Informationssystemen tatsächlich beeinträchtigt oder mit hoher Wahrscheinlichkeit beeinträchtigen wird.\n• Erheblicher Vorfall (Significant Incident): Ein Vorfall gemäß NIS2 Art. 23, der erhebliche Auswirkungen auf die Erbringung wesentlicher oder wichtiger Dienste hat.\n• Beinahe-Vorfall (Near Miss): Ein Ereignis, das unter anderen Umständen zu einem Sicherheitsvorfall hätte führen können."
+        },
+        {
+          "heading": "3. Erkennung und Meldung",
+          "body": "3.1 Erkennungsmaßnahmen\n• Zentrale Protokollierung und SIEM-Auswertung aller sicherheitsrelevanten Ereignisse\n• Intrusion Detection/Prevention Systeme (IDS/IPS)\n• Endpoint Detection and Response (EDR) auf allen Endgeräten\n• Anomalie-Erkennung im Netzwerkverkehr\n• Meldungen von Mitarbeitenden über definierte Kanäle\n\n3.2 Meldewege\nJeder Mitarbeitende ist verpflichtet, erkannte oder vermutete Sicherheitsvorfälle unverzüglich zu melden über:\n• E-Mail an: security@[organisation].de\n• Telefon-Hotline: [interne Durchwahl]\n• Ticketsystem: Kategorie «Sicherheitsvorfall»\n\nDie Meldung muss folgende Informationen enthalten (soweit bekannt):\n• Zeitpunkt der Entdeckung\n• Betroffene Systeme und Dienste\n• Art des Vorfalls\n• Bereits ergriffene Sofortmaßnahmen"
+        },
+        {
+          "heading": "4. Klassifizierung und Priorisierung",
+          "body": "Jeder gemeldete Vorfall wird nach folgenden Stufen klassifiziert:\n\nStufe 1 — Kritisch:\n• Betriebsausfall wesentlicher Dienste > 4 Stunden\n• Datenverlust sensibler Informationen (> 1.000 Betroffene)\n• Ransomware-Befall mit Verschlüsselung produktiver Systeme\n• Kompromittierung von Administratorkonten\nReaktionszeit: Sofort (< 1 Stunde), Krisenstab wird einberufen\n\nStufe 2 — Hoch:\n• Betriebseinschränkung wesentlicher Dienste\n• Bestätigter unbefugter Zugriff auf Systeme\n• Malware-Befall auf mehreren Systemen\nReaktionszeit: < 4 Stunden\n\nStufe 3 — Mittel:\n• Potenzielle Kompromittierung einzelner Benutzerkonten\n• Malware-Befall auf einem einzelnen System (isoliert)\n• Denial-of-Service-Angriff ohne wesentliche Auswirkung\nReaktionszeit: < 24 Stunden\n\nStufe 4 — Niedrig:\n• Fehlkonfiguration ohne Auswirkung auf den Betrieb\n• Phishing-E-Mail erkannt, kein Klick erfolgt\n• Beinahe-Vorfall\nReaktionszeit: < 72 Stunden"
+        },
+        {
+          "heading": "5. Meldepflichten gemäß NIS2 Art. 23",
+          "body": "Bei erheblichen Sicherheitsvorfällen gelten folgende Meldefristen an das BSI:\n\n5.1 Frühwarnung (innerhalb von 24 Stunden)\nUnverzüglich, spätestens 24 Stunden nach Bekanntwerden eines erheblichen Vorfalls, ist eine Frühwarnung an das BSI zu übermitteln. Inhalt:\n• Verdacht auf böswillige/rechtswidrige Handlung\n• Potenzielle grenzüberschreitende Auswirkungen\n• Kurze Beschreibung des Vorfalls\n\n5.2 Vorfallmeldung (innerhalb von 72 Stunden)\nSpätestens 72 Stunden nach Bekanntwerden ist eine detaillierte Vorfallmeldung einzureichen:\n• Aktualisierte Informationen zur Frühwarnung\n• Erste Bewertung des Vorfalls (Schwere, Auswirkungen)\n• Indikatoren für Kompromittierung (IoC)\n\n5.3 Abschlussbericht (innerhalb von 1 Monat)\nSpätestens einen Monat nach der Vorfallmeldung ist ein Abschlussbericht vorzulegen:\n• Detaillierte Beschreibung des Vorfalls und Ursachenanalyse\n• Art der Bedrohung und Angriffsvektor\n• Ergriffene und geplante Abhilfemaßnahmen\n• Grenzüberschreitende Auswirkungen (falls zutreffend)"
+        },
+        {
+          "heading": "6. Reaktions- und Eindämmungsmaßnahmen",
+          "body": "6.1 Sofortmaßnahmen\n• Isolierung betroffener Systeme vom Netzwerk\n• Sicherung flüchtiger Beweise (RAM-Dumps, Netzwerkmitschnitte)\n• Änderung kompromittierter Zugangsdaten\n• Aktivierung von Notfallkommunikationskanälen\n\n6.2 Analyse und Eindämmung\n• Forensische Sicherung betroffener Systeme\n• Bestimmung des Angriffsumfangs und der Ausbreitungswege\n• Identifikation aller betroffenen Systeme und Daten\n• Schließen der ausgenutzten Schwachstelle\n\n6.3 Wiederherstellung\n• Bereinigung oder Neuaufsetzen betroffener Systeme\n• Wiederherstellung aus verifizierten Backups\n• Schrittweise Wiederinbetriebnahme mit erhöhter Überwachung\n• Verifizierung der Systemintegrität vor Produktivsetzung"
+        },
+        {
+          "heading": "7. Nachbereitung (Lessons Learned)",
+          "body": "Nach jedem erheblichen Vorfall wird innerhalb von 2 Wochen eine Nachbereitung durchgeführt:\n• Was ist passiert und warum?\n• Wurden die Reaktionsprozesse eingehalten?\n• Welche Maßnahmen hätten den Vorfall verhindern oder seine Auswirkungen begrenzen können?\n• Welche Verbesserungen am Vorfallbehandlungsprozess sind erforderlich?\n• Sind Anpassungen an Richtlinien, Schulungen oder technischen Maßnahmen notwendig?\n\nDie Ergebnisse werden dokumentiert und fließen in die Risikobewertung und Maßnahmenplanung ein."
+        },
+        {
+          "heading": "8. Incident-Response-Team (IRT)",
+          "body": "Das Incident-Response-Team setzt sich zusammen aus:\n• ISB (Leitung des IRT)\n• IT-Administrator / System-Engineer\n• Netzwerk-Administrator\n• Vertreter der betroffenen Fachabteilung\n• Datenschutzbeauftragter (bei personenbezogenen Daten)\n• Kommunikationsverantwortlicher (bei externer Kommunikation)\n• Geschäftsführung (bei Vorfällen der Stufe 1)\n\nDas IRT trifft sich im Krisenfall ad hoc und führt bei Stufe-1-Vorfällen tägliche Statusbesprechungen durch."
+        },
+        {
+          "heading": "9. Kommunikation",
+          "body": "9.1 Interne Kommunikation\n• Alle betroffenen Abteilungen werden zeitnah informiert\n• Status-Updates erfolgen regelmäßig über definierte Kanäle\n• Vertraulichkeit der Vorfalldetails wird gewahrt (Need-to-know-Prinzip)\n\n9.2 Externe Kommunikation\n• Meldungen an das BSI erfolgen über das offizielle BSI-Meldeportal\n• Meldungen an die Datenschutzaufsichtsbehörde erfolgen bei Datenschutzvorfällen gemäß Art. 33 DSGVO\n• Betroffene Personen werden gemäß Art. 34 DSGVO benachrichtigt\n• Presseanfragen werden ausschließlich vom Kommunikationsverantwortlichen beantwortet"
+        }
+      ]
+    },
+    {
+      "id": "nis2-bcm-policy",
+      "title": "Business-Continuity-Richtlinie",
+      "titleEn": "Business Continuity Management Policy",
+      "description": "Richtlinie für Aufrechterhaltung und Wiederherstellung des Betriebs, inkl. Backup- und Krisenmanagement.",
+      "nis2Article": "Art. 21 Abs. 2 lit. c",
+      "bsiReference": "DER.4",
+      "category": "continuity",
+      "tags": ["BCM", "Notfallmanagement", "Backup"],
+      "version": "1.0",
+      "lastUpdated": "2025-01-15",
+      "pages": 9,
+      "language": "de",
+      "sections": [
+        {
+          "heading": "1. Zweck",
+          "body": "Diese Richtlinie legt die Anforderungen an die Aufrechterhaltung und Wiederherstellung des Geschäftsbetriebs (Business Continuity Management — BCM) fest. Ziel ist die Sicherstellung der Verfügbarkeit kritischer Geschäftsprozesse und IT-Dienste auch im Krisenfall, gemäß NIS2 Art. 21 Abs. 2 lit. c."
+        },
+        {
+          "heading": "2. Geltungsbereich",
+          "body": "Diese Richtlinie gilt für alle kritischen Geschäftsprozesse und die unterstützenden IT-Systeme, Netzwerke, Anwendungen und Daten der Organisation. Sie schließt ausgelagerte Dienste und Cloud-Services mit ein."
+        },
+        {
+          "heading": "3. Business-Impact-Analyse (BIA)",
+          "body": "3.1 Durchführung\nMindestens jährlich wird eine Business-Impact-Analyse durchgeführt, um kritische Geschäftsprozesse zu identifizieren und folgende Kenngrößen zu bestimmen:\n\n• Maximum Tolerable Downtime (MTD): Maximal tolerierbare Ausfallzeit eines Geschäftsprozesses\n• Recovery Time Objective (RTO): Ziel-Wiederherstellungszeit für IT-Systeme\n• Recovery Point Objective (RPO): Maximal akzeptabler Datenverlust (gemessen in Zeit)\n• Minimum Business Continuity Objective (MBCO): Mindestleistungsniveau im Notbetrieb\n\n3.2 Ergebnisse\nDie BIA identifiziert:\n• Geschäftskritische Prozesse und deren Abhängigkeiten\n• Erforderliche Ressourcen (Personal, IT, Räumlichkeiten, Kommunikation)\n• Auswirkungen eines Ausfalls auf Kunden, Partner, Finanzen und Reputation\n• Priorisierung der Wiederherstellungsreihenfolge"
+        },
+        {
+          "heading": "4. Notfallpläne",
+          "body": "4.1 IT-Notfallplan\nFür alle kritischen IT-Systeme existiert ein dokumentierter Notfallplan, der enthält:\n• Kontaktdaten des Notfallteams und Eskalationswege\n• Schritt-für-Schritt-Wiederherstellungsanweisungen\n• Erforderliche Zugangsdaten (sicher hinterlegt)\n• Abhängigkeiten zu anderen Systemen\n• Standort der Backup-Medien und Wiederherstellungspunkte\n\n4.2 Krisenstabsplan\n• Kriterien für die Aktivierung des Krisenstabs\n• Zusammensetzung des Krisenstabs und Stellvertreterregelungen\n• Kommunikationsplan (intern, extern, Behörden)\n• Entscheidungsbefugnisse im Krisenfall\n• Räumlichkeiten und Ausstattung des Krisenraums (inkl. Ausweichstandort)"
+        },
+        {
+          "heading": "5. Backup und Wiederherstellung",
+          "body": "5.1 Backup-Strategie (3-2-1-Regel)\n• Mindestens 3 Kopien aller kritischen Daten\n• Auf mindestens 2 verschiedenen Speichermedien\n• Mindestens 1 Kopie an einem externen Standort (offsite/Cloud)\n\n5.2 Backup-Zyklen\n• Tägliche inkrementelle Backups aller produktiven Systeme\n• Wöchentliche Vollbackups\n• Monatliche Archivierung\n• Aufbewahrungsfristen: Tagesbckups 30 Tage, Wochenbackups 12 Monate, Monatsarchive 5 Jahre\n\n5.3 Wiederherstellungstests\n• Vierteljährliche Wiederherstellungstests für mindestens ein kritisches System\n• Jährlicher vollständiger Wiederherstellungstest aller Tier-1-Systeme\n• Dokumentation der Testergebnisse, inkl. tatsächlicher RTO und RPO"
+        },
+        {
+          "heading": "6. Notbetrieb und Ausweichverfahren",
+          "body": "Für jeden kritischen Geschäftsprozess ist ein Notbetriebsverfahren definiert:\n• Manuelle Ausweichprozesse, falls IT-Systeme nicht verfügbar sind\n• Alternative Kommunikationswege (z. B. Mobiltelefone, Messenger)\n• Nutzung von Ausweicharbeitsplätzen oder Remote-Arbeitsplätzen\n• Priorisierung der Aufgaben im Notbetrieb\n• Kriterien und Verfahren für die Rückkehr zum Normalbetrieb"
+        },
+        {
+          "heading": "7. Übungen und Tests",
+          "body": "7.1 Übungsarten\n• Planspiel/Tabletop-Übung: Mindestens jährlich, Durchspielen von Krisenszenarien am Tisch\n• Funktionstest: Halbjährlich, Test einzelner Notfallprozeduren\n• Volltest: Mindestens alle 2 Jahre, vollständige Simulation eines Notfallszenarios\n\n7.2 Szenarien\nFolgende Szenarien werden berücksichtigt:\n• Ransomware-Angriff mit Verschlüsselung aller Produktivsysteme\n• Langfristiger Stromausfall am Hauptstandort\n• Ausfall eines kritischen Cloud-Dienstleisters\n• Naturereignis (Hochwasser, Brand) mit Verlust des Hauptstandorts\n• Ausfall wesentlicher Mitarbeitender (Pandemie)\n\n7.3 Auswertung\nJede Übung wird ausgewertet. Identifizierte Verbesserungspotenziale werden als Maßnahmen erfasst und nachverfolgt."
+        },
+        {
+          "heading": "8. Verantwortlichkeiten",
+          "body": "• Geschäftsführung: Genehmigt die BCM-Richtlinie und stellt Ressourcen bereit\n• BCM-Beauftragter: Koordiniert alle BCM-Aktivitäten, pflegt die Notfallpläne, organisiert Übungen\n• IT-Leitung: Verantwortlich für die IT-Notfallplanung und Backup-Strategie\n• Fachabteilungsleiter: Definieren Anforderungen und Notbetriebsverfahren für ihre Geschäftsprozesse\n• Alle Mitarbeitenden: Kennen die für sie relevanten Notfallverfahren und nehmen an Übungen teil"
+        }
+      ]
+    },
+    {
+      "id": "nis2-supply-chain-policy",
+      "title": "Lieferketten-Sicherheitsrichtlinie",
+      "titleEn": "Supply Chain Security Policy",
+      "description": "Anforderungen an die Sicherheit der Lieferkette und Dienstleister-Steuerung.",
+      "nis2Article": "Art. 21 Abs. 2 lit. d",
+      "bsiReference": "OPS.2.1",
+      "category": "supply_chain",
+      "tags": ["Lieferkette", "Dienstleister", "Third-Party"],
+      "version": "1.0",
+      "lastUpdated": "2025-01-15",
+      "pages": 7,
+      "language": "de",
+      "sections": [
+        {
+          "heading": "1. Zweck",
+          "body": "Diese Richtlinie definiert die Anforderungen an die Sicherheit in der Lieferkette und die Steuerung von IT-Dienstleistern gemäß NIS2 Art. 21 Abs. 2 lit. d. Ziel ist die Minimierung von Risiken, die aus der Nutzung von Drittanbieter-Produkten und -Diensten entstehen."
+        },
+        {
+          "heading": "2. Geltungsbereich",
+          "body": "Diese Richtlinie gilt für alle externen Lieferanten, Dienstleister und Partner, die:\n• Zugang zu Informationssystemen oder Daten der Organisation haben\n• Software, Hardware oder IT-Dienste bereitstellen\n• Kritische Geschäftsprozesse unterstützen oder ausführen\n• Personenbezogene Daten im Auftrag der Organisation verarbeiten\n• Zugang zu den Räumlichkeiten der Organisation haben"
+        },
+        {
+          "heading": "3. Lieferanten-Risikobewertung",
+          "body": "3.1 Erstbewertung\nVor der Beauftragung eines neuen Lieferanten wird eine Risikobewertung durchgeführt:\n• Klassifizierung der Kritikalität (kritisch, wichtig, standard)\n• Sicherheitsfragebogen mit mindestens 30 Fragen zu organisatorischen und technischen Maßnahmen\n• Prüfung vorhandener Zertifizierungen (ISO 27001, SOC 2, BSI C5)\n• Bewertung der finanziellen Stabilität und Reputation\n• Prüfung von Sub-Dienstleistern und Weitervergabe\n\n3.2 Regelmäßige Neubewertung\n• Kritische Lieferanten: Jährliche Neubewertung\n• Wichtige Lieferanten: Alle 2 Jahre\n• Standard-Lieferanten: Alle 3 Jahre oder anlassbezogen\n\n3.3 Risikokategorien\n• Kritisch: Lieferant hat Zugang zu kritischen Systemen oder verarbeitet hochsensible Daten. Ausfall hat unmittelbare Auswirkungen auf den Geschäftsbetrieb.\n• Wichtig: Lieferant unterstützt wichtige Geschäftsprozesse. Ausfall hat mittelbare Auswirkungen.\n• Standard: Geringe Auswirkung bei Ausfall. Kein Zugang zu sensiblen Daten."
+        },
+        {
+          "heading": "4. Vertragliche Anforderungen",
+          "body": "Alle Lieferantenverträge müssen folgende sicherheitsrelevante Klauseln enthalten:\n\n• Vertraulichkeitsvereinbarung (NDA)\n• Einhaltung der Informationssicherheitsrichtlinien der Organisation\n• Meldepflicht bei Sicherheitsvorfällen (< 24 Stunden für kritische Vorfälle)\n• Recht auf Audits und Sicherheitsüberprüfungen\n• Regelungen zur Datenlöschung bei Vertragsende\n• Anforderungen an Sub-Dienstleister (Genehmigungspflicht)\n• Service-Level-Agreements (SLAs) für Verfügbarkeit und Reaktionszeiten\n• Haftungsregelungen und Vertragsstrafen bei Sicherheitsverletzungen\n• Exit-Strategie und Unterstützung bei Anbieterwechsel"
+        },
+        {
+          "heading": "5. Laufende Überwachung",
+          "body": "5.1 Monitoring\n• Überwachung der Service-Level-Agreements (SLAs)\n• Tracking von Sicherheitsvorfällen beim Lieferanten\n• Auswertung von Threat-Intelligence-Informationen zu Lieferanten\n• Überwachung öffentlich bekannter Schwachstellen in Lieferantenprodukten\n\n5.2 Lieferanten-Review\n• Jährliches Review-Meeting mit kritischen Lieferanten\n• Überprüfung der Sicherheitsmaßnahmen und SLA-Einhaltung\n• Aktualisierung der Risikobewertung\n• Dokumentation von Verbesserungsmaßnahmen"
+        },
+        {
+          "heading": "6. Software-Lieferkette",
+          "body": "Besondere Anforderungen an die Software-Lieferkette:\n• Lieferanten stellen SBOM (Software Bill of Materials) für gelieferte Software bereit\n• Regelmäßige Schwachstellenprüfung der eingesetzten Drittanbieter-Software\n• Anforderungen an sichere Softwareentwicklungsprozesse (Secure SDLC) bei Auftragsentwicklung\n• Verifizierung der Integrität von Software-Updates (Code Signing)\n• Überwachung von End-of-Life-Ankündigungen und Migrationspläne"
+        },
+        {
+          "heading": "7. Notfallplanung und Exit-Strategie",
+          "body": "Für jeden kritischen Lieferanten werden festgelegt:\n• Alternative Lieferanten oder Notfallverfahren bei Ausfall\n• Maximale Dauer eines Lieferantenausfalls ohne geschäftskritische Auswirkungen\n• Verfahren zur geordneten Beendigung der Geschäftsbeziehung\n• Datenmigration und -rückgabe bei Vertragsende\n• Übergangszeiträume und Unterstützungsleistungen"
+        }
+      ]
+    },
+    {
+      "id": "nis2-network-security-policy",
+      "title": "Netzwerksicherheits-Richtlinie",
+      "titleEn": "Network and Information System Security Policy",
+      "description": "Richtlinie für die Sicherheit von Netz- und Informationssystemen, inkl. Schwachstellenmanagement.",
+      "nis2Article": "Art. 21 Abs. 2 lit. e",
+      "bsiReference": "NET.1.1",
+      "category": "technical",
+      "tags": ["Netzwerksicherheit", "Schwachstellen", "Patch-Management"],
+      "version": "1.0",
+      "lastUpdated": "2025-01-15",
+      "pages": 11,
+      "language": "de",
+      "sections": [
+        {
+          "heading": "1. Zweck",
+          "body": "Diese Richtlinie legt die Anforderungen an die Sicherheit aller Netzwerk- und Informationssysteme der Organisation fest. Sie umfasst die Netzwerkarchitektur, Firewall-Konfiguration, das Schwachstellenmanagement und den sicheren Betrieb aller IT-Systeme gemäß NIS2 Art. 21 Abs. 2 lit. e."
+        },
+        {
+          "heading": "2. Netzwerkarchitektur und Segmentierung",
+          "body": "2.1 Grundsätze\n• Das Netzwerk wird in Sicherheitszonen segmentiert (DMZ, internes Netz, Management-Netz, Produktionsnetz)\n• Zwischen den Zonen wird der Datenverkehr durch Firewalls kontrolliert (Deny-by-Default)\n• Kritische Systeme (z. B. Datenbanken, Domänencontroller) werden in besonders geschützten Netzsegmenten betrieben\n• Gastnetzwerke sind physisch oder logisch vom internen Netzwerk getrennt\n\n2.2 Netzwerkdokumentation\n• Aktuelle Netzwerktopologie-Diagramme werden gepflegt und bei Änderungen aktualisiert\n• Alle Netzwerkkomponenten (Switches, Router, Firewalls, Load Balancer) sind inventarisiert\n• IP-Adressbereiche und VLAN-Zuordnungen sind dokumentiert\n• Änderungen an der Netzwerkinfrastruktur unterliegen dem Change-Management-Prozess"
+        },
+        {
+          "heading": "3. Firewall und Perimeterschutz",
+          "body": "3.1 Firewall-Regeln\n• Deny-by-Default-Prinzip: Nur explizit freigegebener Datenverkehr wird zugelassen\n• Alle Firewall-Regeln sind dokumentiert und mit einer Geschäftsbegründung versehen\n• Vierteljährliche Überprüfung aller Firewall-Regeln auf Aktualität und Notwendigkeit\n• Temporäre Regeln erhalten ein Ablaufdatum und werden automatisch deaktiviert\n\n3.2 Web Application Firewall (WAF)\n• Alle öffentlich erreichbaren Webanwendungen werden durch eine WAF geschützt\n• OWASP Top 10-Schutzregeln sind aktiviert\n• Regelmäßige Überprüfung und Anpassung der WAF-Regeln"
+        },
+        {
+          "heading": "4. Schwachstellenmanagement",
+          "body": "4.1 Schwachstellenscans\n• Wöchentliche automatisierte Schwachstellenscans aller erreichbaren Systeme\n• Monatliche authentifizierte Scans der internen Infrastruktur\n• Ad-hoc-Scans nach Bekanntwerden kritischer Schwachstellen (z. B. CVE mit CVSS ≥ 9.0)\n\n4.2 Patch-Management\n• Kritische Sicherheitspatches (CVSS ≥ 9.0): Installation innerhalb von 24 Stunden\n• Hohe Schwachstellen (CVSS 7.0–8.9): Installation innerhalb von 7 Tagen\n• Mittlere Schwachstellen (CVSS 4.0–6.9): Installation innerhalb von 30 Tagen\n• Niedrige Schwachstellen (CVSS < 4.0): Installation im nächsten Wartungsfenster\n\n4.3 Ausnahmen\n• Wenn ein Patch nicht zeitgerecht installiert werden kann, sind kompensierende Maßnahmen zu implementieren und zu dokumentieren\n• Ausnahmen werden vom ISB genehmigt und vierteljährlich überprüft"
+        },
+        {
+          "heading": "5. Penetrationstests",
+          "body": "• Jährliche externe Penetrationstests durch qualifizierte Drittanbieter\n• Halbjährliche interne Penetrationstests\n• Ad-hoc-Tests nach wesentlichen Änderungen an der Infrastruktur\n• Ergebnisse werden in den Risikomanagement-Prozess eingespeist\n• Alle identifizierten Schwachstellen werden im Risikoregister erfasst und nach Kritikalität priorisiert behandelt"
+        },
+        {
+          "heading": "6. Sichere Systemkonfiguration",
+          "body": "6.1 Härtungsstandards\n• Alle Systeme werden nach dokumentierten Härtungsstandards (CIS Benchmarks oder BSI-Grundschutz) konfiguriert\n• Nicht benötigte Dienste, Ports und Protokolle werden deaktiviert\n• Standard-Passwörter werden bei der Inbetriebnahme geändert\n• Administrative Zugänge sind nur über verschlüsselte Verbindungen (SSH, HTTPS) zulässig\n\n6.2 Änderungsmanagement\n• Alle Konfigurationsänderungen an Produktivsystemen unterliegen einem formalen Change-Management-Prozess\n• Änderungen werden vorab in einer Testumgebung validiert\n• Rollback-Pläne sind vor jeder Änderung zu erstellen"
+        },
+        {
+          "heading": "7. Protokollierung und Monitoring",
+          "body": "7.1 Zentrale Protokollierung\n• Sicherheitsrelevante Ereignisse aller Systeme werden zentral erfasst (SIEM)\n• Mindestens folgende Ereignisse werden protokolliert:\n  — An-/Abmeldungen und fehlgeschlagene Anmeldeversuche\n  — Privilegierte Aktionen (Administratoraktivitäten)\n  — Änderungen an Sicherheitskonfigurationen\n  — Zugriffe auf sensible Daten\n  — Firewall-Regelverletzungen\n\n7.2 Aufbewahrung\n• Sicherheitsprotokolle werden mindestens 6 Monate online und 12 Monate archiviert aufbewahrt\n• Protokolle werden gegen Manipulation geschützt (Write-Once-Speicher oder separate Log-Server)\n\n7.3 Alarmierung\n• Definierte Alarmierungsregeln für sicherheitskritische Ereignisse\n• 24/7-Überwachung für kritische Systeme (intern oder durch MSSP)"
+        },
+        {
+          "heading": "8. WLAN-Sicherheit",
+          "body": "• Verschlüsselung mindestens mit WPA3 (oder WPA2-Enterprise mit RADIUS)\n• Gastnetzwerke sind vom Unternehmensnetzwerk isoliert\n• WLAN-Zugangspunkte werden zentral verwaltet und überwacht\n• Regelmäßige Scans auf nicht autorisierte Access Points (Rogue AP Detection)\n• SSID-Broadcast-Konfiguration nach betrieblichen Anforderungen"
+        }
+      ]
+    },
+    {
+      "id": "nis2-access-control-policy",
+      "title": "Zugangs- und Zugriffskontrollrichtlinie",
+      "titleEn": "Access Control Policy",
+      "description": "Regelungen zur Zugangs- und Zugriffskontrolle, Multi-Faktor-Authentifizierung und Berechtigungskonzept.",
+      "nis2Article": "Art. 21 Abs. 2 lit. i / lit. j",
+      "bsiReference": "ORP.4",
+      "category": "technical",
+      "tags": ["Zugriffskontrolle", "MFA", "IAM"],
+      "version": "1.0",
+      "lastUpdated": "2025-01-15",
+      "pages": 8,
+      "language": "de",
+      "sections": [
+        {
+          "heading": "1. Zweck",
+          "body": "Diese Richtlinie regelt die Zugangs- und Zugriffskontrolle für alle Informationssysteme der Organisation. Sie stellt sicher, dass nur autorisierte Personen Zugang zu Informationen und Systemen erhalten, und definiert die Anforderungen an Authentifizierung, Autorisierung und Nachvollziehbarkeit gemäß NIS2 Art. 21 Abs. 2 lit. i und lit. j."
+        },
+        {
+          "heading": "2. Grundsätze der Zugriffskontrolle",
+          "body": "• Prinzip der geringsten Berechtigung (Least Privilege): Benutzer erhalten nur die Berechtigungen, die für ihre Aufgaben erforderlich sind\n• Need-to-know-Prinzip: Zugriff auf Informationen wird nur gewährt, wenn dies für die Aufgabenerfüllung notwendig ist\n• Funktionstrennung (Separation of Duties): Kritische Geschäftsprozesse erfordern die Mitwirkung mehrerer Personen\n• Jeder Zugriff ist eindeutig einem Benutzer zuzuordnen (keine gemeinsam genutzten Konten)"
+        },
+        {
+          "heading": "3. Benutzerkonten-Management",
+          "body": "3.1 Einrichtung von Benutzerkonten\n• Benutzerkonten werden ausschließlich auf Basis eines genehmigten Antrags eingerichtet\n• Der Antrag muss den Vorgesetzten des Benutzers und den Systemeigentümer benennen\n• Berechtigungen werden anhand des Rollenkonzepts (RBAC) vergeben\n\n3.2 Änderung von Berechtigungen\n• Bei Abteilungswechsel werden Berechtigungen zeitnah angepasst (altes Profil entziehen, neues zuweisen)\n• Erweiterte Berechtigungen erfordern eine gesonderte Genehmigung\n\n3.3 Deaktivierung und Löschung\n• Bei Austritt eines Mitarbeitenden werden alle Konten am letzten Arbeitstag deaktiviert\n• Konten externer Dienstleister werden nach Projektende oder Vertragsablauf deaktiviert\n• Inaktive Konten (> 90 Tage ohne Anmeldung) werden automatisch gesperrt und nach 180 Tagen gelöscht\n\n3.4 Regelmäßige Überprüfung\n• Vierteljährliche Überprüfung aller Benutzerberechtigungen durch die jeweiligen Systemeigentümer\n• Jährliche Rezertifizierung aller Zugriffsberechtigungen"
+        },
+        {
+          "heading": "4. Authentifizierung",
+          "body": "4.1 Passwort-Richtlinie\n• Mindestlänge: 12 Zeichen (16 Zeichen für privilegierte Konten)\n• Komplexität: Mindestens Groß-/Kleinbuchstaben und Ziffern; Sonderzeichen empfohlen\n• Passwörter dürfen nicht die letzten 12 verwendeten Passwörter enthalten\n• Keine Verwendung von Wörterbuchwörtern, persönlichen Daten oder Tastaturmustern\n• Passwortmanager werden empfohlen und von der Organisation bereitgestellt\n\n4.2 Multi-Faktor-Authentifizierung (MFA)\nMFA ist verpflichtend für:\n• Alle administrativen Zugriffe\n• Fernzugriffe (VPN, Remote Desktop)\n• Cloud-Anwendungen und SaaS-Dienste\n• Zugriffe auf sensible Daten und Systeme\n• E-Mail-Zugriff von außerhalb des Unternehmensnetzwerks\n\nAkzeptierte MFA-Methoden:\n• TOTP-basierte Authentifikatoren (z. B. Authenticator-App)\n• FIDO2/WebAuthn Hardware-Security-Keys\n• Push-Benachrichtigungen über verifizierte Geräte\n• SMS-basierte OTP nur als Fallback und nur für nicht-kritische Systeme\n\n4.3 Kontosperrung\n• Nach 5 fehlgeschlagenen Anmeldeversuchen wird das Konto für 30 Minuten gesperrt\n• Nach 10 fehlgeschlagenen Versuchen wird das Konto dauerhaft gesperrt und der ISB benachrichtigt\n• Sitzungen werden nach 30 Minuten Inaktivität automatisch beendet"
+        },
+        {
+          "heading": "5. Privilegierte Zugänge",
+          "body": "5.1 Administrative Konten\n• Administratoren verfügen über separate persönliche Admin-Konten (kein Dual-Use)\n• Admin-Konten werden nicht für alltägliche Aufgaben (E-Mail, Internet) verwendet\n• Alle administrativen Aktionen werden lückenlos protokolliert\n• Privileged Access Management (PAM) wird für die Verwaltung privilegierter Zugänge eingesetzt\n\n5.2 Notfallzugänge (Break-Glass)\n• Für den Notfall existieren dokumentierte Break-Glass-Verfahren\n• Notfallzugangsdaten werden in einem Tresor oder versiegelten Umschlag aufbewahrt\n• Jede Nutzung eines Notfallzugangs wird protokolliert und nachträglich überprüft"
+        },
+        {
+          "heading": "6. Fernzugriff",
+          "body": "• Fernzugriff erfolgt ausschließlich über verschlüsselte Verbindungen (VPN mit mindestens AES-256 oder TLS 1.3)\n• Split-Tunneling ist deaktiviert\n• Fernzugriff erfordert Multi-Faktor-Authentifizierung\n• Endgeräte für den Fernzugriff müssen die Sicherheitsanforderungen der Organisation erfüllen (aktueller Patch-Stand, Virenschutz, Festplattenverschlüsselung)\n• Network Access Control (NAC) prüft den Compliance-Status vor Verbindungsaufbau"
+        },
+        {
+          "heading": "7. Physische Zutrittskontrolle",
+          "body": "• Serverräume und Netzwerkverteiler sind durch elektronische Zugangskontrolle gesichert\n• Zutritt wird nur autorisierten Personen gewährt und protokolliert\n• Besucher werden registriert und in sicherheitsrelevanten Bereichen begleitet\n• Zutrittskarten werden bei Austritt eingezogen und zeitnah deaktiviert\n• Zutrittsprotokolle werden mindestens 6 Monate aufbewahrt"
+        }
+      ]
+    },
+    {
+      "id": "nis2-crypto-policy",
+      "title": "Kryptographie-Richtlinie",
+      "titleEn": "Cryptography Policy",
+      "description": "Vorgaben für den Einsatz von Kryptographie und Verschlüsselung zum Schutz von Daten.",
+      "nis2Article": "Art. 21 Abs. 2 lit. h",
+      "bsiReference": "CON.1",
+      "category": "technical",
+      "tags": ["Kryptographie", "Verschlüsselung", "TLS"],
+      "version": "1.0",
+      "lastUpdated": "2025-01-15",
+      "pages": 6,
+      "language": "de",
+      "sections": [
+        {
+          "heading": "1. Zweck",
+          "body": "Diese Richtlinie definiert die Anforderungen an den Einsatz kryptographischer Verfahren zum Schutz der Vertraulichkeit, Integrität und Authentizität von Informationen gemäß NIS2 Art. 21 Abs. 2 lit. h. Sie legt die zulässigen Algorithmen, Schlüssellängen und Verfahren für die Schlüsselverwaltung fest."
+        },
+        {
+          "heading": "2. Zulässige kryptographische Algorithmen",
+          "body": "2.1 Symmetrische Verschlüsselung\n• AES-256 (empfohlen) oder AES-128 (Mindestanforderung)\n• ChaCha20-Poly1305 für spezifische Anwendungsfälle\n• DES, 3DES, RC4 und Blowfish sind unzulässig\n\n2.2 Asymmetrische Verschlüsselung\n• RSA mit mindestens 3072 Bit Schlüssellänge (4096 Bit empfohlen)\n• ECDSA/ECDH mit mindestens 256 Bit (Kurve P-256 oder P-384)\n• Ed25519/X25519 (empfohlen für neue Implementierungen)\n• RSA mit weniger als 2048 Bit ist unzulässig\n\n2.3 Hash-Funktionen\n• SHA-256, SHA-384, SHA-512 (SHA-2-Familie)\n• SHA-3 (für erhöhte Sicherheitsanforderungen)\n• MD5 und SHA-1 sind für sicherheitsrelevante Anwendungen unzulässig\n\n2.4 Schlüsselaustausch\n• Diffie-Hellman mit mindestens 3072 Bit\n• ECDH mit mindestens 256 Bit\n• Perfect Forward Secrecy (PFS) ist für alle TLS-Verbindungen verpflichtend"
+        },
+        {
+          "heading": "3. Transport-Verschlüsselung",
+          "body": "3.1 TLS-Konfiguration\n• Mindestversion: TLS 1.2 (TLS 1.3 empfohlen)\n• SSL, TLS 1.0 und TLS 1.1 sind deaktiviert\n• Nur Cipher Suites mit PFS und AEAD (Authenticated Encryption with Associated Data) sind zulässig\n• HSTS (HTTP Strict Transport Security) wird für alle Webdienste aktiviert\n• OCSP Stapling wird für die Zertifikatsvalidierung empfohlen\n\n3.2 E-Mail-Verschlüsselung\n• Für vertrauliche Kommunikation wird S/MIME oder PGP eingesetzt\n• TLS wird für die Übertragung zwischen Mailservern erzwungen (Opportunistic TLS mit MTA-STS)\n\n3.3 VPN\n• IPsec oder WireGuard für Site-to-Site-Verbindungen\n• Mindestens AES-256-GCM für die Datenverschlüsselung\n• IKEv2 für den Schlüsselaustausch"
+        },
+        {
+          "heading": "4. Verschlüsselung ruhender Daten",
+          "body": "4.1 Festplattenverschlüsselung\n• Alle mobilen Endgeräte (Laptops, Tablets, Smartphones) müssen vollständig verschlüsselt sein\n• BitLocker (Windows), FileVault (macOS) oder LUKS (Linux) sind zulässige Lösungen\n• Wiederherstellungsschlüssel werden zentral und sicher verwahrt\n\n4.2 Datenbankverschlüsselung\n• Sensible Daten in Datenbanken werden spaltenweise (column-level) oder transparent (TDE) verschlüsselt\n• Verschlüsselungsschlüssel werden getrennt von den verschlüsselten Daten gespeichert\n\n4.3 Cloud-Speicher\n• Daten in Cloud-Speichern werden vor dem Upload clientseitig verschlüsselt (Zero-Knowledge) oder über serverseitige Verschlüsselung mit kundenverwalteten Schlüsseln (BYOK) geschützt"
+        },
+        {
+          "heading": "5. Schlüsselmanagement",
+          "body": "5.1 Schlüsselerzeugung\n• Kryptographische Schlüssel werden mit kryptographisch sicheren Zufallsgeneratoren erzeugt\n• Hardware-Sicherheitsmodule (HSM) werden für kritische Schlüssel empfohlen\n\n5.2 Schlüsselspeicherung\n• Private Schlüssel werden in geschützten Schlüsselspeichern (HSM, Key Vault, TPM) abgelegt\n• Schlüssel werden niemals im Klartext gespeichert oder übertragen\n• Zugriff auf Schlüsselspeicher ist auf autorisiertes Personal beschränkt\n\n5.3 Schlüsselrotation\n• TLS-Zertifikate: Rotation mindestens jährlich (90-Tage-Rotation empfohlen)\n• Anwendungsschlüssel: Rotation mindestens jährlich\n• Schlüssel für kritische Systeme: Rotation halbjährlich\n• Sofortige Rotation bei Verdacht auf Kompromittierung\n\n5.4 Schlüsselvernichtung\n• Nicht mehr benötigte Schlüssel werden sicher vernichtet\n• Vernichtung wird dokumentiert und nachvollziehbar protokolliert"
+        },
+        {
+          "heading": "6. Zertifikatsmanagement",
+          "body": "• Alle öffentlich erreichbaren Dienste verwenden Zertifikate einer vertrauenswürdigen CA\n• Interne Dienste verwenden Zertifikate einer internen PKI oder Let's Encrypt\n• Zertifikats-Inventar wird gepflegt und Ablaufdaten werden überwacht (automatische Alarmierung 30 Tage vor Ablauf)\n• Certificate Transparency (CT) Logs werden überwacht, um unbefugt ausgestellte Zertifikate zu erkennen\n• Widerrufene Zertifikate werden über CRL/OCSP publiziert"
+        }
+      ]
+    },
+    {
+      "id": "nis2-hr-security-policy",
+      "title": "Personalsicherheits-Richtlinie",
+      "titleEn": "Human Resources Security Policy",
+      "description": "Richtlinie für Sicherheitsbewusstsein, Schulungen und Personalsicherheit.",
+      "nis2Article": "Art. 21 Abs. 2 lit. g",
+      "bsiReference": "ORP.2",
+      "category": "governance",
+      "tags": ["Personalsicherheit", "Awareness", "Schulung"],
+      "version": "1.0",
+      "lastUpdated": "2025-01-15",
+      "pages": 7,
+      "language": "de",
+      "sections": [
+        {
+          "heading": "1. Zweck",
+          "body": "Diese Richtlinie legt die Anforderungen an die Personalsicherheit über den gesamten Beschäftigungszyklus fest (Eintritt, Beschäftigung, Austritt). Sie soll sicherstellen, dass alle Mitarbeitenden die Informationssicherheitsanforderungen verstehen und einhalten, gemäß NIS2 Art. 21 Abs. 2 lit. g."
+        },
+        {
+          "heading": "2. Vor der Einstellung",
+          "body": "2.1 Überprüfung von Bewerbern\n• Überprüfung der Identität und Qualifikationen aller Bewerber\n• Einholung von Referenzen früherer Arbeitgeber\n• Bei sicherheitsrelevanten Positionen: Erweitertes Führungszeugnis und ggf. Sicherheitsüberprüfung\n• Überprüfung von Zertifizierungen und Bildungsabschlüssen\n\n2.2 Vertragliche Regelungen\n• Vertraulichkeitsvereinbarung (NDA) vor Zugang zu sensiblen Informationen\n• Informationssicherheitspflichten im Arbeitsvertrag\n• Einwilligung zur Nutzungsüberwachung der IT-Systeme (soweit rechtlich zulässig)\n• Hinweis auf Konsequenzen bei Richtlinienverstößen"
+        },
+        {
+          "heading": "3. Während der Beschäftigung",
+          "body": "3.1 Pflichtschulungen\nAlle Mitarbeitenden absolvieren:\n• Einführungsschulung zur Informationssicherheit (innerhalb der ersten 2 Wochen nach Eintritt)\n• Jährliche Auffrischungsschulung (online oder Präsenz)\n• Datenschutzschulung (DSGVO)\n• Rollenspezifische Schulungen (z. B. für Administratoren, Entwickler, Führungskräfte)\n\nSchulungsinhalte umfassen:\n• Bedrohungslandschaft und aktuelle Angriffsszenarien\n• Phishing-Erkennung und Social-Engineering-Abwehr\n• Umgang mit Passwörtern und MFA\n• Klassifizierung und Handhabung von Informationen\n• Meldepflichten bei Sicherheitsvorfällen\n• Clean-Desk- und Clear-Screen-Richtlinie\n• Sicheres Arbeiten im Homeoffice\n\n3.2 Awareness-Programm\n• Monatliche Sicherheitshinweise (Newsletter, Intranet)\n• Vierteljährliche simulierte Phishing-Kampagnen mit Auswertung\n• Jährlicher «Security Awareness Day» mit Workshops und Vorträgen\n• Gamification-Elemente (Quiz, Wettbewerbe) zur Steigerung der Beteiligung\n\n3.3 Erfolgskontrolle\n• Schulungsabschluss und Teilnahme werden dokumentiert\n• Phishing-Simulationen werden ausgewertet (Klickrate, Melderate)\n• Jährliche Auswertung des Schulungserfolgs im Management-Review"
+        },
+        {
+          "heading": "4. Bei Austritt oder Positionswechsel",
+          "body": "4.1 Austrittsverfahren\nBeim Austritt eines Mitarbeitenden werden folgende Schritte durchgeführt:\n• Rückgabe aller IT-Geräte, Ausweise, Schlüssel und Zutrittskarten\n• Deaktivierung aller Benutzerkonten und Zugangsberechtigungen am letzten Arbeitstag\n• Entzug des physischen Zugangs zu Gebäuden und Sicherheitsbereichen\n• Übergabe laufender Aufgaben und Projektzugänge an Nachfolger\n• Erinnerung an fortbestehende Vertraulichkeitspflichten\n• Prüfung, ob der Mitarbeitende private Daten von Unternehmensgeräten sichern muss\n\n4.2 Positionswechsel\n• Berechtigungen der bisherigen Position werden entzogen\n• Neue Berechtigungen werden gemäß dem Berechtigungskonzept der neuen Position vergeben\n• Neue rollenspezifische Schulungen werden zugewiesen"
+        },
+        {
+          "heading": "5. Externe Mitarbeitende und Auftragnehmer",
+          "body": "• Externe Mitarbeitende unterliegen denselben Sicherheitsanforderungen wie interne Mitarbeitende\n• NDA vor Zugang zu Systemen oder Informationen\n• Zugangsberechtigungen werden auf das notwendige Minimum beschränkt und zeitlich befristet\n• Regelmäßige Überprüfung der Zugänge externer Mitarbeitender\n• Bei Projektende sofortige Deaktivierung aller Zugänge"
+        },
+        {
+          "heading": "6. Verantwortlichkeiten",
+          "body": "• Personalabteilung: Koordination der Einstellungsüberprüfungen und Austrittsverfahren\n• Vorgesetzte: Stellen sicher, dass ihre Mitarbeitenden Schulungen absolvieren und Richtlinien einhalten\n• ISB: Konzeption und Durchführung des Awareness-Programms, Auswertung der Schulungsergebnisse\n• IT-Abteilung: Technische Umsetzung der Kontendeaktivierung und Berechtigungsverwaltung\n• Alle Mitarbeitenden: Nehmen an Schulungen teil, halten Richtlinien ein, melden Vorfälle"
+        }
+      ]
+    },
+    {
+      "id": "nis2-asset-management-policy",
+      "title": "Asset-Management-Richtlinie",
+      "titleEn": "Asset Management Policy",
+      "description": "Richtlinie für die Identifikation, Klassifikation und den Schutz von IT-Assets.",
+      "nis2Article": "Art. 21 Abs. 2 lit. f",
+      "bsiReference": "OPS.1.2.5",
+      "category": "governance",
+      "tags": ["Asset-Management", "Inventar", "Klassifikation"],
+      "version": "1.0",
+      "lastUpdated": "2025-01-15",
+      "pages": 6,
+      "language": "de",
+      "sections": [
+        {
+          "heading": "1. Zweck",
+          "body": "Diese Richtlinie legt die Anforderungen an die Identifikation, Inventarisierung, Klassifikation und den Schutz aller Informationswerte (Assets) der Organisation fest, gemäß NIS2 Art. 21 Abs. 2 lit. f und BSI IT-Grundschutz Baustein OPS.1.2.5."
+        },
+        {
+          "heading": "2. Asset-Kategorien",
+          "body": "Folgende Asset-Kategorien werden erfasst:\n\n• Hardware: Server, Workstations, Laptops, mobile Endgeräte, Netzwerkkomponenten (Switches, Router, Firewalls), IoT-Geräte, Peripheriegeräte\n• Software: Betriebssysteme, Anwendungssoftware, Datenbanken, Middleware, Eigenentwicklungen, SaaS-Dienste\n• Daten: Kundendaten, Mitarbeiterdaten, Finanzdaten, geistiges Eigentum, Konfigurationsdaten, Backups\n• Netzwerk: Netzwerksegmente, VPN-Gateways, DNS-Server, Load Balancer, Cloud-Infrastruktur\n• Dienste: E-Mail, Webdienste, Authentifizierungsdienste, Monitoring, Backup-Dienste\n• Physisch: Gebäude, Serverräume, Netzwerkverteiler, USV-Anlagen, Klimatechnik"
+        },
+        {
+          "heading": "3. Asset-Inventar",
+          "body": "3.1 Pflege des Inventars\n• Alle Assets werden in einem zentralen Asset-Inventar erfasst und gepflegt\n• Für jedes Asset werden folgende Informationen dokumentiert:\n  — Eindeutige Asset-ID und Bezeichnung\n  — Kategorie und Typ\n  — Standort (physisch und logisch)\n  — Verantwortlicher Asset-Eigentümer\n  — Klassifizierung des Schutzbedarfs\n  — Abhängigkeiten zu anderen Assets und Geschäftsprozessen\n  — Status (aktiv, in Wartung, außer Betrieb, entsorgt)\n  — Hersteller, Modell, Seriennummer (bei Hardware)\n  — Version, Lizenzinformationen, Support-Ende (bei Software)\n\n3.2 Inventarisierungszyklus\n• Automatisierte Discovery-Scans mindestens wöchentlich (Netzwerk, Endgeräte)\n• Manuelle Überprüfung und Aktualisierung vierteljährlich\n• Vollständige Inventur jährlich\n• Sofortige Aktualisierung bei Anschaffung, Verlust oder Entsorgung"
+        },
+        {
+          "heading": "4. Schutzbedarfsklassifizierung",
+          "body": "Jedes Asset wird nach seinem Schutzbedarf klassifiziert:\n\nStufe 1 — Öffentlich:\n• Informationen, die für die Öffentlichkeit bestimmt sind\n• Kein besonderer Schutzbedarf\n\nStufe 2 — Intern:\n• Informationen für den internen Gebrauch\n• Verlust oder Offenlegung hätte geringe Auswirkungen\n• Standardmäßige Schutzmaßnahmen erforderlich\n\nStufe 3 — Vertraulich:\n• Sensible Geschäftsinformationen, personenbezogene Daten\n• Verlust oder Offenlegung hätte erhebliche finanzielle oder rechtliche Auswirkungen\n• Erweiterte Schutzmaßnahmen erforderlich (Verschlüsselung, Zugriffsbeschränkung)\n\nStufe 4 — Streng vertraulich:\n• Hochsensible Daten (Geschäftsgeheimnisse, besondere Kategorien personenbezogener Daten)\n• Verlust oder Offenlegung hätte kritische Auswirkungen auf die Organisation\n• Maximale Schutzmaßnahmen erforderlich (Ende-zu-Ende-Verschlüsselung, Need-to-know, Protokollierung aller Zugriffe)"
+        },
+        {
+          "heading": "5. Asset-Lebenszyklus",
+          "body": "5.1 Beschaffung\n• Sicherheitsanforderungen werden bei der Beschaffung berücksichtigt\n• Neue Assets werden vor der Inbetriebnahme im Inventar registriert\n• Härtung und Konfiguration gemäß Sicherheitsstandards vor Produktiveinsatz\n\n5.2 Betrieb\n• Regelmäßige Wartung und Aktualisierung (Patches, Updates)\n• Überwachung von End-of-Life- und End-of-Support-Terminen\n• Planung von Migrationen oder Ablösungen rechtzeitig vor Support-Ende\n\n5.3 Außerbetriebnahme und Entsorgung\n• Sichere Datenlöschung vor Entsorgung oder Weitergabe (NIST SP 800-88 Rev. 1)\n• Bei Stufe 3/4-Assets: Physische Vernichtung der Datenträger\n• Dokumentation der Entsorgung im Asset-Inventar\n• Rückgabe von Lizenzen und Zertifikaten"
+        },
+        {
+          "heading": "6. Verantwortlichkeiten",
+          "body": "• Asset-Eigentümer: Verantwortlich für die korrekte Klassifizierung und den Schutz des Assets. Stellt sicher, dass die Informationen im Inventar aktuell sind.\n• IT-Abteilung: Betreibt die technischen Tools zur Inventarisierung, führt Discovery-Scans durch, setzt Schutzmaßnahmen um.\n• ISB: Definiert die Klassifizierungsmethodik, überwacht die Vollständigkeit des Inventars, integriert die Asset-Daten in das Risikomanagement.\n• Fachabteilungen: Melden Änderungen an ihren Assets und benennen Asset-Eigentümer."
+        }
+      ]
+    },
+    {
+      "id": "cra-vulnerability-handling",
+      "title": "Schwachstellenbehandlungs-Prozess (CRA)",
+      "titleEn": "Vulnerability Handling Process (CRA)",
+      "description": "Prozess für den koordinierten Umgang mit Schwachstellen gemäß CRA Annex I, Teil II.",
+      "nis2Article": "",
+      "bsiReference": "",
+      "category": "cra",
+      "tags": ["CRA", "Schwachstellen", "Coordinated Disclosure"],
+      "version": "1.0",
+      "lastUpdated": "2025-01-15",
+      "pages": 8,
+      "language": "de",
+      "sections": [
+        {
+          "heading": "1. Zweck und rechtlicher Rahmen",
+          "body": "Dieser Prozess definiert den koordinierten Umgang mit Schwachstellen in Produkten mit digitalen Elementen gemäß dem EU Cyber Resilience Act (CRA), Annex I, Teil II. Er stellt sicher, dass der Hersteller über den gesamten Produktlebenszyklus Schwachstellen systematisch identifiziert, bewertet, behebt und kommuniziert.\n\nRechtsgrundlage:\n• CRA Annex I, Teil II — Anforderungen an die Schwachstellenbehandlung\n• CRA Art. 11 — Meldepflichten bei aktiv ausgenutzten Schwachstellen\n• ISO/IEC 30111 — Vulnerability Handling Processes\n• ISO/IEC 29147 — Vulnerability Disclosure"
+        },
+        {
+          "heading": "2. Kontaktpunkt und Meldekanäle",
+          "body": "Der Hersteller stellt einen öffentlich erreichbaren Kontaktpunkt für die Meldung von Schwachstellen bereit:\n\n• E-Mail: security@[hersteller].de (mit PGP-Schlüssel auf der Website veröffentlicht)\n• Web-Formular: https://[hersteller].de/security/report\n• security.txt gemäß RFC 9116 im Web-Root der Produktwebsite\n\nDer Kontaktpunkt ist während der Geschäftszeiten erreichbar. Außerhalb der Geschäftszeiten wird eine automatische Eingangsbestätigung versendet.\n\nEingangsbestätigung: Innerhalb von 2 Werktagen\nErste Bewertung: Innerhalb von 5 Werktagen"
+        },
+        {
+          "heading": "3. Schwachstellen-Identifikation",
+          "body": "Schwachstellen werden aus folgenden Quellen identifiziert:\n\n• Interne Quellen:\n  — Statische Codeanalyse (SAST) in der CI/CD-Pipeline\n  — Dynamische Sicherheitstests (DAST) in der Staging-Umgebung\n  — Fuzz-Testing kritischer Eingabeschnittstellen\n  — Code-Reviews mit Sicherheitsfokus\n  — Ergebnisse interner Penetrationstests\n\n• Externe Quellen:\n  — Meldungen über den öffentlichen Kontaktpunkt\n  — CVE-Datenbanken (NVD, MITRE)\n  — OSV.dev und GitHub Security Advisories\n  — Branchenspezifische CERT-Meldungen\n  — Sicherheitshinweise von Zulieferern und Open-Source-Projekten\n  — Bug-Bounty-Programm (falls vorhanden)"
+        },
+        {
+          "heading": "4. Bewertung und Priorisierung",
+          "body": "Jede identifizierte Schwachstelle wird anhand folgender Kriterien bewertet:\n\n4.1 CVSS-Bewertung\n• Bewertung nach CVSS v3.1 oder v4.0\n• Berücksichtigung des Base Score, Temporal Score und Environmental Score\n\n4.2 Priorisierung\n• Kritisch (CVSS 9.0–10.0): Behebung innerhalb von 72 Stunden, ggf. Notfall-Patch\n• Hoch (CVSS 7.0–8.9): Behebung innerhalb von 7 Tagen\n• Mittel (CVSS 4.0–6.9): Behebung im nächsten regulären Release\n• Niedrig (CVSS 0.1–3.9): Behebung in einem zukünftigen Release\n\n4.3 Aktiv ausgenutzte Schwachstellen\nWird festgestellt, dass eine Schwachstelle aktiv ausgenutzt wird (Exploit in the Wild), erfolgt unabhängig vom CVSS-Score eine sofortige Eskalation und Behandlung."
+        },
+        {
+          "heading": "5. Meldepflichten gemäß CRA Art. 11",
+          "body": "Bei aktiv ausgenutzten Schwachstellen gelten folgende Meldefristen an die ENISA und zuständige CSIRT:\n\n5.1 Frühwarnung (24 Stunden)\n• Unverzüglich, spätestens 24 Stunden nach Bekanntwerden einer aktiv ausgenutzten Schwachstelle\n• Inhalt: Produktname, betroffene Version, Art der Schwachstelle, Hinweis auf aktive Ausnutzung\n\n5.2 Schwachstellenmeldung (72 Stunden)\n• Spätestens 72 Stunden nach Bekanntwerden\n• Inhalt: Detaillierte Beschreibung, CVSS-Score, betroffene Komponenten, vorläufige Abhilfemaßnahmen\n\n5.3 Abschlussbericht (14 Tage)\n• Spätestens 14 Tage nach Bereitstellung des Patches\n• Inhalt: Root-Cause-Analyse, ergriffene Maßnahmen, Patch-Verfügbarkeit, Empfehlungen für Nutzer"
+        },
+        {
+          "heading": "6. Koordinierte Offenlegung (Coordinated Disclosure)",
+          "body": "Der Hersteller folgt dem Prinzip der koordinierten Offenlegung:\n\n6.1 Ablauf\n1. Empfang der Schwachstellenmeldung und Eingangsbestätigung (2 Werktage)\n2. Verifizierung und Reproduktion der Schwachstelle (5 Werktage)\n3. Entwicklung eines Patches und Tests\n4. Abstimmung des Veröffentlichungszeitpunkts mit dem Melder\n5. Veröffentlichung des Patches und Security Advisories\n6. Beantragung einer CVE-ID (falls nicht vorhanden)\n\n6.2 Offenlegungsfrist\n• Standard-Offenlegungsfrist: 90 Tage ab Erstmeldung\n• Bei aktiv ausgenutzten Schwachstellen: Kürzere Frist in Abstimmung mit dem Melder\n• Der Melder wird über den Fortschritt regelmäßig informiert\n\n6.3 Anerkennung\n• Melder werden (mit Einverständnis) in der Danksagung des Security Advisories genannt\n• Hall of Fame auf der Produktwebsite (optional)"
+        },
+        {
+          "heading": "7. Sicherheitsupdates und SBOM",
+          "body": "7.1 Bereitstellung von Sicherheitsupdates\n• Sicherheitsupdates werden kostenlos und zeitnah über die üblichen Update-Kanäle bereitgestellt\n• Für jedes Sicherheitsupdate wird ein Security Advisory veröffentlicht\n• Ältere noch unterstützte Versionen erhalten Backport-Patches\n\n7.2 SBOM-Aktualisierung\n• Bei jeder Release-Änderung wird die SBOM (Software Bill of Materials) aktualisiert\n• Die SBOM wird im CycloneDX- oder SPDX-Format bereitgestellt\n• Bekannte Schwachstellen in Drittanbieter-Komponenten werden überwacht und zeitnah behandelt\n\n7.3 Support-Zeitraum\n• Sicherheitsupdates werden für mindestens 5 Jahre ab Markteinführung oder für die erwartete Produktlebensdauer bereitgestellt (je nachdem, was länger ist)\n• End-of-Support-Termine werden mindestens 12 Monate im Voraus kommuniziert"
+        },
+        {
+          "heading": "8. Dokumentation und Nachvollziehbarkeit",
+          "body": "Für jede behandelte Schwachstelle wird dokumentiert:\n• Eindeutige ID (interne ID und CVE-ID)\n• Zeitstrahl (Entdeckung, Meldung, Bestätigung, Patch-Entwicklung, Veröffentlichung)\n• CVSS-Score und Begründung\n• Betroffene Produkte und Versionen\n• Root-Cause-Analyse\n• Ergriffene Maßnahmen und Patch-Details\n• Kommunikation mit dem Melder und Behörden\n\nDiese Dokumentation wird für die Dauer des Produktsupports plus 10 Jahre aufbewahrt und steht für Audits und Marktüberwachungsbehörden zur Verfügung."
+        }
+      ]
+    },
+    {
+      "id": "cra-sbom-policy",
+      "title": "SBOM-Richtlinie (Software Bill of Materials)",
+      "titleEn": "SBOM Policy (Software Bill of Materials)",
+      "description": "Richtlinie für Erstellung, Pflege und Bereitstellung von Software-Stücklisten gemäß CRA.",
+      "nis2Article": "",
+      "bsiReference": "",
+      "category": "cra",
+      "tags": ["CRA", "SBOM", "Softwarekomponenten"],
+      "version": "1.0",
+      "lastUpdated": "2025-01-15",
+      "pages": 5,
+      "language": "de",
+      "sections": [
+        {
+          "heading": "1. Zweck",
+          "body": "Diese Richtlinie definiert die Anforderungen an die Erstellung, Pflege und Bereitstellung von Software-Stücklisten (SBOM — Software Bill of Materials) für alle Produkte mit digitalen Elementen gemäß den Anforderungen des EU Cyber Resilience Act (CRA). Eine SBOM gewährleistet Transparenz über alle in einem Softwareprodukt enthaltenen Komponenten und unterstützt das Schwachstellenmanagement."
+        },
+        {
+          "heading": "2. Geltungsbereich",
+          "body": "Diese Richtlinie gilt für:\n• Alle selbst entwickelten Softwareprodukte, die auf dem EU-Markt bereitgestellt werden\n• Alle Firmware und eingebettete Software in Hardware-Produkten\n• Interne Tools und Plattformen, die kritische Geschäftsprozesse unterstützen\n• Software, die als Open Source veröffentlicht wird\n\nSie umfasst alle Softwarekomponenten, einschließlich:\n• Direkte Abhängigkeiten (First-Party und Third-Party)\n• Transitive Abhängigkeiten (Dependencies of Dependencies)\n• Betriebssystem-Pakete und Laufzeitbibliotheken\n• Statisch und dynamisch gelinkte Bibliotheken"
+        },
+        {
+          "heading": "3. SBOM-Format und Inhalt",
+          "body": "3.1 Unterstützte Formate\n• CycloneDX (mindestens Version 1.5) — bevorzugtes Format\n• SPDX (mindestens Version 2.3) — alternatives Format\n• Beide Formate werden als JSON bereitgestellt\n\n3.2 Pflichtfelder je Komponente\nFür jede Softwarekomponente in der SBOM müssen folgende Informationen erfasst werden:\n• Komponentenname und Herausgeber/Hersteller\n• Version (exakte Versionsnummer)\n• Paket-URL (purl) als eindeutiger Identifikator\n• Lizenzinformationen (SPDX License Identifier)\n• Hash-Werte (SHA-256) zur Integritätsverifikation\n• Art der Abhängigkeit (direkt/transitiv)\n• Bezugsquelle (Repository-URL, Registry)\n\n3.3 Zusätzliche empfohlene Felder\n• CPE (Common Platform Enumeration) für CVE-Matching\n• Bekannte Schwachstellen (VEX — Vulnerability Exploitability eXchange)\n• End-of-Life/End-of-Support-Datum\n• Klassifizierung der Komponente (Framework, Library, Tool, OS)"
+        },
+        {
+          "heading": "4. SBOM-Erstellung und -Pflege",
+          "body": "4.1 Automatisierte Erstellung\n• SBOMs werden automatisch in der CI/CD-Pipeline generiert\n• Für jedes Release wird eine aktuelle SBOM erstellt\n• Unterstützte Tools: Syft, Trivy, CycloneDX-Plugins für Build-Systeme (Maven, npm, pip, etc.)\n\n4.2 Validierung\n• Jede SBOM wird gegen das Schema des jeweiligen Formats validiert\n• Vollständigkeitsprüfung: Vergleich der SBOM-Einträge mit den tatsächlichen Abhängigkeiten des Build-Systems\n• Lizenzprüfung: Automatische Überprüfung auf inkompatible oder unbekannte Lizenzen\n\n4.3 Aktualisierung\n• Bei jedem Software-Release wird eine neue SBOM generiert\n• Bei Sicherheitsupdates wird die SBOM aktualisiert\n• Mindestens vierteljährliche Überprüfung auf veraltete oder nicht mehr unterstützte Komponenten"
+        },
+        {
+          "heading": "5. Schwachstellen-Monitoring",
+          "body": "5.1 Kontinuierliche Überwachung\n• Alle SBOM-Komponenten werden regelmäßig gegen bekannte Schwachstellendatenbanken geprüft:\n  — NVD (National Vulnerability Database)\n  — OSV.dev (Open Source Vulnerabilities)\n  — GitHub Security Advisories\n  — Herstellerspezifische Security Advisories\n\n5.2 Automatische Benachrichtigung\n• Bei neuen Schwachstellen in SBOM-Komponenten werden die zuständigen Entwickler und der ISB automatisch benachrichtigt\n• Kritische Schwachstellen (CVSS ≥ 9.0) lösen einen sofortigen Alarm aus\n\n5.3 VEX-Dokumente\n• Für bekannte Schwachstellen in Drittanbieter-Komponenten werden VEX-Aussagen (Vulnerability Exploitability eXchange) erstellt:\n  — Affected: Produkt ist betroffen, Patch ist geplant/verfügbar\n  — Not Affected: Produkt nutzt die betroffene Funktion nicht\n  — Fixed: Schwachstelle wurde in der aktuellen Version behoben\n  — Under Investigation: Betroffenheit wird noch geprüft"
+        },
+        {
+          "heading": "6. Bereitstellung und Transparenz",
+          "body": "6.1 Interne Bereitstellung\n• SBOMs sind im zentralen Artefakt-Repository gespeichert und für alle Entwicklungsteams zugänglich\n• Die SBOM ist Bestandteil der Release-Dokumentation\n\n6.2 Externe Bereitstellung\n• Kunden und Marktüberwachungsbehörden erhalten auf Anfrage die aktuelle SBOM\n• Bei Produkten für die EU müssen SBOMs gemäß CRA den zuständigen Behörden auf Verlangen zur Verfügung gestellt werden\n• SBOMs werden nicht öffentlich zugänglich gemacht, sofern dies nicht ausdrücklich gewünscht ist (Schutz vor gezielten Angriffen auf bekannte Abhängigkeiten)\n\n6.3 Aufbewahrung\n• SBOMs werden für die Dauer des Produktsupports plus 10 Jahre aufbewahrt\n• Ältere SBOM-Versionen werden versioniert archiviert"
+        },
+        {
+          "heading": "7. Verantwortlichkeiten",
+          "body": "• Produktverantwortlicher: Stellt sicher, dass für jedes Release eine aktuelle SBOM vorliegt\n• Entwicklungsteam: Integriert die SBOM-Generierung in die CI/CD-Pipeline, pflegt die Abhängigkeiten\n• ISB: Überwacht die Schwachstellen-Scans und koordiniert die Behebung\n• Compliance-Beauftragter: Stellt die Einhaltung der CRA-Anforderungen sicher und koordiniert Behördenanfragen\n• Release-Manager: Verifiziert die Vollständigkeit und Korrektheit der SBOM vor jedem Release"
+        }
+      ]
+    }
+  ],
+  "categories": {
+    "governance": {
+      "label": "Governance & Organisation",
+      "icon": "shield"
+    },
+    "risk": {
+      "label": "Risikomanagement",
+      "icon": "alert-triangle"
+    },
+    "incident": {
+      "label": "Vorfallmanagement",
+      "icon": "bell"
+    },
+    "continuity": {
+      "label": "Business Continuity",
+      "icon": "refresh-cw"
+    },
+    "supply_chain": {
+      "label": "Lieferkettensicherheit",
+      "icon": "link"
+    },
+    "technical": {
+      "label": "Technische Maßnahmen",
+      "icon": "server"
+    },
+    "cra": {
+      "label": "CRA-spezifisch",
+      "icon": "package"
+    }
+  }
+}

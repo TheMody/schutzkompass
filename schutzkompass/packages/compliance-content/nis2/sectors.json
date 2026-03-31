@@ -1,0 +1,176 @@
+[
+  {
+    "id": "energy",
+    "annex": "I",
+    "name_de": "Energie",
+    "name_en": "Energy",
+    "subsectors": [
+      { "id": "electricity", "name_de": "Elektrizität", "name_en": "Electricity" },
+      { "id": "district_heating", "name_de": "Fernwärme und -kälte", "name_en": "District heating and cooling" },
+      { "id": "oil", "name_de": "Erdöl", "name_en": "Oil" },
+      { "id": "gas", "name_de": "Gas", "name_en": "Gas" },
+      { "id": "hydrogen", "name_de": "Wasserstoff", "name_en": "Hydrogen" }
+    ]
+  },
+  {
+    "id": "transport",
+    "annex": "I",
+    "name_de": "Verkehr",
+    "name_en": "Transport",
+    "subsectors": [
+      { "id": "air", "name_de": "Luftverkehr", "name_en": "Air" },
+      { "id": "rail", "name_de": "Schienenverkehr", "name_en": "Rail" },
+      { "id": "water", "name_de": "Schifffahrt", "name_en": "Water" },
+      { "id": "road", "name_de": "Straßenverkehr", "name_en": "Road" }
+    ]
+  },
+  {
+    "id": "banking",
+    "annex": "I",
+    "name_de": "Bankwesen",
+    "name_en": "Banking",
+    "subsectors": []
+  },
+  {
+    "id": "financial_market",
+    "annex": "I",
+    "name_de": "Finanzmarktinfrastrukturen",
+    "name_en": "Financial market infrastructures",
+    "subsectors": []
+  },
+  {
+    "id": "health",
+    "annex": "I",
+    "name_de": "Gesundheitswesen",
+    "name_en": "Health",
+    "subsectors": [
+      { "id": "healthcare_providers", "name_de": "Gesundheitsdienstleister", "name_en": "Healthcare providers" },
+      { "id": "pharma", "name_de": "Pharma (F&E, Herstellung)", "name_en": "Pharma (R&D, Manufacturing)" },
+      { "id": "medical_devices", "name_de": "Medizinprodukte-Hersteller", "name_en": "Medical device manufacturers" }
+    ]
+  },
+  {
+    "id": "drinking_water",
+    "annex": "I",
+    "name_de": "Trinkwasserversorgung",
+    "name_en": "Drinking water",
+    "subsectors": []
+  },
+  {
+    "id": "waste_water",
+    "annex": "I",
+    "name_de": "Abwasserentsorgung",
+    "name_en": "Waste water",
+    "subsectors": []
+  },
+  {
+    "id": "digital_infrastructure",
+    "annex": "I",
+    "name_de": "Digitale Infrastruktur",
+    "name_en": "Digital infrastructure",
+    "subsectors": [
+      { "id": "ixp", "name_de": "Internet-Knoten (IXP)", "name_en": "Internet exchange points" },
+      { "id": "dns", "name_de": "DNS-Dienste", "name_en": "DNS services" },
+      { "id": "tld", "name_de": "TLD-Namenregister", "name_en": "TLD name registries" },
+      { "id": "cloud", "name_de": "Cloud-Computing-Dienste", "name_en": "Cloud computing services" },
+      { "id": "datacenter", "name_de": "Rechenzentrumsdienste", "name_en": "Data centre services" },
+      { "id": "cdn", "name_de": "Inhaltszustellnetze (CDN)", "name_en": "Content delivery networks" },
+      { "id": "trust_services", "name_de": "Vertrauensdienste", "name_en": "Trust service providers" },
+      { "id": "telecom", "name_de": "Elektronische Kommunikation", "name_en": "Electronic communications" }
+    ]
+  },
+  {
+    "id": "ict_service_management",
+    "annex": "I",
+    "name_de": "Verwaltung von IKT-Diensten (B2B)",
+    "name_en": "ICT service management (B2B)",
+    "subsectors": [
+      { "id": "msp", "name_de": "Managed Service Provider", "name_en": "Managed service providers" },
+      { "id": "mssp", "name_de": "Managed Security Service Provider", "name_en": "Managed security service providers" }
+    ]
+  },
+  {
+    "id": "public_administration",
+    "annex": "I",
+    "name_de": "Öffentliche Verwaltung",
+    "name_en": "Public administration",
+    "subsectors": []
+  },
+  {
+    "id": "space",
+    "annex": "I",
+    "name_de": "Weltraum",
+    "name_en": "Space",
+    "subsectors": []
+  },
+  {
+    "id": "postal",
+    "annex": "II",
+    "name_de": "Post- und Kurierdienste",
+    "name_en": "Postal and courier services",
+    "subsectors": []
+  },
+  {
+    "id": "waste_management",
+    "annex": "II",
+    "name_de": "Abfallbewirtschaftung",
+    "name_en": "Waste management",
+    "subsectors": []
+  },
+  {
+    "id": "chemicals",
+    "annex": "II",
+    "name_de": "Chemie",
+    "name_en": "Chemicals",
+    "subsectors": []
+  },
+  {
+    "id": "food",
+    "annex": "II",
+    "name_de": "Lebensmittel",
+    "name_en": "Food",
+    "subsectors": [
+      { "id": "food_production", "name_de": "Lebensmittelproduktion", "name_en": "Food production" },
+      { "id": "food_distribution", "name_de": "Lebensmittelvertrieb (Großhandel)", "name_en": "Food distribution (wholesale)" }
+    ]
+  },
+  {
+    "id": "manufacturing",
+    "annex": "II",
+    "name_de": "Verarbeitendes Gewerbe / Herstellung von Waren",
+    "name_en": "Manufacturing",
+    "subsectors": [
+      { "id": "medical_devices_mfg", "name_de": "Medizinprodukte & In-vitro-Diagnostika", "name_en": "Medical devices & IVD" },
+      { "id": "computers_electronics", "name_de": "DV-Geräte, elektronische & optische Erzeugnisse", "name_en": "Computer, electronic and optical products" },
+      { "id": "electrical_equipment", "name_de": "Elektrische Ausrüstungen", "name_en": "Electrical equipment" },
+      { "id": "machinery", "name_de": "Maschinenbau", "name_en": "Machinery and equipment" },
+      { "id": "motor_vehicles", "name_de": "Kraftwagen und Kraftwagenteile", "name_en": "Motor vehicles, trailers and semi-trailers" },
+      { "id": "other_transport", "name_de": "Sonstiger Fahrzeugbau", "name_en": "Other transport equipment" }
+    ]
+  },
+  {
+    "id": "digital_providers",
+    "annex": "II",
+    "name_de": "Anbieter digitaler Dienste",
+    "name_en": "Digital providers",
+    "subsectors": [
+      { "id": "marketplace", "name_de": "Online-Marktplätze", "name_en": "Online marketplaces" },
+      { "id": "search_engine", "name_de": "Online-Suchmaschinen", "name_en": "Online search engines" },
+      { "id": "social_network", "name_de": "Soziale Netzwerke", "name_en": "Social networking services platforms" }
+    ]
+  },
+  {
+    "id": "research",
+    "annex": "II",
+    "name_de": "Forschung",
+    "name_en": "Research",
+    "subsectors": []
+  },
+  {
+    "id": "none",
+    "annex": "none",
+    "name_de": "Keiner der genannten Sektoren",
+    "name_en": "None of the above sectors",
+    "subsectors": []
+  }
+]
