@@ -6,6 +6,7 @@ import { db } from '@schutzkompass/db';
 import { users, sessions, accounts, verificationTokens } from '@schutzkompass/db';
 import { eq } from 'drizzle-orm';
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 export const { handlers, auth, signIn, signOut } = NextAuth({
   trustHost: true,
   adapter: DrizzleAdapter(db, {
@@ -13,7 +14,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
     sessionsTable: sessions as any,
     accountsTable: accounts as any,
     verificationTokensTable: verificationTokens as any,
-  }),
+  }) as any,
   session: {
     strategy: 'jwt',
   },
@@ -70,7 +71,7 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
   callbacks: {
     async jwt({ token, user }) {
       if (user) {
-        token.id = user.id;
+        token.id = user.id!;
         token.role = (user as any).role;
         token.organisationId = (user as any).organisationId;
       }

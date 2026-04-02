@@ -1,5 +1,8 @@
 'use server';
 
+import { db, suppliers as suppliersTable, questionnaireResponses as qrTable } from '@schutzkompass/db';
+import { eq } from 'drizzle-orm';
+import { getOrgId } from './helpers';
 import {
   QUESTIONNAIRE,
   type SupplierRiskClass,
@@ -18,7 +21,7 @@ export interface Supplier {
   contactEmail: string;
   contactName: string;
   riskClass: SupplierRiskClass;
-  riskScore: number | null; // 0-100
+  riskScore: number | null;
   questionnaireStatus: QuestionnaireStatus;
   questionnaireToken: string | null;
   questionnaireSentAt: string | null;
@@ -42,140 +45,105 @@ export interface CreateSupplierInput {
   notes?: string;
 }
 
-// ── In-Memory Store ────────────────────────────────────────────────
+// ── Mapper ─────────────────────────────────────────────────────────
+
+function mapRow(row: typeof suppliersTable.$inferSelect): Supplier {
+  return {
+    id: row.id,
+    name: row.name,
+    contactEmail: row.contactEmail ?? '',
+    contactName: row.contactName ?? '',
+    riskClass: (row.riskClass ?? 'standard') as SupplierRiskClass,
+    riskScore: row.riskScore,
+    questionnaireStatus: (row.questionnaireStatus ?? 'not_sent') as QuestionnaireStatus,
+    questionnaireToken: row.questionnaireToken,
+    questionnaireSentAt: row.questionnaireSentAt?.toISOString() ?? null,
+    questionnaireCompletedAt: row.questionnaireCompletedAt?.toISOString() ?? null,
+    iso27001CertExpiry: row.iso27001CertExpiry ?? null,
+    notes: row.notes ?? '',
+    createdAt: row.createdAt.toISOString(),
+  };
+}
+
+// ── Helpers ────────────────────────────────────────────────────────
 
 function generateToken(): string {
   return Math.random().toString(36).substring(2) + Date.now().toString(36);
 }
 
-let suppliers: Supplier[] = [
-  {
-    id: 'sup-1',
-    name: 'TechParts GmbH',
-    contactEmail: 'security@techparts.de',
-    contactName: 'Dr. Anna Weber',
-    riskClass: 'critical',
-    riskScore: 72,
-    questionnaireStatus: 'completed',
-    questionnaireToken: 'tok-abc123',
-    questionnaireSentAt: '2026-01-15T10:00:00Z',
-    questionnaireCompletedAt: '2026-02-01T14:30:00Z',
-    iso27001CertExpiry: '2027-06-30',
-    notes: 'Hauptlieferant für IoT-Sensorik. ISO 27001 zertifiziert.',
-    createdAt: '2025-11-01T09:00:00Z',
-  },
-  {
-    id: 'sup-2',
-    name: 'CloudServe AG',
-    contactEmail: 'compliance@cloudserve.eu',
-    contactName: 'Michael Braun',
-    riskClass: 'critical',
-    riskScore: 85,
-    questionnaireStatus: 'completed',
-    questionnaireToken: 'tok-def456',
-    questionnaireSentAt: '2026-01-10T08:00:00Z',
-    questionnaireCompletedAt: '2026-01-25T16:00:00Z',
-    iso27001CertExpiry: '2026-12-31',
-    notes: 'Cloud-Infrastruktur-Provider. SOC 2 Type II + ISO 27001.',
-    createdAt: '2025-10-15T09:00:00Z',
-  },
-  {
-    id: 'sup-3',
-    name: 'FirmwareFactory Ltd.',
-    contactEmail: 'info@firmwarefactory.co.uk',
-    contactName: 'James Smith',
-    riskClass: 'important',
-    riskScore: null,
-    questionnaireStatus: 'sent',
-    questionnaireToken: 'tok-ghi789',
-    questionnaireSentAt: '2026-03-20T09:00:00Z',
-    questionnaireCompletedAt: null,
-    iso27001CertExpiry: null,
-    notes: 'Firmware-Entwicklung für Embedded-Systeme.',
-    createdAt: '2026-01-10T09:00:00Z',
-  },
-  {
-    id: 'sup-4',
-    name: 'BüroSupply KG',
-    contactEmail: 'einkauf@buerosupply.de',
-    contactName: 'Petra Müller',
-    riskClass: 'standard',
-    riskScore: null,
-    questionnaireStatus: 'not_sent',
-    questionnaireToken: null,
-    questionnaireSentAt: null,
-    questionnaireCompletedAt: null,
-    iso27001CertExpiry: null,
-    notes: 'Büromaterial-Lieferant. Kein Zugriff auf IT-Systeme.',
-    createdAt: '2026-02-01T09:00:00Z',
-  },
-  {
-    id: 'sup-5',
-    name: 'SecureChip Inc.',
-    contactEmail: 'security@securechip.com',
-    contactName: 'Sarah Johnson',
-    riskClass: 'important',
-    riskScore: 58,
-    questionnaireStatus: 'completed',
-    questionnaireToken: 'tok-jkl012',
-    questionnaireSentAt: '2026-02-01T10:00:00Z',
-    questionnaireCompletedAt: '2026-03-05T11:00:00Z',
-    iso27001CertExpiry: null,
-    notes: 'Hardware-Sicherheitschips. Kein ISO 27001, aber SOC 2.',
-    createdAt: '2025-12-01T09:00:00Z',
-  },
-];
-
 // ── Operations ─────────────────────────────────────────────────────
 
 export async function getSuppliers(): Promise<Supplier[]> {
-  return [...suppliers].sort((a, b) => {
-    const classOrder: Record<SupplierRiskClass, number> = { critical: 0, important: 1, standard: 2 };
-    return classOrder[a.riskClass] - classOrder[b.riskClass];
-  });
+  const orgId = await getOrgId();
+  const rows = await db
+    .select()
+    .from(suppliersTable)
+    .where(eq(suppliersTable.organisationId, orgId));
+
+  const suppliers = rows.map(mapRow);
+  const classOrder: Record<SupplierRiskClass, number> = { critical: 0, important: 1, standard: 2 };
+  return suppliers.sort((a, b) => classOrder[a.riskClass] - classOrder[b.riskClass]);
 }
 
 export async function getSupplierById(id: string): Promise<Supplier | null> {
-  return suppliers.find((s) => s.id === id) ?? null;
+  const [row] = await db
+    .select()
+    .from(suppliersTable)
+    .where(eq(suppliersTable.id, id))
+    .limit(1);
+
+  return row ? mapRow(row) : null;
 }
 
 export async function createSupplier(input: CreateSupplierInput): Promise<Supplier> {
-  const supplier: Supplier = {
-    id: `sup-${Date.now()}`,
-    ...input,
-    notes: input.notes || '',
-    riskScore: null,
-    questionnaireStatus: 'not_sent',
-    questionnaireToken: null,
-    questionnaireSentAt: null,
-    questionnaireCompletedAt: null,
-    iso27001CertExpiry: null,
-    createdAt: new Date().toISOString(),
-  };
-  suppliers = [...suppliers, supplier];
-  return supplier;
+  const orgId = await getOrgId();
+  const [row] = await db
+    .insert(suppliersTable)
+    .values({
+      organisationId: orgId,
+      name: input.name,
+      contactEmail: input.contactEmail,
+      contactName: input.contactName,
+      riskClass: input.riskClass,
+      notes: input.notes ?? '',
+      questionnaireStatus: 'not_sent',
+    })
+    .returning();
+
+  return mapRow(row);
 }
 
 export async function updateSupplier(id: string, updates: Partial<CreateSupplierInput>): Promise<Supplier> {
-  const idx = suppliers.findIndex((s) => s.id === id);
-  if (idx === -1) throw new Error('Supplier not found');
-  const updated = { ...suppliers[idx], ...updates };
-  suppliers = suppliers.map((s) => (s.id === id ? updated : s));
-  return updated;
+  const setValues: Record<string, unknown> = {};
+  if (updates.name !== undefined) setValues.name = updates.name;
+  if (updates.contactEmail !== undefined) setValues.contactEmail = updates.contactEmail;
+  if (updates.contactName !== undefined) setValues.contactName = updates.contactName;
+  if (updates.riskClass !== undefined) setValues.riskClass = updates.riskClass;
+  if (updates.notes !== undefined) setValues.notes = updates.notes;
+
+  if (Object.keys(setValues).length > 0) {
+    await db.update(suppliersTable).set(setValues).where(eq(suppliersTable.id, id));
+  }
+
+  const result = await getSupplierById(id);
+  if (!result) throw new Error('Supplier not found');
+  return result;
 }
 
 export async function sendQuestionnaire(supplierId: string): Promise<Supplier> {
-  const idx = suppliers.findIndex((s) => s.id === supplierId);
-  if (idx === -1) throw new Error('Supplier not found');
+  const token = generateToken();
+  await db
+    .update(suppliersTable)
+    .set({
+      questionnaireStatus: 'sent',
+      questionnaireToken: token,
+      questionnaireSentAt: new Date(),
+    })
+    .where(eq(suppliersTable.id, supplierId));
 
-  const updated: Supplier = {
-    ...suppliers[idx],
-    questionnaireStatus: 'sent',
-    questionnaireToken: generateToken(),
-    questionnaireSentAt: new Date().toISOString(),
-  };
-  suppliers = suppliers.map((s) => (s.id === supplierId ? updated : s));
-  return updated;
+  const result = await getSupplierById(supplierId);
+  if (!result) throw new Error('Supplier not found');
+  return result;
 }
 
 /**
@@ -199,7 +167,7 @@ export async function scoreQuestionnaire(responses: QuestionnaireResponse[]): Pr
         earnedPoints += q.weight * 0.5;
         break;
       case 'not_applicable':
-        totalWeight -= q.weight; // exclude from calculation
+        totalWeight -= q.weight;
         break;
       case 'no':
       default:
@@ -212,6 +180,12 @@ export async function scoreQuestionnaire(responses: QuestionnaireResponse[]): Pr
 }
 
 export async function getSupplierStatistics() {
+  const orgId = await getOrgId();
+  const rows = await db
+    .select()
+    .from(suppliersTable)
+    .where(eq(suppliersTable.organisationId, orgId));
+
   const byRiskClass: Record<SupplierRiskClass, number> = { critical: 0, important: 0, standard: 0 };
   const byQStatus: Record<QuestionnaireStatus, number> = {
     not_sent: 0,
@@ -224,17 +198,19 @@ export async function getSupplierStatistics() {
   let totalScore = 0;
   let scoredCount = 0;
 
-  for (const s of suppliers) {
-    byRiskClass[s.riskClass]++;
-    byQStatus[s.questionnaireStatus]++;
-    if (s.riskScore !== null) {
-      totalScore += s.riskScore;
+  for (const row of rows) {
+    const rc = (row.riskClass ?? 'standard') as SupplierRiskClass;
+    const qs = (row.questionnaireStatus ?? 'not_sent') as QuestionnaireStatus;
+    if (byRiskClass[rc] !== undefined) byRiskClass[rc]++;
+    if (byQStatus[qs] !== undefined) byQStatus[qs]++;
+    if (row.riskScore !== null) {
+      totalScore += row.riskScore;
       scoredCount++;
     }
   }
 
   return {
-    total: suppliers.length,
+    total: rows.length,
     byRiskClass,
     byQuestionnaireStatus: byQStatus,
     averageScore: scoredCount > 0 ? Math.round(totalScore / scoredCount) : null,
@@ -250,37 +226,60 @@ export async function getQuestionnaireContent(): Promise<QuestionnaireQuestion[]
 // ── Public Questionnaire Actions (token-based, no auth) ────────────
 
 export async function getSupplierByToken(token: string): Promise<{ supplierName: string; status: QuestionnaireStatus } | null> {
-  const supplier = suppliers.find((s) => s.questionnaireToken === token);
-  if (!supplier) return null;
-  return { supplierName: supplier.name, status: supplier.questionnaireStatus };
+  const [row] = await db
+    .select()
+    .from(suppliersTable)
+    .where(eq(suppliersTable.questionnaireToken, token))
+    .limit(1);
+
+  if (!row) return null;
+  return {
+    supplierName: row.name,
+    status: (row.questionnaireStatus ?? 'not_sent') as QuestionnaireStatus,
+  };
 }
 
 export async function submitQuestionnaireResponses(
   token: string,
-  responses: QuestionnaireResponse[]
+  responses: QuestionnaireResponse[],
 ): Promise<{ success: boolean; score: number; error?: string }> {
-  const idx = suppliers.findIndex((s) => s.questionnaireToken === token);
-  if (idx === -1) return { success: false, score: 0, error: 'Ungültiger Token' };
+  const [row] = await db
+    .select()
+    .from(suppliersTable)
+    .where(eq(suppliersTable.questionnaireToken, token))
+    .limit(1);
 
-  const supplier = suppliers[idx];
-  if (supplier.questionnaireStatus === 'completed') {
+  if (!row) return { success: false, score: 0, error: 'Ungültiger Token' };
+  if (row.questionnaireStatus === 'completed') {
     return { success: false, score: 0, error: 'Fragebogen wurde bereits eingereicht' };
   }
 
   const score = await scoreQuestionnaire(responses);
 
-  const updated: Supplier = {
-    ...supplier,
-    questionnaireStatus: 'completed',
-    questionnaireCompletedAt: new Date().toISOString(),
-    riskScore: score,
-  };
-  suppliers = suppliers.map((s) => (s.id === updated.id ? updated : s));
+  // Save individual responses
+  for (const r of responses) {
+    await db.insert(qrTable).values({
+      supplierId: row.id,
+      questionKey: r.questionKey,
+      answer: r.answer,
+      comment: r.comment,
+      answeredAt: new Date(),
+    });
+  }
 
-  // Create notification for questionnaire completion
+  // Update supplier
+  await db
+    .update(suppliersTable)
+    .set({
+      questionnaireStatus: 'completed',
+      questionnaireCompletedAt: new Date(),
+      riskScore: score,
+    })
+    .where(eq(suppliersTable.id, row.id));
+
   await createNotification({
     title: 'Lieferanten-Fragebogen eingegangen',
-    message: `Lieferant "${supplier.name}" hat den Sicherheitsfragebogen beantwortet (Score: ${score}%).`,
+    message: `Lieferant "${row.name}" hat den Sicherheitsfragebogen beantwortet (Score: ${score}%).`,
     icon: 'info',
     category: 'supplier',
   });

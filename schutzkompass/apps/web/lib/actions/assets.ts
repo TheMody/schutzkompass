@@ -1,5 +1,8 @@
 'use server';
 
+import { db, assets as assetsTable } from '@schutzkompass/db';
+import { eq, desc } from 'drizzle-orm';
+import { getOrgId } from './helpers';
 import type { AssetType, CriticalityLevel } from '@schutzkompass/shared';
 
 // ── Types ───────────────────────────────────────────────────────────
@@ -30,110 +33,92 @@ export interface UpdateAssetInput extends Partial<CreateAssetInput> {
   id: string;
 }
 
-// ── In-Memory Store (until DB is connected) ─────────────────────────
-
-let assets: Asset[] = [
-  {
-    id: '1',
-    organisationId: 'org-1',
-    name: 'Produktionsserver PRD-01',
-    type: 'server',
-    description: 'Hauptproduktionsserver für ERP-System',
-    criticality: 'critical',
-    owner: 'IT-Abteilung',
-    location: 'Rechenzentrum Frankfurt',
-    metadata: null,
-    createdAt: new Date('2024-01-15'),
-  },
-  {
-    id: '2',
-    organisationId: 'org-1',
-    name: 'Office 365 Cloud',
-    type: 'cloud',
-    description: 'Microsoft 365 E5 Lizenz inkl. Exchange, SharePoint, Teams',
-    criticality: 'high',
-    owner: 'IT-Abteilung',
-    location: 'Cloud (EU)',
-    metadata: null,
-    createdAt: new Date('2024-02-01'),
-  },
-  {
-    id: '3',
-    organisationId: 'org-1',
-    name: 'Firewall Palo Alto PA-3260',
-    type: 'network',
-    description: 'Perimeter-Firewall am Hauptstandort',
-    criticality: 'critical',
-    owner: 'Netzwerk-Team',
-    location: 'Rechenzentrum Frankfurt',
-    metadata: null,
-    createdAt: new Date('2024-02-10'),
-  },
-  {
-    id: '4',
-    organisationId: 'org-1',
-    name: 'SPS Siemens S7-1500',
-    type: 'ot_device',
-    description: 'Speicherprogrammierbare Steuerung in Produktionslinie 3',
-    criticality: 'high',
-    owner: 'Produktion',
-    location: 'Werk München',
-    metadata: null,
-    createdAt: new Date('2024-03-01'),
-  },
-];
-
-let nextId = 5;
-
 // ── Server Actions ──────────────────────────────────────────────────
 
 export async function getAssets(): Promise<Asset[]> {
-  // TODO: Replace with actual DB query using getRequiredSession()
-  return assets;
+  const orgId = await getOrgId();
+  const rows = await db
+    .select()
+    .from(assetsTable)
+    .where(eq(assetsTable.organisationId, orgId))
+    .orderBy(desc(assetsTable.createdAt));
+
+  return rows.map(mapRowToAsset);
 }
 
 export async function getAsset(id: string): Promise<Asset | undefined> {
-  return assets.find((a) => a.id === id);
+  const orgId = await getOrgId();
+  const [row] = await db
+    .select()
+    .from(assetsTable)
+    .where(eq(assetsTable.id, id))
+    .limit(1);
+
+  if (!row || row.organisationId !== orgId) return undefined;
+  return mapRowToAsset(row);
 }
 
 export async function createAsset(input: CreateAssetInput): Promise<Asset> {
-  const asset: Asset = {
-    id: String(nextId++),
-    organisationId: 'org-1', // TODO: get from session
-    name: input.name,
-    type: input.type,
-    description: input.description || null,
-    criticality: input.criticality || null,
-    owner: input.owner || null,
-    location: input.location || null,
-    metadata: null,
-    createdAt: new Date(),
-  };
-  assets.push(asset);
-  return asset;
+  const orgId = await getOrgId();
+  const [row] = await db
+    .insert(assetsTable)
+    .values({
+      organisationId: orgId,
+      name: input.name,
+      type: input.type,
+      description: input.description ?? null,
+      criticality: input.criticality ?? null,
+      owner: input.owner ?? null,
+      location: input.location ?? null,
+    })
+    .returning();
+
+  return mapRowToAsset(row);
 }
 
 export async function updateAsset(input: UpdateAssetInput): Promise<Asset | null> {
-  const index = assets.findIndex((a) => a.id === input.id);
-  if (index === -1) return null;
+  const orgId = await getOrgId();
 
-  assets[index] = {
-    ...assets[index],
-    ...(input.name !== undefined && { name: input.name }),
-    ...(input.type !== undefined && { type: input.type }),
-    ...(input.description !== undefined && { description: input.description }),
-    ...(input.criticality !== undefined && { criticality: input.criticality }),
-    ...(input.owner !== undefined && { owner: input.owner }),
-    ...(input.location !== undefined && { location: input.location }),
-  };
+  // Verify ownership
+  const [existing] = await db
+    .select()
+    .from(assetsTable)
+    .where(eq(assetsTable.id, input.id))
+    .limit(1);
+  if (!existing || existing.organisationId !== orgId) return null;
 
-  return assets[index];
+  const values: Record<string, unknown> = {};
+  if (input.name !== undefined) values.name = input.name;
+  if (input.type !== undefined) values.type = input.type;
+  if (input.description !== undefined) values.description = input.description;
+  if (input.criticality !== undefined) values.criticality = input.criticality;
+  if (input.owner !== undefined) values.owner = input.owner;
+  if (input.location !== undefined) values.location = input.location;
+
+  if (Object.keys(values).length === 0) return mapRowToAsset(existing);
+
+  const [row] = await db
+    .update(assetsTable)
+    .set(values)
+    .where(eq(assetsTable.id, input.id))
+    .returning();
+
+  return mapRowToAsset(row);
 }
 
 export async function deleteAsset(id: string): Promise<boolean> {
-  const before = assets.length;
-  assets = assets.filter((a) => a.id !== id);
-  return assets.length < before;
+  const orgId = await getOrgId();
+
+  // Verify ownership
+  const [existing] = await db
+    .select()
+    .from(assetsTable)
+    .where(eq(assetsTable.id, id))
+    .limit(1);
+  if (!existing || existing.organisationId !== orgId) return false;
+
+  await db.delete(assetsTable).where(eq(assetsTable.id, id));
+  return true;
 }
 
 export async function importAssetsFromCsv(csvContent: string): Promise<{ imported: number; errors: string[] }> {
@@ -145,7 +130,6 @@ export async function importAssetsFromCsv(csvContent: string): Promise<{ importe
     return { imported: 0, errors: ['CSV-Datei enthält keine Daten.'] };
   }
 
-  // Expect header: name,type,description,criticality,owner,location
   const header = lines[0].toLowerCase().split(',').map((h) => h.trim());
   const nameIdx = header.indexOf('name');
   const typeIdx = header.indexOf('type');
@@ -193,4 +177,21 @@ export async function importAssetsFromCsv(csvContent: string): Promise<{ importe
   }
 
   return { imported, errors };
+}
+
+// ── Row mapper ──────────────────────────────────────────────────────
+
+function mapRowToAsset(row: typeof assetsTable.$inferSelect): Asset {
+  return {
+    id: row.id,
+    organisationId: row.organisationId,
+    name: row.name,
+    type: row.type as AssetType,
+    description: row.description,
+    criticality: row.criticality as CriticalityLevel | null,
+    owner: row.owner,
+    location: row.location,
+    metadata: row.metadata as Record<string, unknown> | null,
+    createdAt: row.createdAt,
+  };
 }

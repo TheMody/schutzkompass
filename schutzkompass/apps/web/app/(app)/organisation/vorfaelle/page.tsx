@@ -7,8 +7,10 @@ import {
   createIncident,
   updateIncidentStatus,
   classifyIncidentSeverity,
+  generateCommunicationTemplate,
   type Incident,
   type CreateIncidentInput,
+  type CommunicationTemplate,
 } from '@/lib/actions/incidents';
 import {
   INCIDENT_CATEGORY_LABELS,
@@ -560,6 +562,8 @@ function IncidentDetailPanel({
   onUpdate: (inc: Incident) => void;
 }) {
   const [updatingStatus, setUpdatingStatus] = useState(false);
+  const [activeTemplate, setActiveTemplate] = useState<CommunicationTemplate | null>(null);
+  const [loadingTemplate, setLoadingTemplate] = useState(false);
 
   const statusFlow: IncidentStatus[] = ['detected', 'reported', 'analyzing', 'containing', 'resolved', 'closed'];
   const currentIdx = statusFlow.indexOf(incident.status);
@@ -571,6 +575,18 @@ function IncidentDetailPanel({
     const updated = await updateIncidentStatus(incident.id, next, 'Benutzer');
     onUpdate(updated);
     setUpdatingStatus(false);
+  }
+
+  async function openTemplate(templateType: 'bsi_early_warning' | 'incident_report' | 'final_report' | 'cra_enisa') {
+    setLoadingTemplate(true);
+    try {
+      const tpl = await generateCommunicationTemplate(incident.id, templateType);
+      setActiveTemplate(tpl);
+    } catch (err) {
+      console.error('Template generation failed:', err);
+    } finally {
+      setLoadingTemplate(false);
+    }
   }
 
   return (
@@ -699,19 +715,23 @@ function IncidentDetailPanel({
               <TemplateButton
                 label="BSI Frühwarnung (24h)"
                 description="Erstmeldung an das BSI gemäß NIS2 Art. 23 Abs. 4 lit. a"
+                onClick={() => openTemplate('bsi_early_warning')}
               />
               <TemplateButton
                 label="Vorfallmeldung (72h)"
                 description="Detaillierte Bewertung gemäß NIS2 Art. 23 Abs. 4 lit. b"
+                onClick={() => openTemplate('incident_report')}
               />
               <TemplateButton
                 label="Abschlussbericht (30d)"
                 description="Umfassender Bericht gemäß NIS2 Art. 23 Abs. 4 lit. d"
+                onClick={() => openTemplate('final_report')}
               />
               {incident.isCraReportable && (
                 <TemplateButton
                   label="CRA Schwachstellenmeldung (ENISA)"
                   description="Meldung aktiv ausgenutzter Schwachstellen gemäß CRA Art. 14"
+                  onClick={() => openTemplate('cra_enisa')}
                 />
               )}
             </div>
@@ -737,6 +757,65 @@ function IncidentDetailPanel({
           </div>
         </div>
       </div>
+
+      {/* Template Modal */}
+      {activeTemplate && (
+        <div className="fixed inset-0 z-[60] flex items-center justify-center bg-black/50 backdrop-blur-sm">
+          <div className="bg-card rounded-xl shadow-2xl max-w-2xl w-full mx-4 max-h-[90vh] flex flex-col">
+            <div className="sticky top-0 bg-card border-b p-4 rounded-t-xl z-10 flex items-start justify-between">
+              <div>
+                <h3 className="text-lg font-bold">{activeTemplate.label}</h3>
+                <p className="text-sm text-muted-foreground mt-0.5">
+                  Empfänger: {activeTemplate.recipient}
+                </p>
+              </div>
+              <button onClick={() => setActiveTemplate(null)} className="text-muted-foreground hover:text-foreground p-1">
+                <X className="h-5 w-5" />
+              </button>
+            </div>
+            <div className="p-4 overflow-auto flex-1 space-y-4">
+              <div>
+                <label className="text-xs font-semibold text-muted-foreground uppercase">Betreff</label>
+                <p className="text-sm font-medium mt-1 bg-muted rounded-lg p-3">{activeTemplate.subject}</p>
+              </div>
+              <div>
+                <label className="text-xs font-semibold text-muted-foreground uppercase">Inhalt</label>
+                <pre className="text-sm mt-1 bg-muted rounded-lg p-4 whitespace-pre-wrap font-sans leading-relaxed max-h-[50vh] overflow-auto">
+                  {activeTemplate.body}
+                </pre>
+              </div>
+            </div>
+            <div className="border-t p-4 flex items-center justify-end gap-3">
+              <button
+                onClick={() => {
+                  navigator.clipboard.writeText(
+                    `Betreff: ${activeTemplate.subject}\n\n${activeTemplate.body}`
+                  );
+                }}
+                className="rounded-lg border px-4 py-2 text-sm font-medium hover:bg-muted transition-colors"
+              >
+                📋 In Zwischenablage kopieren
+              </button>
+              <button
+                onClick={() => setActiveTemplate(null)}
+                className="rounded-lg bg-primary px-4 py-2 text-sm font-medium text-white hover:bg-primary/80 transition-colors"
+              >
+                Schließen
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Loading overlay */}
+      {loadingTemplate && (
+        <div className="fixed inset-0 z-[60] flex items-center justify-center bg-black/30">
+          <div className="bg-card rounded-lg p-6 shadow-lg text-center">
+            <div className="animate-spin h-8 w-8 border-4 border-primary border-t-transparent rounded-full mx-auto mb-3" />
+            <p className="text-sm text-muted-foreground">Vorlage wird generiert…</p>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
@@ -766,9 +845,12 @@ function DeadlineCard({ label, sublabel, deadline }: { label: string; sublabel: 
 
 // ── Template Button ────────────────────────────────────────────────
 
-function TemplateButton({ label, description }: { label: string; description: string }) {
+function TemplateButton({ label, description, onClick }: { label: string; description: string; onClick?: () => void }) {
   return (
-    <button className="flex items-center gap-3 rounded-lg border p-3 text-left hover:bg-muted transition-colors">
+    <button
+      onClick={onClick}
+      className="flex items-center gap-3 rounded-lg border p-3 text-left hover:bg-muted transition-colors"
+    >
       <FileText className="h-5 w-5 text-primary shrink-0" />
       <div className="min-w-0">
         <p className="text-sm font-medium">{label}</p>

@@ -1,5 +1,9 @@
 'use server';
 
+import { db, sboms as sbomsTable, sbomComponents as componentsTable, products as productsTable } from '@schutzkompass/db';
+import { eq, desc } from 'drizzle-orm';
+import { getOrgId } from './helpers';
+
 // ── Types ──────────────────────────────────────────────────────────
 
 export type SbomFormat = 'spdx' | 'cyclonedx';
@@ -10,8 +14,8 @@ export interface SbomComponent {
   name: string;
   version: string;
   license: string;
-  purl?: string; // Package URL
-  cpe?: string; // Common Platform Enumeration
+  purl?: string;
+  cpe?: string;
   supplier?: string;
   vulnerabilityCount: number;
   highestSeverity: 'critical' | 'high' | 'medium' | 'low' | 'none';
@@ -35,166 +39,119 @@ export interface SbomUploadInput {
   productId: string;
   productName: string;
   format: SbomFormat;
-  // In real implementation: file would be uploaded via API route
 }
 
-// ── In-Memory Store ────────────────────────────────────────────────
-// TODO: Replace with database + S3 storage
+// ── Mapper ─────────────────────────────────────────────────────────
 
-const sampleComponents: SbomComponent[] = [
-  {
-    id: 'comp-1',
-    name: 'openssl',
-    version: '1.1.1w',
-    license: 'Apache-2.0',
-    purl: 'pkg:generic/openssl@1.1.1w',
-    cpe: 'cpe:2.3:a:openssl:openssl:1.1.1w:*:*:*:*:*:*:*',
-    supplier: 'OpenSSL Software Foundation',
-    vulnerabilityCount: 5,
-    highestSeverity: 'critical',
-    status: 'vulnerable',
-  },
-  {
-    id: 'comp-2',
-    name: 'busybox',
-    version: '1.35.0',
-    license: 'GPL-2.0-only',
-    purl: 'pkg:generic/busybox@1.35.0',
-    vulnerabilityCount: 3,
-    highestSeverity: 'high',
-    status: 'vulnerable',
-  },
-  {
-    id: 'comp-3',
-    name: 'linux-kernel',
-    version: '5.15.0',
-    license: 'GPL-2.0-only',
-    purl: 'pkg:generic/linux@5.15.0',
-    vulnerabilityCount: 12,
-    highestSeverity: 'critical',
-    status: 'vulnerable',
-  },
-  {
-    id: 'comp-4',
-    name: 'libcurl',
-    version: '7.88.1',
-    license: 'MIT',
-    purl: 'pkg:generic/curl@7.88.1',
-    vulnerabilityCount: 1,
-    highestSeverity: 'medium',
-    status: 'vulnerable',
-  },
-  {
-    id: 'comp-5',
-    name: 'zlib',
-    version: '1.2.13',
-    license: 'Zlib',
-    purl: 'pkg:generic/zlib@1.2.13',
-    vulnerabilityCount: 0,
+function mapComponentRow(row: typeof componentsTable.$inferSelect): SbomComponent {
+  return {
+    id: row.id,
+    name: row.name,
+    version: row.version ?? '',
+    license: row.license ?? '',
+    purl: row.purl ?? undefined,
+    cpe: row.cpe ?? undefined,
+    supplier: row.supplier ?? undefined,
+    vulnerabilityCount: 0, // TODO: join vulnerabilities table
     highestSeverity: 'none',
     status: 'ok',
-  },
-  {
-    id: 'comp-6',
-    name: 'sqlite',
-    version: '3.42.0',
-    license: 'Public Domain',
-    purl: 'pkg:generic/sqlite@3.42.0',
-    vulnerabilityCount: 0,
-    highestSeverity: 'none',
-    status: 'ok',
-  },
-  {
-    id: 'comp-7',
-    name: 'mbedtls',
-    version: '3.4.0',
-    license: 'Apache-2.0',
-    purl: 'pkg:generic/mbedtls@3.4.0',
-    vulnerabilityCount: 2,
-    highestSeverity: 'high',
-    status: 'vulnerable',
-  },
-  {
-    id: 'comp-8',
-    name: 'freertos',
-    version: '10.5.1',
-    license: 'MIT',
-    purl: 'pkg:generic/freertos@10.5.1',
-    vulnerabilityCount: 0,
-    highestSeverity: 'none',
-    status: 'ok',
-  },
-  {
-    id: 'comp-9',
-    name: 'lwip',
-    version: '2.1.3',
-    license: 'BSD-3-Clause',
-    purl: 'pkg:generic/lwip@2.1.3',
-    vulnerabilityCount: 1,
-    highestSeverity: 'low',
-    status: 'vulnerable',
-  },
-  {
-    id: 'comp-10',
-    name: 'protobuf',
-    version: '3.21.12',
-    license: 'BSD-3-Clause',
-    purl: 'pkg:generic/protobuf@3.21.12',
-    vulnerabilityCount: 0,
-    highestSeverity: 'none',
-    status: 'ok',
-  },
-  {
-    id: 'comp-11',
-    name: 'jansson',
-    version: '2.14',
-    license: 'MIT',
-    purl: 'pkg:generic/jansson@2.14',
-    vulnerabilityCount: 0,
-    highestSeverity: 'none',
-    status: 'ok',
-  },
-  {
-    id: 'comp-12',
-    name: 'libsodium',
-    version: '1.0.18',
-    license: 'ISC',
-    purl: 'pkg:generic/libsodium@1.0.18',
-    vulnerabilityCount: 0,
-    highestSeverity: 'none',
-    status: 'ok',
-  },
-];
+  };
+}
 
-let sboms: SbomRecord[] = [
-  {
-    id: 'sbom-1',
-    productId: 'prod-1',
-    productName: 'SmartSensor Pro',
-    format: 'cyclonedx',
-    formatVersion: '1.5',
-    componentCount: sampleComponents.length,
-    vulnerableComponentCount: sampleComponents.filter((c) => c.vulnerabilityCount > 0).length,
-    createdAt: '2025-03-26',
-    generatedBy: 'upload',
-    components: sampleComponents,
-  },
-];
+async function mapSbomRow(
+  row: typeof sbomsTable.$inferSelect,
+  includeComponents: boolean,
+): Promise<SbomRecord> {
+  // Fetch product name
+  let productName = '';
+  const [product] = await db
+    .select({ name: productsTable.name })
+    .from(productsTable)
+    .where(eq(productsTable.id, row.productId))
+    .limit(1);
+  if (product) productName = product.name;
+
+  let components: SbomComponent[] = [];
+  if (includeComponents) {
+    const compRows = await db
+      .select()
+      .from(componentsTable)
+      .where(eq(componentsTable.sbomId, row.id));
+    components = compRows.map(mapComponentRow);
+  }
+
+  const vulnerableCount = components.filter((c) => c.vulnerabilityCount > 0).length;
+
+  return {
+    id: row.id,
+    productId: row.productId,
+    productName,
+    format: row.format as SbomFormat,
+    formatVersion: row.format === 'cyclonedx' ? '1.5' : '2.3',
+    componentCount: row.componentCount ?? components.length,
+    vulnerableComponentCount: vulnerableCount,
+    createdAt: row.createdAt.toISOString().slice(0, 10),
+    generatedBy: row.source === 'uploaded' ? 'upload' : 'syft',
+    components,
+  };
+}
 
 // ── Operations ─────────────────────────────────────────────────────
 
 export async function getSboms(): Promise<Omit<SbomRecord, 'components'>[]> {
-  return sboms.map(({ components: _c, ...rest }) => rest);
+  const orgId = await getOrgId();
+
+  // Get product IDs belonging to this org
+  const orgProducts = await db
+    .select({ id: productsTable.id })
+    .from(productsTable)
+    .where(eq(productsTable.organisationId, orgId));
+  const productIds = orgProducts.map((p) => p.id);
+
+  if (productIds.length === 0) return [];
+
+  const rows = await db
+    .select()
+    .from(sbomsTable)
+    .orderBy(desc(sbomsTable.createdAt));
+
+  // Filter by product ownership
+  const filtered = rows.filter((r) => productIds.includes(r.productId));
+
+  const result: Omit<SbomRecord, 'components'>[] = [];
+  for (const row of filtered) {
+    const full = await mapSbomRow(row, false);
+    const { components: _c, ...rest } = full;
+    result.push(rest);
+  }
+  return result;
 }
 
 export async function getSbomById(id: string): Promise<SbomRecord | null> {
-  return sboms.find((s) => s.id === id) ?? null;
+  const [row] = await db
+    .select()
+    .from(sbomsTable)
+    .where(eq(sbomsTable.id, id))
+    .limit(1);
+
+  if (!row) return null;
+  return mapSbomRow(row, true);
 }
 
 export async function getSbomsByProduct(productId: string): Promise<Omit<SbomRecord, 'components'>[]> {
-  return sboms
-    .filter((s) => s.productId === productId)
-    .map(({ components: _c, ...rest }) => rest);
+  const rows = await db
+    .select()
+    .from(sbomsTable)
+    .where(eq(sbomsTable.productId, productId))
+    .orderBy(desc(sbomsTable.createdAt));
+
+  const result: Omit<SbomRecord, 'components'>[] = [];
+  for (const row of rows) {
+    const full = await mapSbomRow(row, false);
+    const { components: _c, ...rest } = full;
+    result.push(rest);
+  }
+  return result;
 }
 
 export async function getSbomComponents(
@@ -206,12 +163,13 @@ export async function getSbomComponents(
     sortDir?: 'asc' | 'desc';
   },
 ): Promise<SbomComponent[]> {
-  const sbom = sboms.find((s) => s.id === sbomId);
-  if (!sbom) return [];
+  const compRows = await db
+    .select()
+    .from(componentsTable)
+    .where(eq(componentsTable.sbomId, sbomId));
 
-  let components = [...sbom.components];
+  let components = compRows.map(mapComponentRow);
 
-  // Filter
   if (options?.search) {
     const q = options.search.toLowerCase();
     components = components.filter(
@@ -225,7 +183,6 @@ export async function getSbomComponents(
     components = components.filter((c) => c.status === options.status);
   }
 
-  // Sort
   const sortBy = options?.sortBy || 'name';
   const sortDir = options?.sortDir || 'asc';
   components.sort((a, b) => {
@@ -240,39 +197,41 @@ export async function getSbomComponents(
 }
 
 export async function uploadSbom(input: SbomUploadInput): Promise<SbomRecord> {
-  // TODO: In real implementation:
-  // 1. Upload file to S3/MinIO
-  // 2. Queue BullMQ job to parse SBOM
-  // 3. Parse SPDX/CycloneDX format
-  // 4. Extract components
-  // 5. Run vulnerability matching
+  const [row] = await db
+    .insert(sbomsTable)
+    .values({
+      productId: input.productId,
+      format: input.format,
+      source: 'uploaded',
+      componentCount: 0,
+    })
+    .returning();
 
-  const record: SbomRecord = {
-    id: `sbom-${Date.now()}`,
-    productId: input.productId,
-    productName: input.productName,
-    format: input.format,
-    formatVersion: input.format === 'cyclonedx' ? '1.5' : '2.3',
-    componentCount: 0,
-    vulnerableComponentCount: 0,
-    createdAt: new Date().toISOString().slice(0, 10),
-    generatedBy: 'upload',
-    components: [],
-  };
-
-  sboms = [...sboms, record];
-  return record;
+  return mapSbomRow(row, true);
 }
 
 export async function deleteSbom(id: string): Promise<void> {
-  sboms = sboms.filter((s) => s.id !== id);
+  // Delete components first
+  await db.delete(componentsTable).where(eq(componentsTable.sbomId, id));
+  await db.delete(sbomsTable).where(eq(sbomsTable.id, id));
 }
 
 export async function getSbomStatistics(sbomId: string) {
-  const sbom = sboms.find((s) => s.id === sbomId);
-  if (!sbom) return null;
+  const [sbomRow] = await db
+    .select()
+    .from(sbomsTable)
+    .where(eq(sbomsTable.id, sbomId))
+    .limit(1);
 
-  const components = sbom.components;
+  if (!sbomRow) return null;
+
+  const compRows = await db
+    .select()
+    .from(componentsTable)
+    .where(eq(componentsTable.sbomId, sbomId));
+
+  const components = compRows.map(mapComponentRow);
+
   const licenses = new Map<string, number>();
   const severities = { critical: 0, high: 0, medium: 0, low: 0, none: 0 };
 

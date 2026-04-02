@@ -1,5 +1,8 @@
 'use server';
 
+import { db, riskAssessments, riskEntries as riskEntriesTable } from '@schutzkompass/db';
+import { eq, desc } from 'drizzle-orm';
+import { getOrgId } from './helpers';
 import { calculateRiskScore, computeRiskStatistics } from '@/lib/services/risk-scoring';
 import type { RiskLevel, RiskTreatment } from '@schutzkompass/shared';
 
@@ -51,63 +54,69 @@ export interface CreateRiskEntryInput {
   controlIds?: string[];
 }
 
-// ── In-Memory Store ─────────────────────────────────────────────────
-
-let assessments: RiskAssessment[] = [
-  {
-    id: 'ra-1',
-    organisationId: 'org-1',
-    title: 'Initiale Risikobewertung 2025',
-    status: 'in_progress',
-    assessorId: null,
-    completedAt: null,
-    createdAt: new Date('2025-01-10'),
-  },
-];
-
-let riskEntries: RiskEntry[] = [];
-let nextAssessmentId = 2;
-let nextEntryId = 1;
-
 // ── Server Actions: Assessments ─────────────────────────────────────
 
 export async function getRiskAssessments(): Promise<RiskAssessment[]> {
-  return assessments;
+  const orgId = await getOrgId();
+  const rows = await db
+    .select()
+    .from(riskAssessments)
+    .where(eq(riskAssessments.organisationId, orgId))
+    .orderBy(desc(riskAssessments.createdAt));
+
+  return rows.map(mapAssessmentRow);
 }
 
 export async function getRiskAssessment(id: string): Promise<RiskAssessment | undefined> {
-  return assessments.find((a) => a.id === id);
+  const orgId = await getOrgId();
+  const [row] = await db
+    .select()
+    .from(riskAssessments)
+    .where(eq(riskAssessments.id, id))
+    .limit(1);
+
+  if (!row || row.organisationId !== orgId) return undefined;
+  return mapAssessmentRow(row);
 }
 
 export async function createRiskAssessment(input: CreateRiskAssessmentInput): Promise<RiskAssessment> {
-  const assessment: RiskAssessment = {
-    id: `ra-${nextAssessmentId++}`,
-    organisationId: 'org-1',
-    title: input.title,
-    status: 'draft',
-    assessorId: null,
-    completedAt: null,
-    createdAt: new Date(),
-  };
-  assessments.push(assessment);
-  return assessment;
+  const orgId = await getOrgId();
+  const [row] = await db
+    .insert(riskAssessments)
+    .values({
+      organisationId: orgId,
+      title: input.title,
+      status: 'draft',
+    })
+    .returning();
+
+  return mapAssessmentRow(row);
 }
 
 export async function completeRiskAssessment(id: string): Promise<RiskAssessment | null> {
-  const index = assessments.findIndex((a) => a.id === id);
-  if (index === -1) return null;
-  assessments[index] = {
-    ...assessments[index],
-    status: 'completed',
-    completedAt: new Date(),
-  };
-  return assessments[index];
+  const orgId = await getOrgId();
+  const [existing] = await db.select().from(riskAssessments).where(eq(riskAssessments.id, id)).limit(1);
+  if (!existing || existing.organisationId !== orgId) return null;
+
+  const [row] = await db
+    .update(riskAssessments)
+    .set({ status: 'completed', completedAt: new Date() })
+    .where(eq(riskAssessments.id, id))
+    .returning();
+
+  return mapAssessmentRow(row);
 }
 
 // ── Server Actions: Risk Entries ────────────────────────────────────
 
 export async function getRiskEntries(assessmentId: string): Promise<RiskEntry[]> {
-  return riskEntries.filter((e) => e.assessmentId === assessmentId);
+  const rows = await db
+    .select()
+    .from(riskEntriesTable)
+    .where(eq(riskEntriesTable.assessmentId, assessmentId))
+    .orderBy(desc(riskEntriesTable.createdAt));
+
+  return rows.map(mapEntryRow);
 }
 
 export async function createRiskEntry(input: CreateRiskEntryInput): Promise<RiskEntry> {
@@ -116,33 +125,29 @@ export async function createRiskEntry(input: CreateRiskEntryInput): Promise<Risk
     impact: input.impact,
   });
 
-  const entry: RiskEntry = {
-    id: `re-${nextEntryId++}`,
-    assessmentId: input.assessmentId,
-    assetId: input.assetId || null,
-    assetName: input.assetName || null,
-    threatId: input.threatId || null,
-    threatDescription: input.threatDescription,
-    threatCategory: input.threatCategory || null,
-    likelihood: score.likelihood,
-    impact: score.impact,
-    riskLevel: score.riskLevel,
-    riskScore: score.riskScore,
-    treatment: input.treatment || null,
-    treatmentDescription: input.treatmentDescription || null,
-    controlIds: input.controlIds || [],
-    createdAt: new Date(),
-  };
+  const [row] = await db
+    .insert(riskEntriesTable)
+    .values({
+      assessmentId: input.assessmentId,
+      assetId: input.assetId ?? null,
+      threatDescription: input.threatDescription,
+      threatCategory: input.threatCategory ?? null,
+      likelihood: score.likelihood,
+      impact: score.impact,
+      riskLevel: score.riskLevel,
+      treatment: input.treatment ?? null,
+      treatmentDescription: input.treatmentDescription ?? null,
+      controlIds: input.controlIds ?? [],
+    })
+    .returning();
 
-  riskEntries.push(entry);
+  // Update assessment status to in_progress if it was draft
+  await db
+    .update(riskAssessments)
+    .set({ status: 'in_progress' })
+    .where(eq(riskAssessments.id, input.assessmentId));
 
-  // Update assessment status
-  const aIdx = assessments.findIndex((a) => a.id === input.assessmentId);
-  if (aIdx !== -1 && assessments[aIdx].status === 'draft') {
-    assessments[aIdx] = { ...assessments[aIdx], status: 'in_progress' };
-  }
-
-  return entry;
+  return mapEntryRow(row);
 }
 
 export async function updateRiskEntryTreatment(
@@ -151,29 +156,72 @@ export async function updateRiskEntryTreatment(
   treatmentDescription?: string,
   controlIds?: string[],
 ): Promise<RiskEntry | null> {
-  const index = riskEntries.findIndex((e) => e.id === id);
-  if (index === -1) return null;
+  const [existing] = await db.select().from(riskEntriesTable).where(eq(riskEntriesTable.id, id)).limit(1);
+  if (!existing) return null;
 
-  riskEntries[index] = {
-    ...riskEntries[index],
-    treatment,
-    treatmentDescription: treatmentDescription || riskEntries[index].treatmentDescription,
-    controlIds: controlIds || riskEntries[index].controlIds,
-  };
+  const values: Record<string, unknown> = { treatment };
+  if (treatmentDescription !== undefined) values.treatmentDescription = treatmentDescription;
+  if (controlIds !== undefined) values.controlIds = controlIds;
 
-  return riskEntries[index];
+  const [row] = await db
+    .update(riskEntriesTable)
+    .set(values)
+    .where(eq(riskEntriesTable.id, id))
+    .returning();
+
+  return mapEntryRow(row);
 }
 
 export async function deleteRiskEntry(id: string): Promise<boolean> {
-  const before = riskEntries.length;
-  riskEntries = riskEntries.filter((e) => e.id !== id);
-  return riskEntries.length < before;
+  const [existing] = await db.select().from(riskEntriesTable).where(eq(riskEntriesTable.id, id)).limit(1);
+  if (!existing) return false;
+  await db.delete(riskEntriesTable).where(eq(riskEntriesTable.id, id));
+  return true;
 }
 
 // ── Server Actions: Statistics ──────────────────────────────────────
 
 export async function getRiskStatistics(assessmentId: string) {
-  const entries = riskEntries.filter((e) => e.assessmentId === assessmentId);
+  const entries = await getRiskEntries(assessmentId);
   const inputs = entries.map((e) => ({ likelihood: e.likelihood, impact: e.impact }));
   return computeRiskStatistics(inputs);
+}
+
+// ── Row mappers ─────────────────────────────────────────────────────
+
+function mapAssessmentRow(row: typeof riskAssessments.$inferSelect): RiskAssessment {
+  return {
+    id: row.id,
+    organisationId: row.organisationId,
+    title: row.title,
+    status: row.status as RiskAssessment['status'],
+    assessorId: row.assessorId,
+    completedAt: row.completedAt,
+    createdAt: row.createdAt,
+  };
+}
+
+function mapEntryRow(row: typeof riskEntriesTable.$inferSelect): RiskEntry {
+  const score = calculateRiskScore({
+    likelihood: row.likelihood,
+    impact: row.impact,
+  });
+
+  return {
+    id: row.id,
+    assessmentId: row.assessmentId,
+    assetId: row.assetId,
+    assetName: null, // Joined from assets table if needed
+    threatId: null,
+    threatDescription: row.threatDescription,
+    threatCategory: row.threatCategory,
+    likelihood: row.likelihood,
+    impact: row.impact,
+    riskLevel: (row.riskLevel as RiskLevel) ?? score.riskLevel,
+    riskScore: score.riskScore,
+    treatment: row.treatment as RiskTreatment | null,
+    treatmentDescription: row.treatmentDescription,
+    controlIds: (row.controlIds as string[]) ?? [],
+    createdAt: row.createdAt,
+  };
 }
