@@ -7,16 +7,18 @@ import {
   createIncident,
   updateIncidentStatus,
   classifyIncidentSeverity,
+  type Incident,
+  type CreateIncidentInput,
+} from '@/lib/actions/incidents';
+import {
   INCIDENT_CATEGORY_LABELS,
   INCIDENT_SEVERITY_LABELS,
   INCIDENT_STATUS_LABELS,
   INCIDENT_CATEGORY_ICONS,
-  type Incident,
   type IncidentCategory,
   type IncidentSeverity,
   type IncidentStatus,
-  type CreateIncidentInput,
-} from '@/lib/actions/incidents';
+} from '@/lib/constants/incidents';
 import {
   AlertTriangle,
   Plus,
@@ -30,6 +32,7 @@ import {
   Send,
   CheckCircle2,
 } from 'lucide-react';
+import { Pagination, usePagination } from '@/components/shared/pagination';
 
 // ── Helpers ────────────────────────────────────────────────────────
 
@@ -81,6 +84,7 @@ export default function VorfallmanagementPage() {
   useEffect(() => { load(); }, [load]);
 
   const filtered = incidents.filter((i) => statusFilter === 'all' || i.status === statusFilter);
+  const { paginatedItems: paginatedIncidents, paginationProps } = usePagination(filtered, 10);
 
   return (
     <div className="space-y-6">
@@ -152,7 +156,7 @@ export default function VorfallmanagementPage() {
             key={s}
             onClick={() => setStatusFilter(s)}
             className={`rounded-full px-3 py-1 text-xs font-medium border transition-colors ${
-              statusFilter === s ? 'bg-[#1e3a5f] text-white border-[#1e3a5f]' : 'bg-card text-muted-foreground border-border hover:bg-muted'
+              statusFilter === s ? 'bg-primary text-white border-primary' : 'bg-card text-muted-foreground border-border hover:bg-muted'
             }`}
           >
             {s === 'all' ? 'Alle' : INCIDENT_STATUS_LABELS[s]}
@@ -167,7 +171,7 @@ export default function VorfallmanagementPage() {
             Keine Vorfälle gefunden.
           </div>
         ) : (
-          filtered.map((inc) => (
+          paginatedIncidents.map((inc) => (
             <button
               key={inc.id}
               onClick={() => setSelectedIncident(inc)}
@@ -216,9 +220,8 @@ export default function VorfallmanagementPage() {
             </button>
           ))
         )}
+        <Pagination {...paginationProps} />
       </div>
-
-      {/* Wizard Modal */}
       {showWizard && (
         <IncidentWizard
           onClose={() => setShowWizard(false)}
@@ -612,7 +615,7 @@ function IncidentDetailPanel({
                     className={`rounded-full px-3 py-1 text-[11px] font-medium whitespace-nowrap ${
                       idx <= currentIdx
                         ? idx === currentIdx
-                          ? 'bg-[#1e3a5f] text-white'
+                          ? 'bg-primary text-white'
                           : 'bg-green-100 text-green-700'
                         : 'bg-muted text-muted-foreground'
                     }`}
@@ -630,7 +633,7 @@ function IncidentDetailPanel({
               <button
                 onClick={advanceStatus}
                 disabled={updatingStatus}
-                className="mt-2 rounded-lg bg-[#1e3a5f] px-4 py-2 text-sm font-medium text-white hover:bg-[#2a4f7f] disabled:opacity-50"
+                className="mt-2 rounded-lg bg-primary px-4 py-2 text-sm font-medium text-white hover:bg-primary/80 disabled:opacity-50"
               >
                 → {INCIDENT_STATUS_LABELS[statusFlow[currentIdx + 1]]}
               </button>
@@ -720,7 +723,7 @@ function IncidentDetailPanel({
             <div className="relative border-l-2 border-border ml-3 space-y-4">
               {incident.timeline.map((entry) => (
                 <div key={entry.id} className="relative pl-6">
-                  <div className="absolute left-[-7px] top-1 w-3 h-3 rounded-full bg-[#1e3a5f] border-2 border-white" />
+                  <div className="absolute left-[-7px] top-1 w-3 h-3 rounded-full bg-primary border-2 border-white" />
                   <div className="text-xs text-muted-foreground">
                     {new Date(entry.timestamp).toLocaleString('de-DE')} — {entry.user}
                   </div>
@@ -766,7 +769,7 @@ function DeadlineCard({ label, sublabel, deadline }: { label: string; sublabel: 
 function TemplateButton({ label, description }: { label: string; description: string }) {
   return (
     <button className="flex items-center gap-3 rounded-lg border p-3 text-left hover:bg-muted transition-colors">
-      <FileText className="h-5 w-5 text-[#1e3a5f] shrink-0" />
+      <FileText className="h-5 w-5 text-primary shrink-0" />
       <div className="min-w-0">
         <p className="text-sm font-medium">{label}</p>
         <p className="text-xs text-muted-foreground">{description}</p>

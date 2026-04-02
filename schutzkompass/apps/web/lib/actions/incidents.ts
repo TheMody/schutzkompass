@@ -1,19 +1,12 @@
 'use server';
 
+import { INCIDENT_CATEGORY_LABELS, INCIDENT_STATUS_LABELS } from '@/lib/constants/incidents';
+import type { IncidentCategory, IncidentSeverity, IncidentStatus } from '@/lib/constants/incidents';
+import { createNotification } from './notifications';
+
 // ── Types ──────────────────────────────────────────────────────────
 
-export type IncidentCategory =
-  | 'ransomware'
-  | 'phishing'
-  | 'unauthorized_access'
-  | 'data_breach'
-  | 'ddos'
-  | 'ot_compromise'
-  | 'product_vulnerability'
-  | 'other';
-
-export type IncidentSeverity = 'critical' | 'major' | 'minor' | 'informational';
-export type IncidentStatus = 'detected' | 'reported' | 'analyzing' | 'containing' | 'resolved' | 'closed';
+export type { IncidentCategory, IncidentSeverity, IncidentStatus };
 
 export interface Incident {
   id: string;
@@ -53,46 +46,6 @@ export interface CreateIncidentInput {
   isReportable: boolean;
   isCraReportable: boolean;
 }
-
-// ── Labels ─────────────────────────────────────────────────────────
-
-export const INCIDENT_CATEGORY_LABELS: Record<IncidentCategory, string> = {
-  ransomware: 'Ransomware / Schadsoftware',
-  phishing: 'Phishing-Angriff',
-  unauthorized_access: 'Unbefugter Zugriff',
-  data_breach: 'Datenverlust / Datenleck',
-  ddos: 'DDoS-Angriff',
-  ot_compromise: 'OT/Produktionssystem kompromittiert',
-  product_vulnerability: 'Schwachstelle in eigenem Produkt (CRA)',
-  other: 'Sonstiger Vorfall',
-};
-
-export const INCIDENT_SEVERITY_LABELS: Record<IncidentSeverity, string> = {
-  critical: 'Kritisch',
-  major: 'Schwerwiegend',
-  minor: 'Gering',
-  informational: 'Informativ',
-};
-
-export const INCIDENT_STATUS_LABELS: Record<IncidentStatus, string> = {
-  detected: 'Erkannt',
-  reported: 'Gemeldet',
-  analyzing: 'In Analyse',
-  containing: 'Eindämmung',
-  resolved: 'Behoben',
-  closed: 'Geschlossen',
-};
-
-export const INCIDENT_CATEGORY_ICONS: Record<IncidentCategory, string> = {
-  ransomware: '🦠',
-  phishing: '📧',
-  unauthorized_access: '🔓',
-  data_breach: '💾',
-  ddos: '🌐',
-  ot_compromise: '🏭',
-  product_vulnerability: '🔧',
-  other: '❓',
-};
 
 // ── In-Memory Store ────────────────────────────────────────────────
 
@@ -185,6 +138,15 @@ export async function createIncident(input: CreateIncidentInput): Promise<Incide
       : undefined,
   };
   incidents = [...incidents, incident];
+
+  // Create notification
+  await createNotification({
+    title: 'Neuer Sicherheitsvorfall',
+    message: `Vorfall "${input.title}" wurde erfasst (Kategorie: ${INCIDENT_CATEGORY_LABELS[input.category]}).`,
+    icon: 'alert',
+    category: 'incident',
+  });
+
   return incident;
 }
 

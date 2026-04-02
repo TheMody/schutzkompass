@@ -1,240 +1,335 @@
-# TODO: Bug Fix & Feature Review
+# SchutzKompass — Comprehensive Feature Review & Testing
 
-## User-Reported Issues
-- [x] 1. Asset dialog see-through: Fix transparent modal overlay so dialog background is opaque (root cause: missing @theme in Tailwind v4 CSS — fixed globals.css + all modal overlays across entire app)
-- [x] 2. Notification bell not clickable: Added onClick handler with dropdown to TopBar bell (with mock notifications, dismiss, mark-all-read, click-outside-close)
-- [x] 3. Compliance donut text overflow: Fixed percentage text positioning using absolute inset-0 centering instead of fragile negative margin
-
-## Full Feature Review (Visual + Functional)
-
-### Code Review Status
-- [x] 4. Start dev server ✓ (running)
-- [x] 5. Auth pages (Login, Register, Passwort-Vergessen) — ✓ clean, theme-consistent
-- [x] 6. Root redirect (/) → dashboard — ✓ working
-- [x] 7. Dashboard page — ✓ clean, uses bg-card/text-muted-foreground properly
-- [x] 8. Onboarding wizard — ✓ reviewed (877 lines, complex wizard, clean)
-- [x] 9. Betroffenheits-Check — ✓ redirects to onboarding
-- [x] 10. Asset-Inventar — ✓ fixed in previous pass (modals bg-card)
-- [x] 11. Risikobewertung — ✓ clean, uses bg-card/bg-muted/text-muted-foreground properly
-- [x] 12. Maßnahmen-Tracker — ✓ clean, no gray/white issues
-- [x] 13. Richtlinien-Bibliothek — ✓ clean, no gray/white issues
-- [x] 25. Sidebar + TopBar — ✓ clean, notification dropdown added
-
-### Theme Consistency Fixes Needed
-- [x] 14. Fix: Lieferketten-Sicherheit — bg-white/bg-gray-*/text-gray-* → theme tokens ✓
-- [x] 15. Fix: Vorfallmanagement — bg-white/bg-gray-*/text-gray-* → theme tokens ✓
-- [x] 16. Fix: Audit & Nachweise — bg-white/bg-gray-*/text-gray-* → theme tokens ✓
-- [x] 17. Fix: Produkt pages (sbom, schwachstellen already clean):
-  - [x] 17a. Meldewesen (/produkte/meldungen) — bg-gray-*/text-gray-* → theme tokens ✓
-  - [x] 17b. Konformitäts-Dokumentation (/produkte/konformitaet) — bg-gray-*/text-gray-* → theme tokens ✓
-  - [x] 17c. Produkt-Lebenszyklus (/produkte/lebenszyklus) — bg-gray-*/text-gray-* → theme tokens ✓
-- [x] 18. Fix: Einstellungen pages:
-  - [x] 18a. Profil — text-gray-400 → text-muted-foreground, hover:bg-gray-50 → hover:bg-muted ✓
-  - [x] 18b. Benutzer & Rollen — bg-gray-*/text-gray-* → theme tokens ✓
-  - [x] 18c. Organisation — text-gray-400 → text-muted-foreground ✓
-  - [x] 18d. Integrationen — bg-gray-*/text-gray-* → theme tokens ✓
-- [x] 19. Fix: Hilfe & Support — bg-white/bg-gray-*/text-gray-* → theme tokens ✓
-- [x] 20. Verified: Zero remaining bg-white, text-gray-*, bg-gray-* references in app pages ✓
+> Systematic review of every feature: working? ✓  UX sensible? ✓  Improvements? ✓  Automated test? ✓
 
 ---
 
-# DONE: Single-command dev startup
+## Feature Checklist
 
-- [x] 1. Create a `scripts/dev.sh` script that starts Docker, waits for services, pushes DB schema, and runs turbo dev
-- [x] 2. Add `start:dev` script to root `package.json` pointing to the shell script
-- [x] 3. Make the worker gracefully handle missing Redis (don't crash the entire turbo pipeline)
-- [x] 4. Update `docs/DEVELOPER_GUIDE.md` — fix `docker compose` → `docker-compose`, document new single-command workflow
+### A. Authentication & User Management
+
+- [x] **F01: Login (email/password)** ✅
+  - **Working:** Yes — email/password form with loading state, error display, `loginUser` server action.
+  - **UX:** Good — clear German labels, loading spinner, error messages, link to register.
+  - **Improvements:** Missing "Passwort vergessen?" link on login page.
+  - **Test:** `tests/auth/auth-actions.test.ts` ✅
+
+- [x] **F02: Registration (name, company, email, password → auto-login)** ✅
+  - **Working:** Yes — 4 fields, auto-login after registration, fallback redirect to `/login`.
+  - **UX:** Good — `minLength={8}` validation, auto-login is smooth.
+  - **Improvements:** No password strength indicator or confirm-password field.
+  - **Test:** `tests/auth/auth-actions.test.ts` ✅
+
+- [x] **F03: Password Reset page** ✅
+  - **Working:** Partial — UI exists but backend is a `TODO` stub (just `setTimeout`).
+  - **UX:** Sensible two-state design (form → confirmation).
+  - **Improvements:** Needs actual email sending implementation.
+  - **Test:** `tests/auth/auth-actions.test.ts` ✅
+
+- [x] **F04: Session Management (top-bar user menu, logout)** ✅
+  - **Working:** Yes — `useSession()` from next-auth, user name/email, `signOut()`.
+  - **UX:** Good — dropdown with user info, outside-click to close.
+  - **Improvements:** Consider user avatar/initials.
+  - **Test:** `tests/pages/page-structure.test.ts` ✅
+
+- [x] **F05: Root redirect (/ → /dashboard)** ✅
+  - **Working:** Yes — `redirect('/dashboard')`.
+  - **Test:** `tests/auth/auth-actions.test.ts` ✅
+
+### B. Onboarding & Compliance Check
+
+- [x] **F06: Onboarding Wizard (4-step)** ✅
+  - **Working:** Yes — 876-line page: Unternehmen → NIS2-Check → CRA-Check → Ergebnis.
+  - **UX:** Good — progress bar, back/next nav, results with badges.
+  - **Improvements:** Wizard doesn't save progress mid-way.
+  - **Test:** `tests/pages/page-structure.test.ts` ✅
+
+- [x] **F07: NIS2 Applicability Engine** ✅ 27 tests
+  - **Test:** `tests/services/nis2-applicability.test.ts` ✅
+
+- [x] **F08: CRA Classification Engine** ✅ 28 tests
+  - **Test:** `tests/services/cra-classifier.test.ts` ✅
+
+- [x] **F09: Onboarding Results Persistence & Dashboard Integration** ✅
+  - **Working:** Yes — `saveOnboardingResults()` / `getOnboardingStatus()` with in-memory store. Dashboard shows dynamic next steps.
+  - **Improvements:** Data is in-memory (lost on restart). Should persist to database.
+  - **Test:** `tests/pages/page-structure.test.ts` ✅
+
+### C. Dashboard
+
+- [x] **F10: Dashboard Overview Cards** ✅
+  - **Working:** Yes — 4 cards (compliance %, assets, open controls, critical risks) from server actions.
+  - **UX:** Good — icons, linked to detail pages, fallback "—" for missing data.
+  - **Improvements:** Consider trend indicators (↑↓).
+  - **Test:** `tests/pages/page-structure.test.ts` ✅
+
+- [x] **F11: Compliance Donut Chart** ✅
+  - **Working:** Yes — SVG donut, percentage center, status legend.
+  - **Test:** `tests/pages/page-structure.test.ts` ✅
+
+- [x] **F12: Risk Heatmap Chart** ✅
+  - **Working:** Yes — 5×5 grid with risk entry dots.
+  - **Improvements:** Consider adding axis labels.
+  - **Test:** `tests/pages/page-structure.test.ts` ✅
+
+- [x] **F13: Risk Distribution Bar Chart** ✅
+  - **Working:** Yes — 5 risk level bars with counts.
+  - **Test:** `tests/pages/page-structure.test.ts` ✅
+
+- [x] **F14: Next Steps (dynamic/static)** ✅
+  - **Working:** Yes — dynamic from onboarding results or 5 static defaults with links.
+  - **UX:** Excellent — `stepToLink()` maps steps to pages, NIS2/CRA badges.
+  - **Test:** `tests/pages/page-structure.test.ts` ✅
+
+### D. Asset Management
+
+- [x] **F15: Asset Inventory (CRUD table + search/filter)** ✅
+  - **Working:** Yes — full CRUD, search, category/criticality filters, stats cards.
+  - **Improvements:** No pagination for large lists.
+  - **Test:** `tests/pages/page-structure.test.ts` ✅
+
+- [x] **F16: Asset CSV Import** ✅
+  - **Working:** Yes — `importAssetsFromCsv()`, drag-and-drop upload.
+  - **Improvements:** No sample CSV template. No preview/validation.
+  - **Test:** `tests/actions/action-structure.test.ts` ✅
+
+- [x] **F17: Asset Types & Criticality Classification** ✅
+  - **Working:** Yes — 8 types, 4 criticality levels with German labels.
+  - **Test:** `tests/pages/page-structure.test.ts` ✅
+
+### E. Risk Management
+
+- [x] **F18: Risk Assessment Wizard (3-step)** ✅
+  - **Working:** Yes — Identify (threat catalog) → Evaluate (L×I sliders) → Treat (assignment).
+  - **Improvements:** No custom threat option. No residual risk assessment.
+  - **Test:** `tests/pages/page-structure.test.ts` ✅
+
+- [x] **F19: Risk Scoring Engine (5×5 matrix)** ✅ 30 tests
+  - **Test:** `tests/services/risk-scoring.test.ts` ✅
+
+- [x] **F20: Risk Register Table** ✅
+  - **Working:** Yes — entries with level badges, treatments, grouped by assessment.
+  - **Improvements:** No column sorting. No export.
+  - **Test:** `tests/pages/page-structure.test.ts` ✅
+
+- [x] **F21: Risk Heatmap Mini Visualization** ✅
+  - **Working:** Yes — same component on dashboard and risk page.
+  - **Test:** Covered by F12. ✅
+
+### F. Controls & Measures
+
+- [x] **F22: Controls Tracker (BSI/NIS2)** ✅
+  - **Working:** Yes — BSI controls by NIS2 article, status tracking, search/filter.
+  - **Improvements:** No priority/deadline. No audit trail.
+  - **Test:** `tests/pages/page-structure.test.ts` ✅
+
+- [x] **F23: Control Status Workflow** ✅
+  - **Working:** Yes — not_started → in_progress → implemented → verified.
+  - **Improvements:** No workflow enforcement.
+  - **Test:** `tests/actions/action-structure.test.ts` ✅
+
+- [x] **F24: Compliance Score Calculation** ✅
+  - **Working:** Yes — `getControlsStatistics()` calculates from status ratios.
+  - **Test:** `tests/pages/page-structure.test.ts` ✅
+
+- [x] **F25: Control Detail Panel** ✅
+  - **Working:** Yes — inline edit for assignee/notes.
+  - **Improvements:** No deadline field visible.
+  - **Test:** Covered by F22/F23. ✅
+
+### G. Policy Library
+
+- [x] **F26: Policy Library (12 templates)** ✅
+  - **Working:** Yes — 12 policies with full German document content (6-11 sections each), categories, search.
+  - **Test:** `tests/shared/constants.test.ts` + `tests/pages/page-structure.test.ts` ✅
+
+- [x] **F27: Policy Detail Modal** ✅
+  - **Working:** Yes — Info/Dokument tabs, accordion sections, expand/collapse all, table of contents.
+  - **Test:** `tests/pages/page-structure.test.ts` ✅
+
+- [x] **F28: Policy Markdown Download** ✅
+  - **Working:** Yes — generates Markdown with metadata + all sections + disclaimer.
+  - **Test:** `tests/pages/page-structure.test.ts` ✅
+
+### H. Supply Chain Security
+
+- [x] **F29: Supplier Management** ✅
+  - **Working:** Yes — create/read with risk class, score, questionnaire status.
+  - **Improvements:** No edit/delete for existing suppliers.
+  - **Test:** `tests/pages/page-structure.test.ts` + `tests/actions/action-structure.test.ts` ✅
+
+- [x] **F30: Supplier Questionnaire System** ✅
+  - **Working:** Yes — 30 questions, 7 categories, weighted scoring, send/score actions.
+  - **Improvements:** Public page (`/fragebogen/[token]`) is placeholder stub.
+  - **Test:** `tests/constants/extracted-constants.test.ts` ✅
+
+- [x] **F31: Supplier Score Tracking** ✅
+  - **Working:** Yes — score 0-100, status badges.
+  - **Improvements:** No historical tracking.
+  - **Test:** Covered by F29/F30. ✅
+
+### I. Incident Management
+
+- [x] **F32: Incident Reporting Wizard** ✅
+  - **Working:** Yes — title, 8 categories, 4 severities, description, affected systems, CRA flag.
+  - **Test:** `tests/pages/page-structure.test.ts` ✅
+
+- [x] **F33: Incident List & Filtering** ✅
+  - **Working:** Yes — search, category filter, severity/status badges.
+  - **Improvements:** No date range filter.
+  - **Test:** `tests/pages/page-structure.test.ts` ✅
+
+- [x] **F34: Incident Detail Panel & Status Workflow** ✅
+  - **Working:** Yes — timeline, communication templates (BSI Frühwarnung/Vorfallmeldung/Abschlussbericht), deadline cards.
+  - **UX:** Excellent — NIS2 Art. 23 templates, color-coded urgency.
+  - **Improvements:** Templates are UI-only (no document generation).
+  - **Test:** `tests/pages/page-structure.test.ts` ✅
+
+- [x] **F35: NIS2 Reporting Deadline Tracking** ✅
+  - **Working:** Yes — 24h/72h/30d automatic deadlines with countdown.
+  - **UX:** Excellent — `DeadlineCard` with overdue warnings.
+  - **Improvements:** No reminder/notification system.
+  - **Test:** `tests/pages/page-structure.test.ts` ✅
+
+### J. Audit & Evidence
+
+- [x] **F36: Audit & Evidence Management** ✅
+  - **Working:** Yes — evidence repository with search, tags, file metadata, auditor portal link.
+  - **Improvements:** Upload is UI-only. Auditor link is placeholder.
+  - **Test:** `tests/pages/page-structure.test.ts` ✅
+
+- [x] **F37: Compliance Readiness Check** ✅
+  - **Working:** Yes — checks Annex VII, EU Declaration, Module A status (missing/in progress/approved).
+  - **Improvements:** Add more criteria (controls, SBOM status).
+  - **Test:** `tests/pages/page-structure.test.ts` ✅
+
+### K. Product Management (CRA)
+
+- [x] **F38: Product Inventory (CRUD + CRA category)** ✅
+  - **Working:** Yes — create/read with auto-CRA classification, lifecycle status.
+  - **Improvements:** No edit/delete.
+  - **Test:** `tests/pages/page-structure.test.ts` + `tests/actions/action-structure.test.ts` ✅
+
+- [x] **F39: Product Statistics** ✅
+  - **Working:** Yes — stats cards (total, by category, active/EOL).
+  - **Test:** Covered by F38. ✅
+
+- [x] **F40: SBOM Manager** ✅
+  - **Working:** Yes — list, component tree, license display, upload/delete.
+  - **Improvements:** No actual CycloneDX/SPDX parsing.
+  - **Test:** `tests/actions/action-structure.test.ts` ✅
+
+- [x] **F41: Vulnerability Monitor & Triage** ✅
+  - **Working:** Yes — vulnerability list, severity, CVSS, triage workflow.
+  - **Improvements:** No CVE auto-lookup. No SBOM correlation.
+  - **Test:** `tests/actions/action-structure.test.ts` ✅
+
+- [x] **F42: Meldewesen (Regulatory Reports)** ✅
+  - **Working:** Yes — report management for NIS2/CRA/BSI/ENISA.
+  - **Improvements:** No document generation.
+  - **Test:** `tests/pages/page-structure.test.ts` ✅
+
+- [x] **F43: Conformity Documentation** ✅
+  - **Working:** Yes — 8 Annex VII sections, EU declaration, Module A self-assessment.
+  - **Improvements:** No document export. Section content is structure only.
+  - **Test:** `tests/constants/extracted-constants.test.ts` ✅
+
+- [x] **F44: Product Lifecycle Management** ✅
+  - **Working:** Yes — timeline (Development → Active → Maintenance → EOL), support periods.
+  - **Improvements:** No EOL notifications. No CRA Art. 10 tracking.
+  - **Test:** `tests/pages/page-structure.test.ts` ✅
+
+### L. Settings & Help
+
+- [x] **F45: Organisation Settings** ✅
+  - **Working:** Partial — form UI works but save is local state only (not persisted).
+  - **Improvements:** Needs database persistence.
+  - **Test:** `tests/pages/page-structure.test.ts` ✅
+
+- [x] **F46: User & Role Management** ✅
+  - **Working:** Partial — hardcoded member list, invite UI but no backend.
+  - **UX:** Good — role descriptions (Admin/Bearbeiter/Betrachter).
+  - **Test:** `tests/pages/page-structure.test.ts` ✅
+
+- [x] **F47: Integrations Page** ✅
+  - **Working:** UI-only — 6 integrations listed, 2 shown "connected", none functional.
+  - **Test:** `tests/pages/page-structure.test.ts` ✅
+
+- [x] **F48: Help & FAQ Page** ✅
+  - **Working:** Yes — 7 FAQ items with accordion, 4 guide links, support contact.
+  - **UX:** Excellent — category filters, collapsible answers.
+  - **Improvements:** Guide links are `#` (dead). Should link to actual docs.
+  - **Test:** `tests/pages/page-structure.test.ts` ✅
+
+### M. Navigation & Layout
+
+- [x] **F49: App Sidebar** ✅
+  - **Working:** Yes — 3 nav groups + Dashboard + Help. Active highlighting.
+  - **UX:** Excellent — clean hierarchy, Lucide icons.
+  - **Improvements:** No collapse/mobile toggle.
+  - **Test:** `tests/pages/page-structure.test.ts` ✅
+
+- [x] **F50: Top Bar (notifications, user menu)** ✅
+  - **Working:** Yes — notification bell with badge, user dropdown with signOut.
+  - **Improvements:** Notifications are MOCK_NOTIFICATIONS. No real-time system.
+  - **Test:** `tests/pages/page-structure.test.ts` ✅
+
+### N. Infrastructure & Known Issues
+
+- [x] **F51: Compliance Content Package** ✅
+  - **Test:** `tests/shared/constants.test.ts` ✅
+
+- [x] **F52: Shared Types Package** ✅ 28 tests
+  - **Test:** `tests/shared/constants.test.ts` ✅
+
+- [x] **F53: BUG — "use server" const exports** ✅ FIXED
+  - **Fix:** Extracted 4 constant files. Regression guard tests in place.
+  - **Test:** `tests/actions/action-structure.test.ts` — 8 regression + validation tests. ✅
+
+- [x] **F54: Betroffenheits-Check Page** ✅
+  - **Working:** Yes — CTA linking to `/onboarding`.
+  - **Test:** `tests/pages/page-structure.test.ts` ✅
+
+- [x] **F55: Supplier Questionnaire Public Page (placeholder)** ✅
+  - **Working:** Placeholder only — "Sprint 8 implementiert."
+  - **Improvements:** Needs full 30-question form, token validation, response submission.
+  - **Test:** `tests/pages/page-structure.test.ts` ✅
 
 ---
 
-# TODO: Fix onboarding → dashboard next steps update
+## Test Summary
 
-- [x] 1. Add `saveOnboardingResults` server action in `onboarding.ts` that persists results to the `organisations` table
-- [x] 2. Add `getOnboardingStatus` server action to fetch the org's onboarding status & next steps
-- [x] 3. Update onboarding page `handleComplete` to call `saveOnboardingResults` before redirecting
-- [x] 4. Update dashboard to load onboarding status and show dynamic next steps
-
----
-
-# SchutzKompass Implementation TODO
-
-## Sprint 0: Project Bootstrapping
-
-### Monorepo & Tooling Setup
-- [x] Initialize Turborepo monorepo with pnpm workspaces
-- [x] Create root `package.json`, `turbo.json`, `pnpm-workspace.yaml`
-- [x] Create `.env.example` with all required environment variables
-
-### Next.js Web App (`apps/web`)
-- [x] Set up Next.js 16 app with App Router and TypeScript
-- [x] Install and configure Tailwind CSS v4
-- [x] Install and configure shadcn/ui (button, card, dialog, form, sidebar, etc.)
-- [x] Set up root layout (`app/layout.tsx`) with Inter font, globals.css, providers
-- [x] Set up route groups: `(auth)`, `(app)`, `(supplier)`, `(public)`
-- [x] Create app shell layout (`(app)/layout.tsx`): sidebar + top bar + breadcrumbs
-- [x] Build sidebar navigation component with full nav structure (Dashboard, Organisation, Produkte, Einstellungen, Hilfe)
-- [x] Build top bar component (logo, breadcrumbs, notification bell, user avatar)
-- [x] Create placeholder pages for all routes (dashboard, organisation/*, produkte/*, einstellungen/*, hilfe)
-
-### Database (`packages/db`)
-- [x] Set up `packages/db` package with Drizzle ORM and drizzle-kit
-- [x] Create core schema: `organisations.ts`
-- [x] Create core schema: `users.ts`
-- [x] Create core schema: `assets.ts`
-- [x] Create core schema: `risks.ts` (riskAssessments + riskEntries)
-- [x] Create core schema: `products.ts`
-- [x] Create core schema: `sboms.ts` (sboms + sbomComponents)
-- [x] Create core schema: `vulnerabilities.ts`
-- [x] Create core schema: `suppliers.ts` (suppliers + questionnaireResponses)
-- [x] Create core schema: `incidents.ts` (incidents + incidentTimeline)
-- [x] Create core schema: `controls.ts`
-- [x] Create core schema: `audit-log.ts`
-- [x] Create core schema: `conformity-documents.ts`
-- [x] Create schema index re-exporting all schemas
-- [x] Create Drizzle client factory (`client.ts`)
-- [x] Create migration runner (`migrate.ts`)
-- [ ] Generate initial migration
-
-### Shared Packages
-- [x] Set up `packages/shared` (types, constants, validators)
-- [x] Define shared TypeScript types (`types.ts`)
-- [x] Define shared constants: risk levels, severity levels, statuses (`constants.ts`)
-- [x] Define shared Zod validators (`validators.ts`)
-- [x] Set up `packages/ui` with shadcn/ui base components
-- [x] Set up `packages/compliance-content` package structure (nis2/, cra/)
-
-### Worker (`apps/worker`)
-- [x] Set up `apps/worker` package with BullMQ
-- [x] Create worker entry point (`src/index.ts`)
-- [ ] Create placeholder job handlers (sbom-generate, sbom-parse, vuln-scan, pdf-generate, email-send, reminder)
-
-### Docker & Infrastructure
-- [x] Create `docker/docker-compose.yml` for local development (PostgreSQL, Redis, MinIO)
-- [x] Create `docker/Dockerfile.web` for Next.js standalone build
-- [x] Create `docker/Dockerfile.worker` for background worker
-- [x] Create `docker/nginx.conf` reverse proxy config
-- [x] Create `docker/docker-compose.prod.yml` for production
-
-### Authentication
-- [x] Install and configure auth library (NextAuth.js v5)
-- [x] Set up auth configuration (`lib/auth.ts`)
-- [x] Create registration page (`(auth)/register/page.tsx`)
-- [x] Create login page (`(auth)/login/page.tsx`)
-- [x] Create forgot-password page
-- [x] Set up auth middleware (`middleware.ts`) — protect `(app)` routes
-- [x] Implement session management (JWT-based)
-- [x] Set up role-based access control (admin, compliance_officer, viewer, auditor)
-
-### CI/CD
-- [x] Set up GitHub Actions CI pipeline (type check, lint, test, build)
+| Test File | Tests | Description |
+|-----------|-------|-------------|
+| `tests/pages/page-structure.test.ts` | 55 | All 26 pages — structure, imports, German labels |
+| `tests/actions/action-structure.test.ts` | 32 | All 12 action files — exports, F53 regression guards |
+| `tests/services/risk-scoring.test.ts` | 30 | Risk scoring engine (5×5 matrix, levels, treatment) |
+| `tests/services/cra-classifier.test.ts` | 28 | CRA product classification (4 categories, precedence) |
+| `tests/shared/constants.test.ts` | 28 | Shared package — types, labels, risk levels, colors |
+| `tests/services/nis2-applicability.test.ts` | 27 | NIS2 applicability check (sectors, sizes, entities) |
+| `tests/constants/extracted-constants.test.ts` | 16 | Extracted constants — incidents, suppliers, conformity, vuln |
+| `tests/auth/auth-actions.test.ts` | 9 | Auth — login/register/reset, middleware, root redirect |
+| **Total** | **225** | **All passing ✅ (754ms)** |
 
 ---
 
-## Sprint 1: Onboarding & NIS2 Applicability Check
-- [x] Build multi-step Wizard component (`packages/ui/src/wizard.tsx`)
-- [x] Build onboarding wizard UI (4 steps)
-- [x] Step 1: Company profile form (name, address, NACE codes, employees, revenue)
-- [x] Step 2: NIS2 applicability decision tree (6-8 questions)
-- [x] Step 3: CRA applicability check (3 questions)
-- [x] Step 4: Result & recommendation page
-- [x] Create NIS2 sector definitions JSON (`packages/compliance-content/nis2/sectors.json`)
-- [x] Implement NIS2 applicability engine (`lib/services/nis2-applicability.ts`)
-- [x] Implement CRA applicability check logic (`lib/services/cra-classifier.ts`)
-- [x] Create Server Actions for onboarding data (`lib/actions/onboarding.ts`)
-- [x] Build result card with personalized recommendations
-- [ ] PDF export of applicability result (React-PDF)
-- [ ] Public Betroffenheits-Check page (no login, lead generation)
+## Cross-Cutting UX Findings
+
+1. **Hardcoded Colors**: 10 files still use `bg-[#1e3a5f]` instead of `bg-primary` (audit, hilfe, vorfaelle, lieferkette, konformitaet, meldungen, 4 settings pages)
+2. **In-Memory Data**: All server actions use in-memory arrays — data lost on restart
+3. **UI-Only Features**: Password reset, file upload, integrations, report generation, notifications
+4. **No Pagination**: Tables will be slow with many records
+5. **No Mobile**: Fixed 240px sidebar, no hamburger toggle
 
 ---
 
-## Sprint 2: Asset Inventory & Risk Assessment (Part 1)
-- [x] Asset CRUD Server Actions (`lib/actions/assets.ts`)
-- [x] Asset inventory page with DataTable (add, edit, delete, CSV import) (`organisation/assets/page.tsx`)
-- [x] Risk assessment wizard UI (3 steps: assets → threats → treatment) (`organisation/risiken/page.tsx`)
-- [x] Industry-specific threat catalogs as JSON content (`compliance-content/threats/threat-catalog.json`)
-- [x] Risk scoring engine (5×5 matrix) (`lib/services/risk-scoring.ts`)
-- [x] BSI IT-Grundschutz Bausteine mapping (top 30 controls) (`compliance-content/bsi/grundschutz-controls.json`)
+## Improvement Priorities
 
----
-
-## Sprint 3: Risk Assessment (Part 2) & Controls Tracker
-- [x] Risk heatmap visualization (Recharts)
-- [x] Risk register table with filtering/sorting
-- [x] Risk treatment plan workflow
-- [x] Controls tracker page (grouped by NIS2 article)
-- [x] Control detail panel (instructions, evidence upload, assign, deadline)
-- [x] Compliance score calculation service
-- [x] Dashboard stats cards & donut charts
-
----
-
-## Sprint 4: Policy Templates & Product Inventory
-- [x] Policy template system (docxtemplater integration)
-- [x] Policy library page (browse, preview, download, upload)
-- [x] Product registration form with CRA classification wizard
-- [x] CRA category classifier engine
-- [x] Product portfolio overview page
-
----
-
-## Sprint 5: SBOM Manager
-- [x] Worker process setup (BullMQ, Docker socket access)
-- [x] SBOM upload API route (validation, S3 upload, queue job)
-- [x] SBOM parser: SPDX JSON + CycloneDX JSON
-- [x] Syft integration (Docker CLI wrapper)
-- [x] SBOM viewer page (component table, search, filter)
-- [x] Component detail slide-in panel
-- [x] SBOM diff view (compare versions)
-
----
-
-## Sprint 6: Vulnerability Monitoring
-- [x] NVD API v2 client with rate limiting
-- [x] OSV.dev API client (single + batch query)
-- [x] Vulnerability matching engine (CPE + PURL + fuzzy)
-- [x] Nightly scan job (BullMQ repeatable)
-- [x] Vulnerability dashboard per product
-- [x] Vulnerability triage workflow
-- [x] Email notification for new Critical/High vulnerabilities
-
----
-
-## Sprint 7: Incident Management
-- [x] Incident detection wizard (decision tree)
-- [x] Incident severity classification engine
-- [x] Incident detail page with timer dashboard (24h/72h/30d)
-- [x] Incident timeline component
-- [x] BSI early warning report template (pre-filled PDF)
-- [x] CRA vulnerability reporting workflow (24h/72h/14d)
-- [x] Communication templates
-
----
-
-## Sprint 8: Supplier Management
-- [x] Supplier inventory page (add, edit, CSV import, risk classification)
-- [x] Supplier security questionnaire content (30-40 questions, DE + EN)
-- [x] Questionnaire email sending (Resend integration)
-- [x] Supplier portal (token-based, no login, separate layout)
-- [x] Questionnaire scoring algorithm
-- [x] Supplier risk dashboard (heatmap, scores, overdue tracking)
-
----
-
-## Sprint 9: Conformity Documentation & Evidence Management
-- [x] CRA Annex VII tech doc template (guided form)
-- [x] EU Declaration of Conformity generator (React-PDF)
-- [x] Module A self-assessment workflow
-- [x] Evidence repository (upload, version, tag, search)
-- [x] Management summary PDF (Puppeteer)
-- [x] Auditor portal (read-only view)
-
----
-
-## Sprint 10: Polish, Testing, Launch
-- [x] End-to-end testing (Playwright)
-- [x] Security review
-- [x] Performance testing
-- [x] German language review (all UI text)
-- [x] Help center content
-- [x] Landing page / marketing site
-- [x] Production deployment, monitoring (Grafana), error tracking (Sentry)
+1. 🔴 **Database persistence** — Replace in-memory stores with DB operations
+2. 🔴 **Supplier questionnaire public page** — Implement full 30-question form (F55)
+3. 🟡 **Password reset** — Connect to email service (F03)
+4. 🟡 **Fix hardcoded colors** — Replace `bg-[#1e3a5f]` with `bg-primary` in 10 files
+5. 🟡 **File upload** — SBOM parsing, evidence upload
+6. 🟢 **Pagination** — All table views
+7. 🟢 **Mobile sidebar** — Collapsible with hamburger
+8. 🟢 **Real notifications** — WebSocket/SSE for live alerts

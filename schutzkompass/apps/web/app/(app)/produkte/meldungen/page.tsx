@@ -12,6 +12,7 @@ import {
   Shield,
   Timer,
 } from 'lucide-react';
+import { Pagination, usePagination } from '@/components/shared/pagination';
 
 // ── Types ──────────────────────────────────────────────────────────
 
@@ -109,6 +110,7 @@ function timeLeft(deadline: string): { text: string; urgent: boolean; overdue: b
 export default function MeldungenPage() {
   const [reports] = useState<Report[]>(sampleReports);
   const [selectedReport, setSelectedReport] = useState<Report | null>(null);
+  const { paginatedItems: paginatedReports, paginationProps } = usePagination(reports, 10);
 
   const pendingCount = reports.filter((r) => r.status === 'pending' || r.status === 'draft').length;
   const submittedCount = reports.filter((r) => r.status === 'submitted' || r.status === 'acknowledged').length;
@@ -179,7 +181,7 @@ export default function MeldungenPage() {
       <div>
         <h2 className="text-lg font-semibold mb-3">Meldungen</h2>
         <div className="space-y-3">
-          {reports.map((r) => {
+          {paginatedReports.map((r) => {
             const tl = timeLeft(r.deadline);
             return (
               <button
@@ -225,6 +227,7 @@ export default function MeldungenPage() {
             );
           })}
         </div>
+        <Pagination {...paginationProps} />
       </div>
 
       {/* Detail Panel */}
@@ -292,7 +295,7 @@ export default function MeldungenPage() {
               </div>
 
               <div className="flex gap-2">
-                <button className="flex-1 rounded-lg bg-[#1e3a5f] px-4 py-2 text-sm font-medium text-white hover:bg-[#2a4f7f] flex items-center justify-center gap-2">
+                <button className="flex-1 rounded-lg bg-primary px-4 py-2 text-sm font-medium text-white hover:bg-primary/80 flex items-center justify-center gap-2">
                   <Send className="h-4 w-4" /> Als übermittelt markieren
                 </button>
                 <button className="rounded-lg border px-4 py-2 text-sm hover:bg-muted flex items-center gap-2">

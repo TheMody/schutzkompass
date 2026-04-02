@@ -4,10 +4,10 @@ import { useEffect, useState, useCallback } from 'react';
 import {
   getEvidenceItems,
   getConformityDocuments,
-  DOCUMENT_STATUS_LABELS,
   type Evidence,
   type ConformityDocument,
 } from '@/lib/actions/conformity';
+import { DOCUMENT_STATUS_LABELS } from '@/lib/constants/conformity';
 import {
   Search,
   Download,
@@ -19,6 +19,7 @@ import {
   Eye,
   Upload,
 } from 'lucide-react';
+import { Pagination, usePagination } from '@/components/shared/pagination';
 
 export default function AuditNachweisePage() {
   const [evidence, setEvidence] = useState<Evidence[]>([]);
@@ -41,6 +42,8 @@ export default function AuditNachweisePage() {
     if (search && !e.title.toLowerCase().includes(search.toLowerCase()) && !e.linkedRequirement.toLowerCase().includes(search.toLowerCase())) return false;
     return true;
   });
+
+  const { paginatedItems: paginatedEvidence, paginationProps } = usePagination(filtered, 10);
 
   // Compliance readiness check
   const requiredDocs = ['annex_vii_techdoc', 'eu_declaration', 'module_a_assessment'];
@@ -66,7 +69,7 @@ export default function AuditNachweisePage() {
             Nachweise verwalten, Audit-Bereitschaft prüfen und Auditor-Ansicht vorbereiten.
           </p>
         </div>
-        <button className="flex items-center gap-2 rounded-lg bg-[#1e3a5f] px-4 py-2 text-sm font-medium text-white hover:bg-[#2a4f7f]">
+        <button className="flex items-center gap-2 rounded-lg bg-primary px-4 py-2 text-sm font-medium text-white hover:bg-primary/80">
           <Upload className="h-4 w-4" /> Nachweis hochladen
         </button>
       </div>
@@ -75,7 +78,7 @@ export default function AuditNachweisePage() {
       <div className="rounded-lg border bg-card shadow-sm">
         <div className="border-b px-4 py-3">
           <h2 className="font-semibold flex items-center gap-2">
-            <Shield className="h-5 w-5 text-[#0d9488]" /> Audit-Bereitschaft
+            <Shield className="h-5 w-5 text-accent" /> Audit-Bereitschaft
           </h2>
         </div>
         <div className="p-4 space-y-3">
@@ -146,7 +149,7 @@ export default function AuditNachweisePage() {
             <button
               onClick={() => setFilterTag(null)}
               className={`rounded-full px-2.5 py-1 text-[11px] font-medium border transition-colors ${
-                filterTag === null ? 'bg-[#1e3a5f] text-white border-[#1e3a5f]' : 'bg-card text-muted-foreground border-border hover:bg-muted'
+                filterTag === null ? 'bg-primary text-white border-primary' : 'bg-card text-muted-foreground border-border hover:bg-muted'
               }`}
             >
               Alle
@@ -156,7 +159,7 @@ export default function AuditNachweisePage() {
                 key={tag}
                 onClick={() => setFilterTag(tag)}
                 className={`rounded-full px-2.5 py-1 text-[11px] font-medium border transition-colors ${
-                  filterTag === tag ? 'bg-[#1e3a5f] text-white border-[#1e3a5f]' : 'bg-card text-muted-foreground border-border hover:bg-muted'
+                  filterTag === tag ? 'bg-primary text-white border-primary' : 'bg-card text-muted-foreground border-border hover:bg-muted'
                 }`}
               >
                 {tag}
@@ -172,7 +175,7 @@ export default function AuditNachweisePage() {
               Keine Nachweise gefunden.
             </div>
           ) : (
-            filtered.map((ev) => (
+            paginatedEvidence.map((ev) => (
               <div key={ev.id} className="rounded-lg border bg-card p-4 flex items-center justify-between hover:shadow-sm transition-shadow">
                 <div className="flex items-center gap-3 min-w-0">
                   <File className="h-8 w-8 text-muted-foreground/50 shrink-0" />
@@ -202,6 +205,7 @@ export default function AuditNachweisePage() {
             ))
           )}
         </div>
+        <Pagination {...paginationProps} />
       </div>
     </div>
   );

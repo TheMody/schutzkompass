@@ -6,12 +6,14 @@ import {
   getConformityStatistics,
   getEvidenceItems,
   updateDocumentStatus,
-  DOCUMENT_TYPE_LABELS,
-  DOCUMENT_STATUS_LABELS,
   type ConformityDocument,
-  type DocumentStatus,
   type Evidence,
 } from '@/lib/actions/conformity';
+import {
+  DOCUMENT_TYPE_LABELS,
+  DOCUMENT_STATUS_LABELS,
+  type DocumentStatus,
+} from '@/lib/constants/conformity';
 import {
   Award,
   FileText,
@@ -156,7 +158,7 @@ export default function KonformitaetPage() {
           <button
             onClick={() => setActiveTab('documents')}
             className={`pb-2 text-sm font-medium border-b-2 transition-colors ${
-              activeTab === 'documents' ? 'border-[#1e3a5f] text-[#1e3a5f]' : 'border-transparent text-muted-foreground hover:text-foreground'
+              activeTab === 'documents' ? 'border-primary text-primary' : 'border-transparent text-muted-foreground hover:text-foreground'
             }`}
           >
             Dokumente ({documents.length})
@@ -164,7 +166,7 @@ export default function KonformitaetPage() {
           <button
             onClick={() => setActiveTab('evidence')}
             className={`pb-2 text-sm font-medium border-b-2 transition-colors ${
-              activeTab === 'evidence' ? 'border-[#1e3a5f] text-[#1e3a5f]' : 'border-transparent text-muted-foreground hover:text-foreground'
+              activeTab === 'evidence' ? 'border-primary text-primary' : 'border-transparent text-muted-foreground hover:text-foreground'
             }`}
           >
             Nachweise ({evidence.length})
@@ -224,7 +226,7 @@ export default function KonformitaetPage() {
                 className="w-full rounded-lg border pl-9 pr-3 py-2 text-sm"
               />
             </div>
-            <button className="flex items-center gap-2 rounded-lg bg-[#1e3a5f] px-4 py-2 text-sm font-medium text-white hover:bg-[#2a4f7f]">
+            <button className="flex items-center gap-2 rounded-lg bg-primary px-4 py-2 text-sm font-medium text-white hover:bg-primary/80">
               <Upload className="h-4 w-4" /> Nachweis hochladen
             </button>
           </div>
@@ -357,7 +359,7 @@ function DocumentDetailPanel({
                     className={`rounded-full px-3 py-1 text-[11px] font-medium whitespace-nowrap ${
                       idx <= currentIdx
                         ? idx === currentIdx
-                          ? 'bg-[#1e3a5f] text-white'
+                          ? 'bg-primary text-white'
                           : 'bg-green-100 text-green-700'
                         : 'bg-muted text-muted-foreground'
                     }`}
@@ -375,7 +377,7 @@ function DocumentDetailPanel({
               <button
                 onClick={advanceStatus}
                 disabled={updating}
-                className="mt-2 rounded-lg bg-[#1e3a5f] px-4 py-2 text-sm font-medium text-white hover:bg-[#2a4f7f] disabled:opacity-50"
+                className="mt-2 rounded-lg bg-primary px-4 py-2 text-sm font-medium text-white hover:bg-primary/80 disabled:opacity-50"
               >
                 → {DOCUMENT_STATUS_LABELS[statusFlow[currentIdx + 1]]}
               </button>

@@ -96,3 +96,103 @@ export async function loginUser(email: string, password: string): Promise<LoginR
     return { success: false, error: 'Ein Fehler ist aufgetreten. Bitte versuchen Sie es erneut.' };
   }
 }
+
+// ── Password Reset ─────────────────────────────────────────────────
+
+interface PasswordResetToken {
+  email: string;
+  token: string;
+  expiresAt: Date;
+}
+
+// In-memory token store (in production, use DB or Redis)
+let resetTokens: PasswordResetToken[] = [];
+
+function generateResetToken(): string {
+  const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  let token = '';
+  for (let i = 0; i < 64; i++) {
+    token += chars.charAt(Math.floor(Math.random() * chars.length));
+  }
+  return token;
+}
+
+export async function requestPasswordReset(email: string): Promise<{ success: boolean; error?: string }> {
+  if (!email) {
+    return { success: false, error: 'E-Mail-Adresse ist erforderlich.' };
+  }
+
+  try {
+    // Check if user exists
+    const [user] = await db
+      .select()
+      .from(users)
+      .where(eq(users.email, email.toLowerCase()))
+      .limit(1);
+
+    // Always return success to avoid email enumeration
+    if (!user) {
+      return { success: true };
+    }
+
+    // Remove any existing tokens for this email
+    resetTokens = resetTokens.filter((t) => t.email !== email.toLowerCase());
+
+    // Create new token (valid for 1 hour)
+    const token = generateResetToken();
+    resetTokens.push({
+      email: email.toLowerCase(),
+      token,
+      expiresAt: new Date(Date.now() + 60 * 60 * 1000),
+    });
+
+    // In production, send email with reset link:
+    // const resetUrl = `${process.env.NEXTAUTH_URL}/passwort-zuruecksetzen?token=${token}`;
+    // await sendEmail(email, 'Passwort zurücksetzen', `Klicken Sie hier: ${resetUrl}`);
+    console.log(`[Password Reset] Token for ${email}: ${token}`);
+
+    return { success: true };
+  } catch (err) {
+    console.error('[requestPasswordReset] Error:', err);
+    return { success: false, error: 'Ein Fehler ist aufgetreten.' };
+  }
+}
+
+export async function resetPassword(
+  token: string,
+  newPassword: string
+): Promise<{ success: boolean; error?: string }> {
+  if (!token || !newPassword) {
+    return { success: false, error: 'Token und neues Passwort sind erforderlich.' };
+  }
+
+  if (newPassword.length < 8) {
+    return { success: false, error: 'Das Passwort muss mindestens 8 Zeichen lang sein.' };
+  }
+
+  // Clean up expired tokens
+  resetTokens = resetTokens.filter((t) => t.expiresAt > new Date());
+
+  // Find valid token
+  const resetToken = resetTokens.find((t) => t.token === token);
+  if (!resetToken) {
+    return { success: false, error: 'Ungültiger oder abgelaufener Link. Bitte fordern Sie einen neuen an.' };
+  }
+
+  try {
+    // Hash new password and update user
+    const passwordHash = await bcrypt.hash(newPassword, 12);
+    await db
+      .update(users)
+      .set({ passwordHash })
+      .where(eq(users.email, resetToken.email));
+
+    // Remove used token
+    resetTokens = resetTokens.filter((t) => t.token !== token);
+
+    return { success: true };
+  } catch (err) {
+    console.error('[resetPassword] Error:', err);
+    return { success: false, error: 'Ein Fehler ist aufgetreten.' };
+  }
+}

@@ -4,11 +4,13 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { registerUser, loginUser } from '@/lib/actions/auth';
+import { PasswordStrengthMeter } from '@/components/shared/password-strength';
 
 export default function RegisterPage() {
   const router = useRouter();
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
+  const [password, setPassword] = useState('');
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
@@ -106,9 +108,12 @@ export default function RegisterPage() {
             type="password"
             required
             minLength={8}
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
             className="mt-1 block w-full rounded-lg border border-input bg-background px-3 py-2 text-sm ring-offset-background placeholder:text-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring"
             placeholder="Mindestens 8 Zeichen"
           />
+          <PasswordStrengthMeter password={password} />
         </div>
         <button
           type="submit"

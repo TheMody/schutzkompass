@@ -7,13 +7,15 @@ import {
   createSupplier,
   sendQuestionnaire,
   getQuestionnaireContent,
+  type Supplier,
+} from '@/lib/actions/suppliers';
+import {
   RISK_CLASS_LABELS,
   QUESTIONNAIRE_STATUS_LABELS,
-  type Supplier,
   type SupplierRiskClass,
   type QuestionnaireStatus,
   type QuestionnaireQuestion,
-} from '@/lib/actions/suppliers';
+} from '@/lib/constants/suppliers';
 import {
   Plus,
   Send,
@@ -29,6 +31,7 @@ import {
   CheckCircle2,
   Clock,
 } from 'lucide-react';
+import { Pagination, usePagination } from '@/components/shared/pagination';
 
 // ── Helpers ────────────────────────────────────────────────────────
 
@@ -88,6 +91,8 @@ export default function LieferkettenSicherheitPage() {
     return true;
   });
 
+  const { paginatedItems: paginatedSuppliers, paginationProps } = usePagination(filtered, 10);
+
   // Group questionnaire by category
   const questionsByCategory = questionnaire.reduce<Record<string, QuestionnaireQuestion[]>>((acc, q) => {
     (acc[q.category] = acc[q.category] || []).push(q);
@@ -106,7 +111,7 @@ export default function LieferkettenSicherheitPage() {
         </div>
         <button
           onClick={() => setShowAddDialog(true)}
-          className="flex items-center gap-2 rounded-lg bg-[#1e3a5f] px-4 py-2 text-sm font-medium text-white hover:bg-[#2a4f7f]"
+          className="flex items-center gap-2 rounded-lg bg-primary px-4 py-2 text-sm font-medium text-white hover:bg-primary/80"
         >
           <Plus className="h-4 w-4" /> Lieferant hinzufügen
         </button>
@@ -204,7 +209,7 @@ export default function LieferkettenSicherheitPage() {
               onClick={() => setFilterClass(rc)}
               className={`rounded-full px-3 py-1 text-xs font-medium border transition-colors ${
                 filterClass === rc
-                  ? 'bg-[#1e3a5f] text-white border-[#1e3a5f]'
+                  ? 'bg-primary text-white border-primary'
                   : 'bg-card text-muted-foreground border-border hover:bg-muted'
               }`}
             >
@@ -235,7 +240,7 @@ export default function LieferkettenSicherheitPage() {
                 </td>
               </tr>
             ) : (
-              filtered.map((sup) => (
+              paginatedSuppliers.map((sup) => (
                 <tr
                   key={sup.id}
                   className="border-b last:border-0 hover:bg-muted/50 cursor-pointer"
@@ -278,6 +283,7 @@ export default function LieferkettenSicherheitPage() {
           </tbody>
         </table>
       </div>
+      <Pagination {...paginationProps} />
 
       {/* Add Supplier Dialog */}
       {showAddDialog && (
@@ -403,7 +409,7 @@ function AddSupplierDialog({
             <button
               onClick={handleSave}
               disabled={!name.trim() || saving}
-              className="rounded-lg bg-[#1e3a5f] px-4 py-2 text-sm font-medium text-white hover:bg-[#2a4f7f] disabled:opacity-50"
+              className="rounded-lg bg-primary px-4 py-2 text-sm font-medium text-white hover:bg-primary/80 disabled:opacity-50"
             >
               {saving ? 'Speichern...' : 'Speichern'}
             </button>
@@ -519,7 +525,7 @@ function SupplierDetailPanel({
                 <button
                   onClick={handleSendQuestionnaire}
                   disabled={sending}
-                  className="rounded-lg bg-[#1e3a5f] px-4 py-2 text-sm font-medium text-white hover:bg-[#2a4f7f] disabled:opacity-50"
+                  className="rounded-lg bg-primary px-4 py-2 text-sm font-medium text-white hover:bg-primary/80 disabled:opacity-50"
                 >
                   {sending ? 'Sende...' : 'Fragebogen senden'}
                 </button>
@@ -574,7 +580,7 @@ function SupplierDetailPanel({
                         </div>
                         <div className="shrink-0 flex items-center gap-1">
                           {Array.from({ length: q.weight }, (_, i) => (
-                            <span key={i} className="w-1.5 h-1.5 rounded-full bg-[#1e3a5f]" />
+                            <span key={i} className="w-1.5 h-1.5 rounded-full bg-primary" />
                           ))}
                         </div>
                       </div>

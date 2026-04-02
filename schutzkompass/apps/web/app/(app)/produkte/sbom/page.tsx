@@ -21,6 +21,7 @@ import {
   ChevronRight,
   Download,
 } from 'lucide-react';
+import { Pagination, usePagination } from '@/components/shared/pagination';
 
 const SEVERITY_COLORS = {
   critical: 'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-300',
@@ -55,6 +56,7 @@ export default function SbomPage() {
   const [sortBy, setSortBy] = useState<'name' | 'vulnerabilityCount'>('name');
   const [sortDir, setSortDir] = useState<'asc' | 'desc'>('asc');
   const [selectedComponent, setSelectedComponent] = useState<SbomComponent | null>(null);
+  const { paginatedItems: paginatedComponents, paginationProps } = usePagination(components, 15);
 
   const loadSboms = useCallback(async () => {
     const list = await getSboms();
@@ -245,7 +247,7 @@ export default function SbomPage() {
                 </tr>
               </thead>
               <tbody className="divide-y">
-                {components.map((comp) => (
+                {paginatedComponents.map((comp) => (
                   <tr
                     key={comp.id}
                     className="hover:bg-muted/30 cursor-pointer transition-colors"
@@ -296,6 +298,7 @@ export default function SbomPage() {
               </tbody>
             </table>
           </div>
+          <Pagination {...paginationProps} />
         </div>
       )}
 

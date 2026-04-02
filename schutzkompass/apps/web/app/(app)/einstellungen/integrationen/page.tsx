@@ -53,7 +53,7 @@ export default function IntegrationenPage() {
                 className={`shrink-0 rounded-lg px-3 py-1.5 text-xs font-medium ${
                   int.connected
                     ? 'border border-green-200 bg-green-50 text-green-700'
-                    : 'bg-[#1e3a5f] text-white hover:bg-[#2a4f7f]'
+                    : 'bg-primary text-white hover:bg-primary/80'
                 }`}
               >
                 {int.connected ? 'Verbunden' : 'Verbinden'}
@@ -67,7 +67,7 @@ export default function IntegrationenPage() {
         <Plug className="h-8 w-8 text-muted-foreground/50 mx-auto mb-2" />
         <p className="text-sm text-muted-foreground">
           Benötigen Sie eine weitere Integration?{' '}
-          <button className="text-[#1e3a5f] underline inline-flex items-center gap-1">
+          <button className="text-primary underline inline-flex items-center gap-1">
             Feature anfragen <ExternalLink className="h-3 w-3" />
           </button>
         </p>

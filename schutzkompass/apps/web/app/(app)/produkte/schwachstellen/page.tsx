@@ -5,10 +5,9 @@ import {
   getVulnerabilities,
   triageVulnerability,
   getVulnerabilityStatistics,
-  VULN_STATUS_LABELS,
   type Vulnerability,
-  type VulnerabilityStatus,
 } from '@/lib/actions/vulnerabilities';
+import { VULN_STATUS_LABELS, type VulnerabilityStatus } from '@/lib/constants/vulnerabilities';
 import type { SeverityLevel } from '@schutzkompass/shared';
 import {
   Shield,
@@ -18,6 +17,7 @@ import {
   Zap,
   ExternalLink,
 } from 'lucide-react';
+import { Pagination, usePagination } from '@/components/shared/pagination';
 
 const SEVERITY_COLORS: Record<SeverityLevel, string> = {
   critical: 'bg-red-100 text-red-700 dark:bg-red-900/30 dark:text-red-300',
@@ -66,6 +66,8 @@ export default function SchwachstellenPage() {
     setVulns(v);
     setStats(s);
   }, [search, filterSeverity, filterStatus]);
+
+  const { paginatedItems: paginatedVulns, paginationProps } = usePagination(vulns, 10);
 
   useEffect(() => {
     loadData();
@@ -160,7 +162,7 @@ export default function SchwachstellenPage() {
                 </tr>
               </thead>
               <tbody className="divide-y">
-                {vulns.map((v) => (
+                {paginatedVulns.map((v) => (
                   <tr
                     key={v.id}
                     className="hover:bg-muted/30 cursor-pointer transition-colors"
@@ -212,6 +214,7 @@ export default function SchwachstellenPage() {
           <p className="text-muted-foreground">Keine Schwachstellen gefunden.</p>
         </div>
       )}
+      <Pagination {...paginationProps} />
 
       {/* Triage Detail Panel */}
       {selectedVuln && (

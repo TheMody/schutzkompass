@@ -31,6 +31,7 @@ import {
   ASSET_TYPES,
   CRITICALITY_LEVELS,
 } from '@schutzkompass/shared';
+import { Pagination, usePagination } from '@/components/shared/pagination';
 
 const ASSET_TYPE_ICONS: Record<AssetType, React.ComponentType<{ className?: string }>> = {
   server: Server,
@@ -76,6 +77,8 @@ export default function AssetInventoryPage() {
     const matchesCriticality = !filterCriticality || asset.criticality === filterCriticality;
     return matchesSearch && matchesType && matchesCriticality;
   });
+
+  const { paginatedItems, paginationProps } = usePagination(filteredAssets, 10);
 
   const handleDelete = async (id: string) => {
     if (!confirm('Asset wirklich löschen?')) return;
@@ -220,7 +223,7 @@ export default function AssetInventoryPage() {
                   </td>
                 </tr>
               ) : (
-                filteredAssets.map((asset) => {
+                paginatedItems.map((asset) => {
                   const TypeIcon = ASSET_TYPE_ICONS[asset.type] || Server;
                   return (
                     <tr key={asset.id} className="hover:bg-muted/30 transition-colors">
@@ -280,6 +283,7 @@ export default function AssetInventoryPage() {
             </tbody>
           </table>
         </div>
+        <Pagination {...paginationProps} />
       </div>
 
       {/* Add / Edit Dialog */}

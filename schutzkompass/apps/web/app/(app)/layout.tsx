@@ -1,5 +1,6 @@
 import { AppSidebar } from '@/components/shared/app-sidebar';
 import { TopBar } from '@/components/shared/top-bar';
+import { SidebarProvider } from '@/components/shared/sidebar-context';
 
 export default function AppLayout({
   children,
@@ -7,12 +8,14 @@ export default function AppLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="flex h-screen overflow-hidden">
-      <AppSidebar />
-      <div className="flex flex-1 flex-col overflow-hidden">
-        <TopBar />
-        <main className="flex-1 overflow-y-auto bg-muted/30 p-6">{children}</main>
+    <SidebarProvider>
+      <div className="flex h-screen overflow-hidden">
+        <AppSidebar />
+        <div className="flex flex-1 flex-col overflow-hidden">
+          <TopBar />
+          <main className="flex-1 overflow-y-auto bg-muted/30 p-6">{children}</main>
+        </div>
       </div>
-    </div>
+    </SidebarProvider>
   );
 }

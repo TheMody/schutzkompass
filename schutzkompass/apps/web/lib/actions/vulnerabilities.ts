@@ -1,10 +1,11 @@
 'use server';
 
 import type { SeverityLevel } from '@schutzkompass/shared';
+import type { VulnerabilityStatus } from '@/lib/constants/vulnerabilities';
 
 // ── Types ──────────────────────────────────────────────────────────
 
-export type VulnerabilityStatus = 'open' | 'in_progress' | 'mitigated' | 'accepted' | 'false_positive';
+export type { VulnerabilityStatus };
 export type VulnerabilitySource = 'nvd' | 'osv' | 'manual';
 
 export interface Vulnerability {
@@ -35,16 +36,6 @@ export interface VulnerabilityTriageInput {
   assignee?: string;
   notes?: string;
 }
-
-// ── Status Labels ──────────────────────────────────────────────────
-
-export const VULN_STATUS_LABELS: Record<VulnerabilityStatus, string> = {
-  open: 'Offen',
-  in_progress: 'In Bearbeitung',
-  mitigated: 'Behoben',
-  accepted: 'Akzeptiert',
-  false_positive: 'False Positive',
-};
 
 // ── In-Memory Store ────────────────────────────────────────────────
 // TODO: Replace with database

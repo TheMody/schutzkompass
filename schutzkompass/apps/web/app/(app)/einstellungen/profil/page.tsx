@@ -59,7 +59,7 @@ export default function ProfilPage() {
           </div>
           <button
             onClick={handleSave}
-            className="flex items-center gap-2 rounded-lg bg-[#1e3a5f] px-4 py-2 text-sm font-medium text-white hover:bg-[#2a4f7f]"
+            className="flex items-center gap-2 rounded-lg bg-primary px-4 py-2 text-sm font-medium text-white hover:bg-primary/80"
           >
             <Save className="h-4 w-4" /> {saved ? '✓ Gespeichert' : 'Speichern'}
           </button>

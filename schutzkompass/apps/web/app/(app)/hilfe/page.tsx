@@ -108,7 +108,7 @@ export default function HilfeSupportPage() {
           <button
             onClick={() => setFilterCategory(null)}
             className={`rounded-full px-3 py-1 text-xs font-medium border ${
-              !filterCategory ? 'bg-[#1e3a5f] text-white border-[#1e3a5f]' : 'bg-card text-muted-foreground border-border hover:bg-muted'
+              !filterCategory ? 'bg-primary text-white border-primary' : 'bg-card text-muted-foreground border-border hover:bg-muted'
             }`}
           >
             Alle
@@ -118,7 +118,7 @@ export default function HilfeSupportPage() {
               key={cat}
               onClick={() => setFilterCategory(cat)}
               className={`rounded-full px-3 py-1 text-xs font-medium border ${
-                filterCategory === cat ? 'bg-[#1e3a5f] text-white border-[#1e3a5f]' : 'bg-card text-muted-foreground border-border hover:bg-muted'
+                filterCategory === cat ? 'bg-primary text-white border-primary' : 'bg-card text-muted-foreground border-border hover:bg-muted'
               }`}
             >
               {cat}
@@ -157,12 +157,12 @@ export default function HilfeSupportPage() {
 
       {/* Contact */}
       <div className="rounded-lg border bg-card p-6 shadow-sm text-center">
-        <MessageCircle className="h-8 w-8 text-[#0d9488] mx-auto mb-2" />
+        <MessageCircle className="h-8 w-8 text-accent mx-auto mb-2" />
         <h3 className="font-semibold">Noch Fragen?</h3>
         <p className="text-sm text-muted-foreground mt-1">
           Unser Support-Team hilft Ihnen gerne weiter.
         </p>
-        <button className="mt-3 rounded-lg bg-[#1e3a5f] px-4 py-2 text-sm font-medium text-white hover:bg-[#2a4f7f]">
+        <button className="mt-3 rounded-lg bg-primary px-4 py-2 text-sm font-medium text-white hover:bg-primary/80">
           Support kontaktieren
         </button>
       </div>

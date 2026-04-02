@@ -2,17 +2,27 @@
 
 import Link from 'next/link';
 import { useState } from 'react';
+import { requestPasswordReset } from '@/lib/actions/auth';
 
 export default function ForgotPasswordPage() {
   const [submitted, setSubmitted] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     setIsLoading(true);
-    // TODO: Implement password reset email sending
-    await new Promise((resolve) => setTimeout(resolve, 1000));
-    setSubmitted(true);
+    setError(null);
+
+    const formData = new FormData(e.currentTarget);
+    const email = formData.get('email') as string;
+
+    const result = await requestPasswordReset(email);
+    if (result.success) {
+      setSubmitted(true);
+    } else {
+      setError(result.error || 'Ein Fehler ist aufgetreten.');
+    }
     setIsLoading(false);
   }
 
@@ -44,6 +54,11 @@ export default function ForgotPasswordPage() {
           Geben Sie Ihre E-Mail-Adresse ein und wir senden Ihnen einen Link zum Zurücksetzen.
         </p>
       </div>
+      {error && (
+        <div className="mb-4 rounded-lg border border-destructive/50 bg-destructive/10 p-3 text-sm text-destructive">
+          {error}
+        </div>
+      )}
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
           <label htmlFor="email" className="block text-sm font-medium">

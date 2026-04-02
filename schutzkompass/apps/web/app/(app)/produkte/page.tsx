@@ -24,6 +24,7 @@ import {
   X,
   Search,
 } from 'lucide-react';
+import { Pagination, usePagination } from '@/components/shared/pagination';
 
 const STATUS_LABELS: Record<Product['status'], string> = {
   draft: 'Entwurf',
@@ -75,6 +76,8 @@ export default function ProduktInventarPage() {
     }
     return true;
   });
+
+  const { paginatedItems: paginatedProducts, paginationProps } = usePagination(filtered, 9);
 
   const handleDelete = async (id: string) => {
     if (!confirm('Produkt wirklich löschen?')) return;
@@ -156,7 +159,7 @@ export default function ProduktInventarPage() {
       {/* Product Cards */}
       {filtered.length > 0 ? (
         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {filtered.map((product) => (
+          {paginatedProducts.map((product) => (
             <div
               key={product.id}
               className="rounded-lg border bg-card p-5 shadow-sm hover:shadow-md transition-shadow"
@@ -236,6 +239,7 @@ export default function ProduktInventarPage() {
           </button>
         </div>
       )}
+      <Pagination {...paginationProps} />
 
       {/* Add/Edit Dialog */}
       {showDialog && (

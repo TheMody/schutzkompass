@@ -22,8 +22,10 @@ import {
   HelpCircle,
   Shield,
   BookOpen,
+  X,
 } from 'lucide-react';
 import { cn } from '@schutzkompass/ui';
+import { useSidebar } from './sidebar-context';
 
 interface NavItem {
   label: string;
@@ -119,25 +121,50 @@ function NavGroup({ section, pathname }: { section: NavSection; pathname: string
 
 export function AppSidebar() {
   const pathname = usePathname();
+  const { isOpen, close } = useSidebar();
 
   return (
-    <aside className="flex h-screen w-60 flex-col border-r bg-card">
-      {/* Logo */}
-      <div className="flex h-14 items-center gap-2 border-b px-4">
-        <Shield className="h-6 w-6 text-primary" />
-        <span className="text-lg font-bold text-primary">SchutzKompass</span>
-      </div>
+    <>
+      {/* Mobile overlay backdrop */}
+      {isOpen && (
+        <div
+          className="fixed inset-0 z-40 bg-black/50 backdrop-blur-sm lg:hidden"
+          onClick={close}
+        />
+      )}
 
-      {/* Navigation */}
-      <nav className="flex-1 space-y-4 overflow-y-auto px-2 py-4">
-        {navigation.map((item) =>
-          isNavSection(item) ? (
-            <NavGroup key={item.title} section={item} pathname={pathname} />
-          ) : (
-            <NavLink key={item.href} item={item} pathname={pathname} />
-          )
+      {/* Sidebar */}
+      <aside
+        className={cn(
+          'fixed inset-y-0 left-0 z-50 flex h-screen w-60 flex-col border-r bg-card transition-transform duration-300 lg:static lg:translate-x-0',
+          isOpen ? 'translate-x-0' : '-translate-x-full'
         )}
-      </nav>
-    </aside>
+      >
+        {/* Logo */}
+        <div className="flex h-14 items-center justify-between border-b px-4">
+          <div className="flex items-center gap-2">
+            <Shield className="h-6 w-6 text-primary" />
+            <span className="text-lg font-bold text-primary">SchutzKompass</span>
+          </div>
+          <button
+            onClick={close}
+            className="rounded-lg p-1 text-muted-foreground hover:bg-muted hover:text-foreground lg:hidden"
+          >
+            <X className="h-5 w-5" />
+          </button>
+        </div>
+
+        {/* Navigation */}
+        <nav className="flex-1 space-y-4 overflow-y-auto px-2 py-4">
+          {navigation.map((item) =>
+            isNavSection(item) ? (
+              <NavGroup key={item.title} section={item} pathname={pathname} />
+            ) : (
+              <NavLink key={item.href} item={item} pathname={pathname} />
+            )
+          )}
+        </nav>
+      </aside>
+    </>
   );
 }
